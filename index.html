@@ -1,0 +1,2216 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>√x</title>
+
+<style>
+
+/* =====================================================
+   全体
+===================================================== */
+
+body {
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Helvetica Neue",
+        sans-serif;
+
+    background: #f2f2f2;
+
+    margin: 0;
+
+    padding: 15px;
+
+    color: #222;
+}
+
+
+.container {
+
+    max-width: 900px;
+
+    margin: auto;
+
+    background: white;
+
+    padding: 20px;
+
+    border-radius: 15px;
+
+    box-shadow:
+        0 3px 12px
+        rgba(0,0,0,0.15);
+}
+
+
+h1 {
+
+    text-align: center;
+
+    margin-top: 5px;
+}
+
+
+.center {
+
+    text-align: center;
+}
+
+
+/* =====================================================
+   ボタン
+===================================================== */
+
+button {
+
+    font-size: 17px;
+
+    padding: 11px 18px;
+
+    margin: 5px;
+
+    border-radius: 8px;
+
+    border: 1px solid #888;
+
+    background: white;
+
+    cursor: pointer;
+}
+
+
+button:active {
+
+    transform: scale(0.97);
+}
+
+
+/* =====================================================
+   セレクト
+===================================================== */
+
+select {
+
+    font-size: 18px;
+
+    padding: 8px;
+}
+
+
+/* =====================================================
+   ゲーム画面
+===================================================== */
+
+#gameArea {
+
+    text-align: center;
+
+    padding: 15px;
+
+    border: 2px solid #444;
+
+    border-radius: 12px;
+
+    background: #fafafa;
+}
+
+
+#xValue {
+
+    font-size: 28px;
+
+    font-weight: bold;
+}
+
+
+#turnDisplay {
+
+    margin-top: 20px;
+
+    font-size: 22px;
+}
+
+
+/* =====================================================
+   現在の数字
+===================================================== */
+
+#currentNumber {
+
+    font-size: 30px;
+
+    font-family: monospace;
+
+    margin: 20px 0;
+
+    white-space: nowrap;
+
+    overflow-x: auto;
+
+    padding: 8px 4px;
+
+    -webkit-overflow-scrolling: touch;
+}
+
+
+.decimal-label {
+
+    font-size: 30px;
+
+    font-family: monospace;
+}
+
+
+/* =====================================================
+   小数入力ボックス
+===================================================== */
+
+.digit-box {
+
+    width: 45px;
+
+    height: 50px;
+
+    font-size: 28px;
+
+    line-height: 46px;
+
+    text-align: center;
+
+    padding: 0;
+
+    margin: 3px;
+
+    border: 2px solid #777;
+
+    border-radius: 6px;
+
+    box-sizing: border-box;
+
+    font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Helvetica Neue",
+        sans-serif;
+}
+
+
+.digit-box:focus {
+
+    outline: none;
+
+    border: 3px solid #333;
+}
+
+
+.digit-box.warning-box {
+
+    border: 3px solid red;
+
+    background: #fff0f0;
+}
+
+
+/* =====================================================
+   二乗値
+===================================================== */
+
+#squareDisplay {
+
+    margin-top: 15px;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    background: #eaeaea;
+
+    font-size: 18px;
+}
+
+
+.safe {
+
+    color: green;
+
+    font-weight: bold;
+}
+
+
+.over {
+
+    color: red;
+
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   警告
+===================================================== */
+
+#warning {
+
+    margin-top: 15px;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    background: #fff0f0;
+
+    border: 2px solid red;
+
+    color: #a00000;
+
+    font-weight: bold;
+
+    white-space: pre-line;
+}
+
+
+/* =====================================================
+   メッセージ
+===================================================== */
+
+#message {
+
+    margin-top: 15px;
+
+    padding: 10px;
+
+    border-radius: 8px;
+
+    background: #eee;
+}
+
+
+/* =====================================================
+   ボーナス
+===================================================== */
+
+#bonusLog {
+
+    margin-top: 15px;
+
+    min-height: 25px;
+
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   ポイント表
+===================================================== */
+
+#playerTable {
+
+    display: flex;
+
+    flex-wrap: wrap;
+
+    justify-content: center;
+
+    gap: 10px;
+
+    margin-top: 15px;
+}
+
+
+.player-card {
+
+    width: 115px;
+
+    min-height: 75px;
+
+    border: 2px solid #555;
+
+    border-radius: 10px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    justify-content: center;
+
+    align-items: center;
+
+    background: white;
+
+    box-sizing: border-box;
+}
+
+
+.player-number {
+
+    font-size: 17px;
+
+    font-weight: bold;
+}
+
+
+.player-score {
+
+    font-size: 24px;
+
+    margin-top: 5px;
+}
+
+
+.player-card.eliminated {
+
+    opacity: 0.4;
+
+    text-decoration: line-through;
+}
+
+
+/* =====================================================
+   終了画面
+===================================================== */
+
+#result {
+
+    font-size: 18px;
+
+    line-height: 1.7;
+}
+
+
+.hidden {
+
+    display: none;
+}
+
+
+/* =====================================================
+   スマートフォン用
+===================================================== */
+
+@media (max-width: 600px) {
+
+    body {
+
+        padding: 8px;
+
+    }
+
+
+    .container {
+
+        padding: 12px;
+
+    }
+
+
+    #currentNumber {
+
+        white-space: nowrap;
+
+        overflow-x: auto;
+
+        padding: 8px 4px;
+
+    }
+
+
+    .digit-box {
+
+        width: 40px;
+
+        height: 48px;
+
+        font-size: 26px;
+
+        line-height: 44px;
+
+        margin: 2px;
+
+    }
+
+
+    .decimal-label {
+
+        font-size: 27px;
+
+    }
+
+
+    #turnDisplay {
+
+        font-size: 20px;
+
+    }
+
+
+    #squareDisplay {
+
+        font-size: 16px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="container">
+
+
+<!-- =====================================================
+     開始画面
+===================================================== -->
+
+<div id="startScreen">
+
+    <h1>√x</h1>
+
+    <div class="center">
+
+        <p>
+            √xの値を1桁ずつ予測するゲームです。
+        </p>
+
+        <p>
+            予測した桁の値だけ、ポイントが入ります。
+        </p>
+
+        <p>
+            <strong>75点先取です。</strong>
+        </p>
+
+
+        <br>
+
+
+        <label>
+            プレイヤー人数：
+        </label>
+
+
+        <select id="playerCount">
+
+            <!-- 1人をデフォルトにする -->
+
+            <option value="1"
+                    selected>
+                1人
+            </option>
+
+            <option value="2">
+                2人
+            </option>
+
+            <option value="3">
+                3人
+            </option>
+
+            <option value="4">
+                4人
+            </option>
+
+            <option value="5">
+                5人
+            </option>
+
+            <option value="6">
+                6人
+            </option>
+
+            <option value="7">
+                7人
+            </option>
+
+            <option value="8">
+                8人
+            </option>
+
+        </select>
+
+
+        <br><br>
+
+
+        <button onclick="startGame()">
+            ゲーム開始
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =====================================================
+     ゲーム画面
+===================================================== -->
+
+<div id="gameScreen"
+     class="hidden">
+
+
+    <!-- ゲーム画面 -->
+
+    <div id="gameArea">
+
+        <h1>√x</h1>
+
+
+        <p>
+            x =
+            <span id="xValue"></span>
+        </p>
+
+
+        <h2 id="turnDisplay">
+        </h2>
+
+
+        <!-- 現在の数値 -->
+
+        <div id="currentNumber">
+        </div>
+
+
+        <!-- 二乗値 -->
+
+        <div id="squareDisplay">
+        </div>
+
+
+        <!-- 警告 -->
+
+        <div id="warning"
+             class="hidden">
+        </div>
+
+
+        <button onclick="confirmTurn()">
+            この桁を確定
+        </button>
+
+
+        <!-- メッセージ -->
+
+        <div id="message">
+        </div>
+
+
+        <!-- ボーナス -->
+
+        <div id="bonusLog">
+        </div>
+
+    </div>
+
+
+    <!-- =================================================
+         ポイント表
+    ================================================== -->
+
+    <h2 class="center">
+        ポイント
+    </h2>
+
+
+    <div id="playerTable">
+    </div>
+
+
+</div>
+
+
+<!-- =====================================================
+     終了画面
+===================================================== -->
+
+<div id="endScreen"
+     class="hidden">
+
+    <h1>
+        GAME OVER
+    </h1>
+
+
+    <div id="result">
+    </div>
+
+
+    <div class="center">
+
+        <button onclick="location.reload()">
+            もう一度遊ぶ
+        </button>
+
+    </div>
+
+</div>
+
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   プレイヤー
+===================================================== */
+
+class Player {
+
+    constructor(number) {
+
+        this.number =
+            number;
+
+        this.score =
+            0;
+
+        this.eliminated =
+            false;
+    }
+
+    name() {
+
+        return "プレイヤー"
+            + this.number;
+    }
+}
+
+
+/* =====================================================
+   小数各桁
+===================================================== */
+
+class Digit {
+
+    constructor(position) {
+
+        this.position =
+            position;
+
+        this.value =
+            null;
+
+        this.counter =
+            5;
+
+        this.owner =
+            null;
+
+        this.filled =
+            false;
+
+        this.noCorrectionNeeded =
+            false;
+    }
+}
+
+
+/* =====================================================
+   ゲーム変数
+===================================================== */
+
+let x;
+
+let sqrtX;
+
+let integerPart;
+
+let players = [];
+
+let turnOrder = [];
+
+let currentTurnIndex =
+    0;
+
+let digits = [];
+
+let gameStarted =
+    false;
+
+
+/* =====================================================
+   ゲーム開始
+===================================================== */
+
+function startGame() {
+
+
+    const count =
+        Number(
+            document
+            .getElementById(
+                "playerCount"
+            )
+            .value
+        );
+
+
+    /*
+        1～1000から
+        平方数を除外
+    */
+
+    let candidates = [];
+
+
+    for (
+        let i = 1;
+        i <= 1000;
+        i++
+    ) {
+
+        if (
+            !Number.isInteger(
+                Math.sqrt(i)
+            )
+        ) {
+
+            candidates.push(i);
+        }
+    }
+
+
+    /*
+        xをランダム決定
+    */
+
+    x =
+        candidates[
+            Math.floor(
+                Math.random()
+                *
+                candidates.length
+            )
+        ];
+
+
+    sqrtX =
+        Math.sqrt(x);
+
+
+    integerPart =
+        Math.floor(
+            sqrtX
+        );
+
+
+    /*
+        プレイヤー作成
+    */
+
+    players = [];
+
+
+    for (
+        let i = 1;
+        i <= count;
+        i++
+    ) {
+
+        players.push(
+            new Player(i)
+        );
+    }
+
+
+    /*
+        プレイヤー番号順
+
+        1 → 2 → 3 → ...
+    */
+
+    turnOrder =
+        [...players];
+
+
+    /*
+        プレイヤー1から開始
+    */
+
+    currentTurnIndex =
+        0;
+
+
+    /*
+        小数第1位～第10位
+    */
+
+    digits = [];
+
+
+    for (
+        let i = 1;
+        i <= 10;
+        i++
+    ) {
+
+        digits.push(
+            new Digit(i)
+        );
+    }
+
+
+    gameStarted =
+        true;
+
+
+    document
+    .getElementById(
+        "startScreen"
+    )
+    .classList
+    .add("hidden");
+
+
+    document
+    .getElementById(
+        "gameScreen"
+    )
+    .classList
+    .remove("hidden");
+
+
+    document
+    .getElementById(
+        "xValue"
+    )
+    .textContent =
+        x;
+
+
+    updateAll();
+
+
+    showMessage(
+        "小数第1位を予測してください。"
+    );
+}
+
+
+/* =====================================================
+   現在のプレイヤー
+===================================================== */
+
+function currentPlayer() {
+
+    return turnOrder[
+        currentTurnIndex
+    ];
+}
+
+
+/* =====================================================
+   全体更新
+===================================================== */
+
+function updateAll() {
+
+    updateTurn();
+
+    updateNumber();
+
+    updateSquare();
+
+    updateWarning();
+
+    updatePlayers();
+}
+
+
+/* =====================================================
+   ターン表示
+===================================================== */
+
+function updateTurn() {
+
+
+    /*
+        失格者を飛ばす
+    */
+
+    while (
+        currentPlayer().eliminated
+    ) {
+
+        currentTurnIndex =
+            (
+                currentTurnIndex + 1
+            )
+            %
+            turnOrder.length;
+    }
+
+
+    document
+    .getElementById(
+        "turnDisplay"
+    )
+    .textContent =
+        currentPlayer().name()
+        +
+        " のターン";
+}
+
+
+/* =====================================================
+   数字表示
+===================================================== */
+
+function updateNumber() {
+
+
+    const area =
+        document
+        .getElementById(
+            "currentNumber"
+        );
+
+
+    area.innerHTML = "";
+
+
+    /*
+        整数部分
+    */
+
+    const integer =
+        document
+        .createElement(
+            "span"
+        );
+
+
+    integer.className =
+        "decimal-label";
+
+
+    integer.textContent =
+        integerPart
+        + ".";
+
+
+    area.appendChild(
+        integer
+    );
+
+
+    /*
+        小数部分
+    */
+
+    for (
+        let i = 0;
+        i < digits.length;
+        i++
+    ) {
+
+
+        const digit =
+            digits[i];
+
+
+        /*
+            前の桁が埋まっていなければ
+            ここから先は表示しない
+        */
+
+        if (
+            i > 0
+            &&
+            !digits[i - 1].filled
+        ) {
+
+            break;
+        }
+
+
+        const input =
+            document
+            .createElement(
+                "input"
+            );
+
+
+        input.type =
+            "text";
+
+
+        input.inputMode =
+            "numeric";
+
+
+        input.maxLength =
+            1;
+
+
+        input.className =
+            "digit-box";
+
+
+        input.dataset.position =
+            digit.position;
+
+
+        /*
+            入力済みなら表示
+        */
+
+        if (
+            digit.value !== null
+        ) {
+
+            input.value =
+                digit.value;
+        }
+
+
+        /*
+            カウント1の桁を赤くする
+        */
+
+        if (
+            digit.filled
+            &&
+            !digit.noCorrectionNeeded
+            &&
+            digit.counter === 1
+        ) {
+
+            input.classList.add(
+                "warning-box"
+            );
+        }
+
+
+        /*
+            数字以外を入力不可
+        */
+
+        input.addEventListener(
+            "input",
+            function() {
+
+                this.value =
+                    this.value
+                    .replace(
+                        /[^0-9]/g,
+                        ""
+                    )
+                    .slice(
+                        0,
+                        1
+                    );
+            }
+        );
+
+
+        area.appendChild(
+            input
+        );
+    }
+}
+
+
+/* =====================================================
+   現在の数字を取得
+===================================================== */
+
+function getCurrentNumber() {
+
+
+    let number =
+        integerPart;
+
+
+    for (
+        let i = 0;
+        i < 10;
+        i++
+    ) {
+
+
+        if (
+            digits[i].filled
+        ) {
+
+            number +=
+                digits[i].value
+                *
+                Math.pow(
+                    10,
+                    -(i + 1)
+                );
+
+        } else {
+
+            break;
+        }
+    }
+
+
+    return number;
+}
+
+
+/* =====================================================
+   二乗値表示
+===================================================== */
+
+function updateSquare() {
+
+
+    const number =
+        getCurrentNumber();
+
+
+    const square =
+        number
+        *
+        number;
+
+
+    const area =
+        document
+        .getElementById(
+            "squareDisplay"
+        );
+
+
+    if (
+        square > x
+    ) {
+
+        area.className =
+            "over";
+
+
+        area.innerHTML =
+            `
+            現在の値：
+            ${number.toFixed(10)}
+            <br>
+
+            二乗：
+            ${square.toFixed(10)}
+            <br>
+
+            ⚠️ x = ${x} を超えています
+            `;
+
+    } else {
+
+        area.className =
+            "safe";
+
+
+        area.innerHTML =
+            `
+            現在の値：
+            ${number.toFixed(10)}
+            <br>
+
+            二乗：
+            ${square.toFixed(10)}
+            <br>
+
+            x = ${x} 以下
+            `;
+    }
+}
+
+
+/* =====================================================
+   警告表示
+===================================================== */
+
+function updateWarning() {
+
+
+    const area =
+        document
+        .getElementById(
+            "warning"
+        );
+
+
+    let warnings = [];
+
+
+    digits.forEach(
+        digit => {
+
+
+            if (
+                digit.filled
+                &&
+                !digit.noCorrectionNeeded
+                &&
+                digit.counter === 1
+            ) {
+
+                warnings.push(
+                    `小数第${digit.position}位`
+                );
+            }
+
+        }
+    );
+
+
+    if (
+        warnings.length > 0
+    ) {
+
+        area.classList.remove(
+            "hidden"
+        );
+
+
+        area.textContent =
+            "このターンで修正しなければいけない値があります。"
+            +
+            "もし失敗した場合、強制終了となります。"
+            +
+            "\n対象："
+            +
+            warnings.join("、");
+
+    } else {
+
+        area.classList.add(
+            "hidden"
+        );
+    }
+}
+
+
+/* =====================================================
+   プレイヤー表示
+===================================================== */
+
+function updatePlayers() {
+
+
+    const area =
+        document
+        .getElementById(
+            "playerTable"
+        );
+
+
+    area.innerHTML = "";
+
+
+    players.forEach(
+        player => {
+
+
+            const card =
+                document
+                .createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "player-card";
+
+
+            if (
+                player.eliminated
+            ) {
+
+                card.classList.add(
+                    "eliminated"
+                );
+            }
+
+
+            card.innerHTML =
+                `
+                <div class="player-number">
+                    ${player.name()}
+                </div>
+
+                <div class="player-score">
+                    ${player.score} pt
+                </div>
+                `;
+
+
+            area.appendChild(
+                card
+            );
+
+        }
+    );
+}
+
+
+/* =====================================================
+   入力値取得
+===================================================== */
+
+function getInputValues() {
+
+
+    const inputs =
+        document
+        .querySelectorAll(
+            "#currentNumber .digit-box"
+        );
+
+
+    let result = [];
+
+
+    inputs.forEach(
+        input => {
+
+
+            result.push({
+
+                position:
+                    Number(
+                        input.dataset.position
+                    ),
+
+                value:
+                    input.value === ""
+                    ? null
+                    : Number(
+                        input.value
+                    )
+
+            });
+
+        }
+    );
+
+
+    return result;
+}
+
+
+/* =====================================================
+   ターン確定
+===================================================== */
+
+function confirmTurn() {
+
+
+    if (
+        !gameStarted
+    ) {
+
+        return;
+    }
+
+
+    const inputs =
+        getInputValues();
+
+
+    /*
+        変更された桁を探す
+    */
+
+    let changed = [];
+
+
+    inputs.forEach(
+        item => {
+
+
+            const digit =
+                digits[
+                    item.position - 1
+                ];
+
+
+            const oldValue =
+                digit.value;
+
+
+            if (
+                item.value !== oldValue
+            ) {
+
+                changed.push({
+
+                    digit:
+                        digit,
+
+                    newValue:
+                        item.value
+
+                });
+
+            }
+
+        }
+    );
+
+
+    /*
+        変更なし
+    */
+
+    if (
+        changed.length === 0
+    ) {
+
+        showMessage(
+            "数字を1つ変更してください。"
+        );
+
+        return;
+    }
+
+
+    /*
+        1ターン1桁
+    */
+
+    if (
+        changed.length > 1
+    ) {
+
+        showMessage(
+            "1ターンに変更できるのは1桁だけです。"
+        );
+
+        updateAll();
+
+        return;
+    }
+
+
+    const change =
+        changed[0];
+
+
+    const digit =
+        change.digit;
+
+
+    const newValue =
+        change.newValue;
+
+
+    /*
+        空白は禁止
+    */
+
+    if (
+        newValue === null
+    ) {
+
+        showMessage(
+            "数字を入力してください。"
+        );
+
+        updateAll();
+
+        return;
+    }
+
+
+    /*
+        新規入力か訂正か
+    */
+
+    const isNew =
+        !digit.filled;
+
+
+    const oldValue =
+        digit.value;
+
+
+    /*
+        訂正の場合、
+        現在より大きくする必要がある
+    */
+
+    if (
+        !isNew
+        &&
+        newValue <= oldValue
+    ) {
+
+        showMessage(
+            "訂正する場合は、現在の数字より大きくしてください。"
+        );
+
+        updateAll();
+
+        return;
+    }
+
+
+    /*
+        一時的に変更
+    */
+
+    digit.value =
+        newValue;
+
+    digit.filled =
+        true;
+
+
+    /*
+        現在の数字
+    */
+
+    const currentNumber =
+        getCurrentNumber();
+
+
+    const square =
+        currentNumber
+        *
+        currentNumber;
+
+
+    /*
+        xを超えた場合
+    */
+
+    if (
+        square > x
+    ) {
+
+
+        currentPlayer()
+        .eliminated =
+            true;
+
+
+        /*
+            変更を元に戻す
+        */
+
+        digit.value =
+            oldValue;
+
+        digit.filled =
+            !isNew;
+
+
+        alert(
+            `${currentPlayer().name()}は失格です。\n\n`
+            +
+            `現在の値：${currentNumber}\n`
+            +
+            `二乗：${square}\n`
+            +
+            `x：${x}`
+        );
+
+
+        /*
+            1人プレイの場合は
+            その時点で終了
+        */
+
+        if (
+            checkElimination()
+        ) {
+
+            return;
+        }
+
+
+        nextTurn();
+
+        return;
+    }
+
+
+    /*
+        成功
+    */
+
+    const player =
+        currentPlayer();
+
+
+    /*
+        変更した桁の数字がポイント
+    */
+
+    player.score +=
+        newValue;
+
+
+    /*
+        所有者
+    */
+
+    digit.owner =
+        player;
+
+
+    /*
+        新規入力ならカウント5
+    */
+
+    if (
+        isNew
+    ) {
+
+        digit.counter =
+            5;
+    }
+
+
+    /*
+        訂正ならカウントリセット
+    */
+
+    if (
+        !isNew
+    ) {
+
+        digit.counter =
+            5;
+
+
+        /*
+            大幅修正ボーナス
+            +5以上なら2点
+        */
+
+        if (
+            newValue - oldValue >= 5
+        ) {
+
+            player.score +=
+                2;
+
+
+            document
+            .getElementById(
+                "bonusLog"
+            )
+            .textContent =
+                `（${player.name()}、大幅修正ボーナス獲得）`;
+        }
+    }
+
+
+    /*
+        訂正が必要か判定
+    */
+
+    checkNoCorrectionNeeded(
+        digit
+    );
+
+
+    /*
+        75点先取
+    */
+
+    if (
+        player.score >= 75
+    ) {
+
+        endGame(
+            `${player.name()}が75点を先取しました。`
+        );
+
+        return;
+    }
+
+
+    /*
+        小数10桁目
+    */
+
+    if (
+        digit.position === 10
+    ) {
+
+        endGame(
+            "小数10桁目に到達しました。"
+        );
+
+        return;
+    }
+
+
+    /*
+        他の桁のカウントを減らす
+    */
+
+    advanceCounters(
+        digit
+    );
+
+
+    /*
+        カウント0
+    */
+
+    if (
+        checkCounterZero()
+    ) {
+
+        return;
+    }
+
+
+    /*
+        次のプレイヤー
+    */
+
+    nextTurn();
+
+
+    updateAll();
+
+
+    showMessage(
+        `${player.name()}が`
+        +
+        `小数第${digit.position}位を確定しました。`
+    );
+}
+
+
+/* =====================================================
+   訂正不要判定
+===================================================== */
+
+function checkNoCorrectionNeeded(
+    digit
+) {
+
+
+    const number =
+        getCurrentNumber();
+
+
+    /*
+        9ならこれ以上増やせない
+    */
+
+    if (
+        digit.value === 9
+    ) {
+
+        digit.noCorrectionNeeded =
+            true;
+
+        return;
+    }
+
+
+    /*
+        現在の桁を1増やす
+    */
+
+    const increased =
+        number
+        +
+        Math.pow(
+            10,
+            -digit.position
+        );
+
+
+    /*
+        1増やしたら
+        √xを超える場合、
+        これ以上の訂正は不要
+    */
+
+    if (
+        increased
+        *
+        increased
+        >
+        x
+    ) {
+
+        digit.noCorrectionNeeded =
+            true;
+
+    } else {
+
+        digit.noCorrectionNeeded =
+            false;
+    }
+}
+
+
+/* =====================================================
+   カウント減少
+===================================================== */
+
+function advanceCounters(
+    resetDigit
+) {
+
+
+    let warnings = [];
+
+
+    digits.forEach(
+        digit => {
+
+
+            /*
+                未入力
+            */
+
+            if (
+                !digit.filled
+            ) {
+
+                return;
+            }
+
+
+            /*
+                今回訂正した桁
+            */
+
+            if (
+                digit === resetDigit
+            ) {
+
+                return;
+            }
+
+
+            /*
+                訂正不要
+            */
+
+            if (
+                digit.noCorrectionNeeded
+            ) {
+
+                return;
+            }
+
+
+            if (
+                digit.counter <= 0
+            ) {
+
+                return;
+            }
+
+
+            /*
+                1減少
+            */
+
+            digit.counter--;
+
+
+            /*
+                1になった
+            */
+
+            if (
+                digit.counter === 1
+            ) {
+
+                warnings.push(
+                    `小数第${digit.position}位`
+                );
+            }
+
+        }
+    );
+
+
+    /*
+        警告
+    */
+
+    if (
+        warnings.length > 0
+    ) {
+
+        alert(
+            "このターンで修正しなければいけない値があります。"
+            +
+            "もし失敗した場合、強制終了となります。"
+            +
+            "\n\n対象："
+            +
+            warnings.join("、")
+        );
+    }
+}
+
+
+/* =====================================================
+   カウント0確認
+===================================================== */
+
+function checkCounterZero() {
+
+
+    for (
+        const digit
+        of digits
+    ) {
+
+
+        if (
+            digit.filled
+            &&
+            !digit.noCorrectionNeeded
+            &&
+            digit.counter <= 0
+        ) {
+
+
+            endGame(
+                `小数第${digit.position}位の値が`
+                +
+                `5ターンの間修正されませんでした。`
+            );
+
+
+            return true;
+        }
+    }
+
+
+    return false;
+}
+
+
+/* =====================================================
+   次のターン
+===================================================== */
+
+function nextTurn() {
+
+
+    currentTurnIndex =
+        (
+            currentTurnIndex + 1
+        )
+        %
+        turnOrder.length;
+
+
+    /*
+        失格者を飛ばす
+    */
+
+    while (
+        currentPlayer().eliminated
+    ) {
+
+        currentTurnIndex =
+            (
+                currentTurnIndex + 1
+            )
+            %
+            turnOrder.length;
+    }
+}
+
+
+/* =====================================================
+   全員失格確認
+===================================================== */
+
+function checkElimination() {
+
+
+    const alive =
+        players.filter(
+            player =>
+                !player.eliminated
+        );
+
+
+    /*
+        1人だけ残った
+    */
+
+    if (
+        alive.length === 1
+    ) {
+
+        endGame(
+            `${alive[0].name()}以外が全員失格になりました。`
+        );
+
+        return true;
+    }
+
+
+    /*
+        全員失格
+    */
+
+    if (
+        alive.length === 0
+    ) {
+
+        endGame(
+            "全員が失格になりました。"
+        );
+
+        return true;
+    }
+
+
+    return false;
+}
+
+
+/* =====================================================
+   メッセージ
+===================================================== */
+
+function showMessage(
+    text
+) {
+
+    document
+    .getElementById(
+        "message"
+    )
+    .textContent =
+        text;
+}
+
+
+/* =====================================================
+   ゲーム終了
+===================================================== */
+
+function endGame(
+    reason
+) {
+
+
+    gameStarted =
+        false;
+
+
+    const finalNumber =
+        getCurrentNumber();
+
+
+    /*
+        ポイント順
+    */
+
+    const ranking =
+        [...players].sort(
+            (a, b) =>
+                b.score
+                -
+                a.score
+        );
+
+
+    const winner =
+        ranking[0];
+
+
+    let html =
+        `<h2>🏆 勝者：${winner.name()}</h2>`;
+
+
+    html +=
+        `<p>${reason}</p>`;
+
+
+    html +=
+        `
+        <p>
+        x = ${x}<br>
+        √x = ${sqrtX.toFixed(12)}<br>
+        最終予測値 = ${finalNumber.toFixed(10)}
+        </p>
+        `;
+
+
+    html +=
+        `<h2>最終ポイント</h2>`;
+
+
+    ranking.forEach(
+        (player, index) => {
+
+
+            html +=
+                `
+                <p>
+                ${index + 1}位　
+                ${player.name()}　
+                ${player.score}pt
+                ${
+                    player.eliminated
+                    ? "（失格）"
+                    : ""
+                }
+                </p>
+                `;
+        }
+    );
+
+
+    document
+    .getElementById(
+        "gameScreen"
+    )
+    .classList
+    .add("hidden");
+
+
+    document
+    .getElementById(
+        "endScreen"
+    )
+    .classList
+    .remove("hidden");
+
+
+    document
+    .getElementById(
+        "result"
+    )
+    .innerHTML =
+        html;
+}
+
+
+</script>
+
+
+</body>
+
+</html>
