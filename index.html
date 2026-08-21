@@ -124,11 +124,13 @@ select {
 }
 
 
-#xValue {
+#sqrtQuestion {
 
     font-size: 28px;
 
     font-weight: bold;
+
+    margin-top: 10px;
 }
 
 
@@ -212,11 +214,28 @@ select {
 }
 
 
-.digit-box.warning-box {
+/* =====================================================
+   カウント1の警告用
+   ※テキストボックスは赤くしない
+===================================================== */
 
-    border: 3px solid red;
+#warning {
 
-    background: #fff0f0;
+    margin-top: 15px;
+
+    padding: 12px;
+
+    border-radius: 8px;
+
+    background: #fff7d6;
+
+    border: 2px solid #d6a900;
+
+    color: #765900;
+
+    font-weight: bold;
+
+    white-space: pre-line;
 }
 
 
@@ -251,30 +270,6 @@ select {
     color: red;
 
     font-weight: bold;
-}
-
-
-/* =====================================================
-   警告
-===================================================== */
-
-#warning {
-
-    margin-top: 15px;
-
-    padding: 12px;
-
-    border-radius: 8px;
-
-    background: #fff0f0;
-
-    border: 2px solid red;
-
-    color: #a00000;
-
-    font-weight: bold;
-
-    white-space: pre-line;
 }
 
 
@@ -401,14 +396,12 @@ select {
     body {
 
         padding: 8px;
-
     }
 
 
     .container {
 
         padding: 12px;
-
     }
 
 
@@ -419,7 +412,6 @@ select {
         overflow-x: auto;
 
         padding: 8px 4px;
-
     }
 
 
@@ -434,28 +426,30 @@ select {
         line-height: 44px;
 
         margin: 2px;
-
     }
 
 
     .decimal-label {
 
         font-size: 27px;
-
     }
 
 
     #turnDisplay {
 
         font-size: 20px;
+    }
 
+
+    #sqrtQuestion {
+
+        font-size: 25px;
     }
 
 
     #squareDisplay {
 
         font-size: 16px;
-
     }
 
 }
@@ -503,8 +497,6 @@ select {
 
 
         <select id="playerCount">
-
-            <!-- 1人をデフォルトにする -->
 
             <option value="1"
                     selected>
@@ -562,24 +554,24 @@ select {
      class="hidden">
 
 
-    <!-- ゲーム画面 -->
-
     <div id="gameArea">
+
 
         <h1>√x</h1>
 
 
-        <p>
-            x =
-            <span id="xValue"></span>
-        </p>
+        <!-- xそのものは表示せず、
+             √x = ? の形式にする -->
+
+        <div id="sqrtQuestion">
+        </div>
 
 
         <h2 id="turnDisplay">
         </h2>
 
 
-        <!-- 現在の数値 -->
+        <!-- 現在の予測値 -->
 
         <div id="currentNumber">
         </div>
@@ -591,7 +583,7 @@ select {
         </div>
 
 
-        <!-- 警告 -->
+        <!-- カウント1の警告 -->
 
         <div id="warning"
              class="hidden">
@@ -684,11 +676,13 @@ class Player {
             false;
     }
 
+
     name() {
 
         return "プレイヤー"
             + this.number;
     }
+
 }
 
 
@@ -706,6 +700,10 @@ class Digit {
         this.value =
             null;
 
+        /*
+            カウントは5から開始
+        */
+
         this.counter =
             5;
 
@@ -715,9 +713,15 @@ class Digit {
         this.filled =
             false;
 
+        /*
+            trueの場合、
+            これ以上訂正する必要がない
+        */
+
         this.noCorrectionNeeded =
             false;
     }
+
 }
 
 
@@ -783,6 +787,7 @@ function startGame() {
 
             candidates.push(i);
         }
+
     }
 
 
@@ -826,13 +831,12 @@ function startGame() {
         players.push(
             new Player(i)
         );
+
     }
 
 
     /*
         プレイヤー番号順
-
-        1 → 2 → 3 → ...
     */
 
     turnOrder =
@@ -848,7 +852,7 @@ function startGame() {
 
 
     /*
-        小数第1位～第10位
+        小数第1位～10位
     */
 
     digits = [];
@@ -863,6 +867,7 @@ function startGame() {
         digits.push(
             new Digit(i)
         );
+
     }
 
 
@@ -886,12 +891,20 @@ function startGame() {
     .remove("hidden");
 
 
+    /*
+        √x = ?
+        の表示
+
+        例：
+        √729 = ?
+    */
+
     document
     .getElementById(
-        "xValue"
+        "sqrtQuestion"
     )
     .textContent =
-        x;
+        `√${x} = ？`;
 
 
     updateAll();
@@ -900,6 +913,7 @@ function startGame() {
     showMessage(
         "小数第1位を予測してください。"
     );
+
 }
 
 
@@ -912,6 +926,7 @@ function currentPlayer() {
     return turnOrder[
         currentTurnIndex
     ];
+
 }
 
 
@@ -930,6 +945,7 @@ function updateAll() {
     updateWarning();
 
     updatePlayers();
+
 }
 
 
@@ -950,10 +966,12 @@ function updateTurn() {
 
         currentTurnIndex =
             (
-                currentTurnIndex + 1
+                currentTurnIndex
+                + 1
             )
             %
             turnOrder.length;
+
     }
 
 
@@ -965,6 +983,7 @@ function updateTurn() {
         currentPlayer().name()
         +
         " のターン";
+
 }
 
 
@@ -1026,8 +1045,8 @@ function updateNumber() {
 
 
         /*
-            前の桁が埋まっていなければ
-            ここから先は表示しない
+            前の桁が未入力なら、
+            それ以降はまだ表示しない
         */
 
         if (
@@ -1081,21 +1100,9 @@ function updateNumber() {
 
 
         /*
-            カウント1の桁を赤くする
+            カウント1でも
+            赤くしない
         */
-
-        if (
-            digit.filled
-            &&
-            !digit.noCorrectionNeeded
-            &&
-            digit.counter === 1
-        ) {
-
-            input.classList.add(
-                "warning-box"
-            );
-        }
 
 
         /*
@@ -1116,6 +1123,7 @@ function updateNumber() {
                         0,
                         1
                     );
+
             }
         );
 
@@ -1123,12 +1131,14 @@ function updateNumber() {
         area.appendChild(
             input
         );
+
     }
+
 }
 
 
 /* =====================================================
-   現在の数字を取得
+   現在の数字
 ===================================================== */
 
 function getCurrentNumber() {
@@ -1160,11 +1170,14 @@ function getCurrentNumber() {
         } else {
 
             break;
+
         }
+
     }
 
 
     return number;
+
 }
 
 
@@ -1210,7 +1223,7 @@ function updateSquare() {
             ${square.toFixed(10)}
             <br>
 
-            ⚠️ x = ${x} を超えています
+            ⚠️ √xを超えています
             `;
 
     } else {
@@ -1229,14 +1242,16 @@ function updateSquare() {
             ${square.toFixed(10)}
             <br>
 
-            x = ${x} 以下
+            √x以下
             `;
+
     }
+
 }
 
 
 /* =====================================================
-   警告表示
+   カウント1警告
 ===================================================== */
 
 function updateWarning() {
@@ -1267,11 +1282,16 @@ function updateWarning() {
                 warnings.push(
                     `小数第${digit.position}位`
                 );
+
             }
 
         }
     );
 
+
+    /*
+        対象がある場合
+    */
 
     if (
         warnings.length > 0
@@ -1296,7 +1316,9 @@ function updateWarning() {
         area.classList.add(
             "hidden"
         );
+
     }
+
 }
 
 
@@ -1339,6 +1361,7 @@ function updatePlayers() {
                 card.classList.add(
                     "eliminated"
                 );
+
             }
 
 
@@ -1360,6 +1383,7 @@ function updatePlayers() {
 
         }
     );
+
 }
 
 
@@ -1405,6 +1429,7 @@ function getInputValues() {
 
 
     return result;
+
 }
 
 
@@ -1545,8 +1570,8 @@ function confirmTurn() {
 
 
     /*
-        訂正の場合、
-        現在より大きくする必要がある
+        訂正なら
+        現在より大きい数字のみ
     */
 
     if (
@@ -1577,7 +1602,7 @@ function confirmTurn() {
 
 
     /*
-        現在の数字
+        現在の数
     */
 
     const currentNumber =
@@ -1627,8 +1652,7 @@ function confirmTurn() {
 
 
         /*
-            1人プレイの場合は
-            その時点で終了
+            1人だけ残った場合
         */
 
         if (
@@ -1640,6 +1664,8 @@ function confirmTurn() {
 
 
         nextTurn();
+
+        updateAll();
 
         return;
     }
@@ -1670,7 +1696,7 @@ function confirmTurn() {
 
 
     /*
-        新規入力ならカウント5
+        新規入力
     */
 
     if (
@@ -1679,16 +1705,22 @@ function confirmTurn() {
 
         digit.counter =
             5;
+
     }
 
 
     /*
-        訂正ならカウントリセット
+        訂正
     */
 
     if (
         !isNew
     ) {
+
+
+        /*
+            訂正した桁は5にリセット
+        */
 
         digit.counter =
             5;
@@ -1696,7 +1728,6 @@ function confirmTurn() {
 
         /*
             大幅修正ボーナス
-            +5以上なら2点
         */
 
         if (
@@ -1713,12 +1744,29 @@ function confirmTurn() {
             )
             .textContent =
                 `（${player.name()}、大幅修正ボーナス獲得）`;
+
         }
+
+
+        /*
+            ★新仕様★
+
+            訂正した場合、
+            現在進行中の全カウントを
+            +2する。
+
+            最大は5。
+        */
+
+        boostAllCounters(
+            digit
+        );
+
     }
 
 
     /*
-        訂正が必要か判定
+        訂正不要か判定
     */
 
     checkNoCorrectionNeeded(
@@ -1727,7 +1775,7 @@ function confirmTurn() {
 
 
     /*
-        75点先取
+        75点
     */
 
     if (
@@ -1743,7 +1791,7 @@ function confirmTurn() {
 
 
     /*
-        小数10桁目
+        小数10桁
     */
 
     if (
@@ -1759,7 +1807,7 @@ function confirmTurn() {
 
 
     /*
-        他の桁のカウントを減らす
+        他の桁のカウントを1減らす
     */
 
     advanceCounters(
@@ -1768,7 +1816,7 @@ function confirmTurn() {
 
 
     /*
-        カウント0
+        0になった場合
     */
 
     if (
@@ -1794,6 +1842,70 @@ function confirmTurn() {
         +
         `小数第${digit.position}位を確定しました。`
     );
+
+}
+
+
+/* =====================================================
+   訂正時の全カウント+2
+===================================================== */
+
+function boostAllCounters(
+    correctedDigit
+) {
+
+
+    digits.forEach(
+        digit => {
+
+
+            /*
+                未入力は対象外
+            */
+
+            if (
+                !digit.filled
+            ) {
+
+                return;
+            }
+
+
+            /*
+                訂正不要になった桁は
+                カウント対象外
+            */
+
+            if (
+                digit.noCorrectionNeeded
+            ) {
+
+                return;
+            }
+
+
+            /*
+                現在進行中のカウントだけ
+                +2する
+            */
+
+            digit.counter =
+                Math.min(
+                    5,
+                    digit.counter + 2
+                );
+
+        }
+    );
+
+
+    /*
+        訂正した桁は必ず5
+    */
+
+    correctedDigit.counter =
+        5;
+
 }
 
 
@@ -1811,7 +1923,7 @@ function checkNoCorrectionNeeded(
 
 
     /*
-        9ならこれ以上増やせない
+        9ならそれ以上増やせない
     */
 
     if (
@@ -1839,9 +1951,8 @@ function checkNoCorrectionNeeded(
 
 
     /*
-        1増やしたら
-        √xを超える場合、
-        これ以上の訂正は不要
+        1増やすとxを超えるなら
+        訂正不要
     */
 
     if (
@@ -1859,7 +1970,9 @@ function checkNoCorrectionNeeded(
 
         digit.noCorrectionNeeded =
             false;
+
     }
+
 }
 
 
@@ -1870,9 +1983,6 @@ function checkNoCorrectionNeeded(
 function advanceCounters(
     resetDigit
 ) {
-
-
-    let warnings = [];
 
 
     digits.forEach(
@@ -1892,7 +2002,7 @@ function advanceCounters(
 
 
             /*
-                今回訂正した桁
+                今回変更した桁
             */
 
             if (
@@ -1915,56 +2025,21 @@ function advanceCounters(
             }
 
 
-            if (
-                digit.counter <= 0
-            ) {
-
-                return;
-            }
-
-
             /*
-                1減少
-            */
-
-            digit.counter--;
-
-
-            /*
-                1になった
+                カウント減少
             */
 
             if (
-                digit.counter === 1
+                digit.counter > 0
             ) {
 
-                warnings.push(
-                    `小数第${digit.position}位`
-                );
+                digit.counter--;
+
             }
 
         }
     );
 
-
-    /*
-        警告
-    */
-
-    if (
-        warnings.length > 0
-    ) {
-
-        alert(
-            "このターンで修正しなければいけない値があります。"
-            +
-            "もし失敗した場合、強制終了となります。"
-            +
-            "\n\n対象："
-            +
-            warnings.join("、")
-        );
-    }
 }
 
 
@@ -1999,10 +2074,12 @@ function checkCounterZero() {
 
             return true;
         }
+
     }
 
 
     return false;
+
 }
 
 
@@ -2015,7 +2092,8 @@ function nextTurn() {
 
     currentTurnIndex =
         (
-            currentTurnIndex + 1
+            currentTurnIndex
+            + 1
         )
         %
         turnOrder.length;
@@ -2031,11 +2109,14 @@ function nextTurn() {
 
         currentTurnIndex =
             (
-                currentTurnIndex + 1
+                currentTurnIndex
+                + 1
             )
             %
             turnOrder.length;
+
     }
+
 }
 
 
@@ -2086,6 +2167,7 @@ function checkElimination() {
 
 
     return false;
+
 }
 
 
@@ -2103,6 +2185,7 @@ function showMessage(
     )
     .textContent =
         text;
+
 }
 
 
@@ -2151,8 +2234,7 @@ function endGame(
     html +=
         `
         <p>
-        x = ${x}<br>
-        √x = ${sqrtX.toFixed(12)}<br>
+        √${x} = ${sqrtX.toFixed(12)}<br>
         最終予測値 = ${finalNumber.toFixed(10)}
         </p>
         `;
@@ -2179,6 +2261,7 @@ function endGame(
                 }
                 </p>
                 `;
+
         }
     );
 
@@ -2205,6 +2288,7 @@ function endGame(
     )
     .innerHTML =
         html;
+
 }
 
 
