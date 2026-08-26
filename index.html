@@ -2,11 +2,8 @@
 <html lang="ja">
 
 <head>
-
 <meta charset="UTF-8">
-
-<meta name="viewport"
-      content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>√x</title>
 
@@ -20,24 +17,18 @@
     box-sizing: border-box;
 }
 
-html {
+html,
+body {
     margin: 0;
     padding: 0;
-    scroll-behavior: auto;
-    overflow-x: hidden;
+    min-height: 100%;
+}
+
+html {
+    overflow-y: scroll;
 }
 
 body {
-
-    margin: 0;
-    padding: 0;
-
-    min-height: 100vh;
-    min-height: 100svh;
-
-    overflow-x: hidden;
-
-    overflow-anchor: none;
 
     background:
         radial-gradient(
@@ -55,6 +46,10 @@ body {
         "Helvetica Neue",
         Arial,
         sans-serif;
+
+    min-height: 100vh;
+
+    overflow-x: hidden;
 }
 
 
@@ -71,7 +66,8 @@ body {
 }
 
 button,
-select {
+select,
+input {
     font-family: inherit;
 }
 
@@ -102,9 +98,9 @@ button {
         0 4px 15px rgba(0,0,0,0.35);
 
     transition:
-        transform 0.12s,
-        box-shadow 0.12s,
-        border-color 0.12s;
+        transform .15s,
+        box-shadow .15s,
+        border-color .15s;
 }
 
 button:hover {
@@ -114,11 +110,11 @@ button:hover {
     border-color: #9fc5e8;
 
     box-shadow:
-        0 7px 20px rgba(0,0,0,0.45);
+        0 7px 20px rgba(0,0,0,.45);
 }
 
 button:active {
-    transform: scale(0.97);
+    transform: scale(.97);
 }
 
 select {
@@ -138,7 +134,7 @@ select {
 
 
 /* =====================================================
-   背景数学
+   背景
 ===================================================== */
 
 .background-math {
@@ -151,7 +147,7 @@ select {
 
     overflow: hidden;
 
-    opacity: 0.07;
+    opacity: .08;
 
     z-index: 0;
 }
@@ -216,7 +212,7 @@ select {
 
 
 /* =====================================================
-   メインコンテナ
+   コンテナ
 ===================================================== */
 
 .container {
@@ -225,51 +221,46 @@ select {
 
     z-index: 1;
 
-    width: min(
-        950px,
-        calc(100% - 16px)
-    );
+    width:
+        min(
+            950px,
+            calc(100% - 20px)
+        );
 
-    margin: 0 auto;
+    margin:
+        0 auto;
 
-    padding: 20px;
+    padding:
+        25px;
+
+    min-height:
+        calc(100vh - 20px);
+
+    display:
+        flex;
+
+    flex-direction:
+        column;
+
+    justify-content:
+        center;
 
     background:
-        rgba(10,17,28,0.88);
+        rgba(10,17,28,.88);
 
     border:
         1px solid
-        rgba(150,190,230,0.3);
+        rgba(150,190,230,.3);
 
-    border-radius: 18px;
+    border-radius:
+        18px;
 
     box-shadow:
         0 15px 50px
-        rgba(0,0,0,0.5),
+        rgba(0,0,0,.5),
 
         inset 0 0 40px
-        rgba(80,140,200,0.04);
-}
-
-
-/* =====================================================
-   ホーム画面
-===================================================== */
-
-#homeScreen {
-
-    min-height: calc(100svh - 40px);
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
-
-    padding:
-        20px
-        0
-        35px;
+        rgba(80,140,200,.04);
 }
 
 
@@ -278,15 +269,15 @@ select {
 ===================================================== */
 
 .logo {
-
     text-align: center;
-
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 }
 
 .logo-main {
 
-    font-family: Georgia, serif;
+    font-family:
+        Georgia,
+        serif;
 
     font-size: 70px;
 
@@ -295,8 +286,8 @@ select {
     letter-spacing: 5px;
 
     text-shadow:
-        0 0 15px rgba(150,210,255,0.5),
-        0 0 40px rgba(100,180,255,0.25);
+        0 0 15px rgba(150,210,255,.5),
+        0 0 40px rgba(100,180,255,.25);
 }
 
 .logo-line {
@@ -331,7 +322,7 @@ select {
 
     color: #dce7f2;
 
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 
@@ -341,18 +332,25 @@ select {
 
 .main-menu {
 
-    display: flex;
+    display:
+        flex;
 
-    flex-direction: column;
+    flex-direction:
+        column;
 
-    align-items: center;
+    align-items:
+        center;
 
     gap: 8px;
 }
 
 .main-menu button {
 
-    width: min(300px, 90%);
+    width:
+        min(
+            300px,
+            90%
+        );
 
     font-size: 19px;
 
@@ -372,11 +370,14 @@ select {
 
     z-index: 9999;
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
     background:
         radial-gradient(
@@ -388,26 +389,33 @@ select {
 
 .loader {
 
-    width: min(600px, 90%);
+    width:
+        min(
+            600px,
+            90%
+        );
 
-    text-align: center;
+    text-align:
+        center;
 }
 
 .loader-symbol {
 
-    font-family: Georgia, serif;
+    font-family:
+        Georgia,
+        serif;
 
     font-size: 80px;
 
     animation:
-        pulseRoot 1.2s infinite;
+        pulseRoot 1.6s infinite;
 }
 
 @keyframes pulseRoot {
 
     0%,
     100% {
-        opacity: 0.55;
+        opacity: .55;
         transform: scale(1);
     }
 
@@ -419,7 +427,8 @@ select {
 
 .loader-equation {
 
-    font-family: monospace;
+    font-family:
+        monospace;
 
     font-size: 18px;
 
@@ -477,41 +486,26 @@ select {
 
 
 /* =====================================================
-   ロードOK
+   ロード完了
 ===================================================== */
 
-#loaderOK {
+#loadingOK {
 
-    margin-top: 18px;
+    margin-top: 25px;
 
-    opacity: 0;
-
-    pointer-events: none;
-
-    transition:
-        opacity 0.2s ease;
+    animation:
+        fadeIn .3s ease;
 }
 
-#loaderOK.visible {
+@keyframes fadeIn {
 
-    opacity: 1;
+    from {
+        opacity: 0;
+    }
 
-    pointer-events: auto;
-}
-
-
-/* =====================================================
-   セクション
-===================================================== */
-
-.section-title {
-
-    text-align: center;
-
-    margin:
-        12px
-        0
-        20px;
+    to {
+        opacity: 1;
+    }
 }
 
 
@@ -519,22 +513,52 @@ select {
    モード選択
 ===================================================== */
 
+#modeScreen,
+#playerScreen,
+#settingsScreen {
+
+    width: 100%;
+
+    max-height:
+        calc(100vh - 40px);
+
+    overflow-y: auto;
+
+    padding:
+        35px 5px 20px;
+}
+
+.section-title {
+
+    text-align:
+        center;
+
+    margin-bottom:
+        25px;
+}
+
+
+/* =====================================================
+   モード
+===================================================== */
+
 .mode-scroller {
 
-    display: flex;
+    display:
+        flex;
 
     gap: 18px;
 
     overflow-x: auto;
 
     padding:
-        10px
-        5px
-        20px;
+        10px 5px 20px;
 
-    scroll-snap-type: x mandatory;
+    scroll-snap-type:
+        x mandatory;
 
-    -webkit-overflow-scrolling: touch;
+    -webkit-overflow-scrolling:
+        touch;
 }
 
 .mode-card {
@@ -542,17 +566,23 @@ select {
     flex:
         0 0 78%;
 
-    max-width: 420px;
+    max-width:
+        420px;
 
-    min-height: 270px;
+    min-height:
+        270px;
 
-    scroll-snap-align: center;
+    scroll-snap-align:
+        center;
 
-    position: relative;
+    position:
+        relative;
 
-    padding: 25px;
+    padding:
+        25px;
 
-    border-radius: 18px;
+    border-radius:
+        18px;
 
     border:
         1px solid #54728e;
@@ -560,23 +590,16 @@ select {
     background:
         linear-gradient(
             145deg,
-            rgba(36,59,85,0.95),
-            rgba(10,18,29,0.98)
+            rgba(36,59,85,.95),
+            rgba(10,18,29,.98)
         );
 
     box-shadow:
         0 10px 35px
-        rgba(0,0,0,0.45);
+        rgba(0,0,0,.45);
 
-    cursor: pointer;
-
-    transition:
-        transform 0.15s,
-        border-color 0.15s;
-}
-
-.mode-card:hover {
-    transform: translateY(-4px);
+    cursor:
+        pointer;
 }
 
 .mode-card.selected {
@@ -586,40 +609,46 @@ select {
 
     box-shadow:
         0 0 25px
-        rgba(120,190,255,0.25);
+        rgba(120,190,255,.25);
 }
 
 .mode-number {
 
-    font-family: monospace;
+    font-family:
+        monospace;
 
-    color: #87b9df;
+    color:
+        #87b9df;
 
-    font-size: 15px;
+    font-size:
+        15px;
 }
 
 .mode-icon {
 
-    font-size: 48px;
+    font-size:
+        48px;
 
-    margin: 12px 0;
+    margin:
+        12px 0;
 }
 
 .mode-card h3 {
 
     margin:
-        5px
-        0
-        10px;
+        5px 0 10px;
 
-    font-size: 24px;
+    font-size:
+        24px;
 }
 
 .mode-card p {
 
-    color: #c5d4e2;
+    color:
+        #c5d4e2;
 
-    line-height: 1.7;
+    line-height:
+        1.7;
 }
 
 
@@ -630,73 +659,72 @@ select {
 .options-box {
 
     margin:
-        18px
-        auto;
+        20px auto;
 
-    max-width: 500px;
+    max-width:
+        500px;
 
-    padding: 18px;
+    padding:
+        20px;
 
     background:
-        rgba(255,255,255,0.035);
+        rgba(255,255,255,.035);
 
     border:
         1px solid
-        rgba(150,190,230,0.2);
+        rgba(150,190,230,.2);
 
-    border-radius: 12px;
+    border-radius:
+        12px;
 }
 
 .option-row {
 
     margin:
-        10px 0;
+        15px 0;
 
-    text-align: center;
+    text-align:
+        center;
 }
 
 
 /* =====================================================
-   ON / OFF ボタン
+   ON / OFF
 ===================================================== */
 
-.toggle-group {
+.toggle-buttons {
 
-    display: flex;
+    display:
+        flex;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    gap: 10px;
-
-    margin-top: 12px;
+    gap:
+        10px;
 }
 
-.toggle-button {
+.toggle-buttons button {
 
-    min-width: 100px;
-
-    padding:
-        10px
-        18px;
-
-    background:
-        #172334;
+    min-width:
+        100px;
 }
 
-.toggle-button.active {
+.toggle-buttons button.active {
 
-    border-color: #a7d8ff;
+    border-color:
+        #a7d8ff;
 
     background:
         linear-gradient(
             135deg,
-            #315b7d,
-            #172334
+            #416784,
+            #243b55
         );
 
     box-shadow:
         0 0 15px
-        rgba(120,190,255,0.2);
+        rgba(120,190,255,.25);
 }
 
 
@@ -706,63 +734,70 @@ select {
 
 #gameScreen {
 
-    padding-top: 0;
-
-    min-height: 0;
+    width: 100%;
 }
 
 #gameArea {
 
     padding:
-        10px
-        10px
-        15px;
+        15px 10px 20px;
 
-    text-align: center;
+    text-align:
+        center;
 
     background:
-        rgba(255,255,255,0.035);
+        rgba(255,255,255,.035);
 
     border:
         1px solid #526d86;
 
-    border-radius: 15px;
+    border-radius:
+        15px;
+
+    overflow:
+        hidden;
 }
 
 #sqrtQuestion {
 
-    font-family: monospace;
+    font-family:
+        monospace;
 
-    font-size: 26px;
+    font-size:
+        30px;
 
-    font-weight: bold;
+    font-weight:
+        bold;
 
-    line-height: 1.25;
-
-    margin:
-        2px
-        0
-        5px;
+    margin-bottom:
+        8px;
 }
 
 #turnDisplay {
 
-    margin-top: 6px;
+    margin-top:
+        8px;
 
-    font-size: 19px;
+    font-size:
+        21px;
 
-    font-weight: bold;
+    font-weight:
+        bold;
 }
 
 #timer {
 
-    margin: 7px;
+    margin:
+        10px;
 
-    font-family: monospace;
+    font-family:
+        monospace;
 
-    font-size: 20px;
+    font-size:
+        22px;
 
-    color: #a9d7fa;
+    color:
+        #a9d7fa;
 }
 
 
@@ -772,78 +807,99 @@ select {
 
 #currentNumber {
 
-    display: flex;
+    display:
+        flex;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
     margin:
-        13px
-        0;
+        18px 0;
 
     padding:
-        3px
-        0;
+        5px;
 
-    overflow-x: auto;
+    overflow-x:
+        auto;
 
-    white-space: nowrap;
+    white-space:
+        nowrap;
 }
 
 .decimal-label {
 
-    flex-shrink: 0;
+    flex-shrink:
+        0;
 
-    font-family: monospace;
+    font-family:
+        monospace;
 
-    font-size: 32px;
+    font-size:
+        34px;
 
-    font-weight: bold;
+    font-weight:
+        bold;
 }
 
 .digit-box {
 
-    flex-shrink: 0;
+    flex-shrink:
+        0;
 
-    width: 45px;
+    width:
+        48px;
 
-    min-width: 45px;
+    min-width:
+        48px;
 
-    height: 50px;
+    height:
+        54px;
 
-    margin: 2px;
+    margin:
+        3px;
 
-    padding: 0;
+    padding:
+        0;
 
-    text-align: center;
+    text-align:
+        center;
 
-    font-family: monospace;
+    font-family:
+        monospace;
 
-    font-size: 28px;
+    font-size:
+        30px;
 
-    line-height: 48px;
+    line-height:
+        50px;
 
-    color: #fff;
+    color:
+        #fff;
 
-    background: #101a27;
+    background:
+        #101a27;
 
     border:
         2px solid #607d9b;
 
-    border-radius: 7px;
+    border-radius:
+        7px;
 }
 
 .digit-box:focus {
 
-    outline: none;
+    outline:
+        none;
 
     border-color:
         #b7e0ff;
 
     box-shadow:
         0 0 10px
-        rgba(120,190,255,0.25);
+        rgba(120,190,255,.25);
 }
 
 
@@ -853,53 +909,35 @@ select {
 
 #squareDisplay {
 
-    margin-top: 8px;
-
-    padding:
+    margin-top:
         10px;
 
-    min-height: 74px;
-
-    display: flex;
-
-    flex-direction: column;
-
-    justify-content: center;
+    padding:
+        12px;
 
     background:
-        rgba(255,255,255,0.06);
+        rgba(255,255,255,.06);
 
-    border-radius: 10px;
+    border-radius:
+        10px;
 
-    font-family: monospace;
+    font-family:
+        monospace;
 
-    font-size: 21px;
+    font-size:
+        22px;
 
-    font-weight: bold;
+    font-weight:
+        bold;
 
-    line-height: 1.55;
+    line-height:
+        1.7;
+
+    min-height:
+        70px;
 
     transition:
-        opacity 0.05s;
-}
-
-.calculating {
-
-    color: #9fc5e8;
-
-    animation:
-        calcPulse 0.08s linear;
-}
-
-@keyframes calcPulse {
-
-    0% {
-        opacity: 0.5;
-    }
-
-    100% {
-        opacity: 1;
-    }
+        opacity .08s;
 }
 
 .safe {
@@ -912,28 +950,67 @@ select {
 
 
 /* =====================================================
+   演算中
+===================================================== */
+
+.calculating {
+
+    opacity:
+        .45;
+
+}
+
+.calculating::after {
+
+    content:
+        " ···";
+
+    animation:
+        dots .4s infinite;
+}
+
+@keyframes dots {
+
+    0% {
+        opacity: .2;
+    }
+
+    50% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: .2;
+    }
+}
+
+
+/* =====================================================
    警告
 ===================================================== */
 
 #warning {
 
-    margin-top: 9px;
+    margin-top:
+        12px;
 
-    padding: 10px;
+    padding:
+        12px;
 
     background:
-        rgba(255,190,60,0.08);
+        rgba(255,190,60,.08);
 
     border:
         1px solid #c99b39;
 
-    border-radius: 8px;
+    border-radius:
+        8px;
 
-    color: #ffd77b;
+    color:
+        #ffd77b;
 
-    font-weight: bold;
-
-    white-space: pre-line;
+    font-weight:
+        bold;
 }
 
 
@@ -943,33 +1020,17 @@ select {
 
 #overtimeMessage {
 
-    margin-top: 8px;
+    margin-top:
+        10px;
 
-    font-size: 25px;
+    font-size:
+        25px;
 
-    font-weight: bold;
+    font-weight:
+        bold;
 
-    color: #ff6b6b;
-
-    animation:
-        overFlash 0.5s ease;
-}
-
-@keyframes overFlash {
-
-    0% {
-        transform: scale(1.3);
-        opacity: 0;
-    }
-
-    50% {
-        transform: scale(1);
-        opacity: 1;
-    }
-
-    100% {
-        opacity: 1;
-    }
+    color:
+        #ff6b6b;
 }
 
 
@@ -979,29 +1040,17 @@ select {
 
 #message {
 
-    margin-top: 8px;
+    margin-top:
+        12px;
 
-    min-height: 0;
+    min-height:
+        22px;
 
-    padding: 0;
+    padding:
+        5px;
 
-    background: transparent;
-
-    border-radius: 8px;
-}
-
-
-/* =====================================================
-   ボーナス
-===================================================== */
-
-#bonusLog {
-
-    min-height: 0;
-
-    margin-top: 7px;
-
-    font-weight: bold;
+    color:
+        #dce7f2;
 }
 
 
@@ -1011,45 +1060,59 @@ select {
 
 #playerTable {
 
-    display: flex;
+    display:
+        flex;
 
-    flex-wrap: wrap;
+    flex-wrap:
+        wrap;
 
-    justify-content: center;
+    justify-content:
+        center;
 
-    gap: 8px;
+    gap:
+        10px;
 
-    margin-top: 12px;
+    margin-top:
+        15px;
 }
 
 .player-card {
 
-    width: 115px;
+    width:
+        120px;
 
-    min-height: 70px;
+    min-height:
+        75px;
 
-    display: flex;
+    display:
+        flex;
 
-    flex-direction: column;
+    flex-direction:
+        column;
 
-    align-items: center;
+    align-items:
+        center;
 
-    justify-content: center;
+    justify-content:
+        center;
 
     background:
-        rgba(255,255,255,0.04);
+        rgba(255,255,255,.04);
 
     border:
         1px solid #607d9b;
 
-    border-radius: 10px;
+    border-radius:
+        10px;
 }
 
 .player-score {
 
-    margin-top: 5px;
+    margin-top:
+        5px;
 
-    font-size: 22px;
+    font-size:
+        24px;
 }
 
 
@@ -1059,33 +1122,42 @@ select {
 
 .settings-box {
 
-    max-width: 550px;
+    max-width:
+        550px;
 
-    margin: auto;
+    margin:
+        auto;
 }
 
 .setting-item {
 
-    padding: 18px;
+    padding:
+        20px;
 
-    margin: 10px 0;
+    margin:
+        12px 0;
 
     background:
-        rgba(255,255,255,0.04);
+        rgba(255,255,255,.04);
 
     border:
         1px solid
-        rgba(150,190,230,0.2);
+        rgba(150,190,230,.2);
 
-    border-radius: 12px;
+    border-radius:
+        12px;
 }
 
 .setting-item h3 {
-    margin-top: 0;
+
+    margin-top:
+        0;
 }
 
 input[type="range"] {
-    width: 100%;
+
+    width:
+        100%;
 }
 
 
@@ -1095,16 +1167,20 @@ input[type="range"] {
 
 .credits {
 
-    line-height: 1.8;
+    line-height:
+        1.8;
 
-    color: #c8d7e5;
+    color:
+        #c8d7e5;
 }
 
 .credits a {
 
-    color: #8fc7ef;
+    color:
+        #8fc7ef;
 
-    word-break: break-all;
+    word-break:
+        break-all;
 }
 
 
@@ -1114,9 +1190,81 @@ input[type="range"] {
 
 #result {
 
-    font-size: 18px;
+    font-size:
+        18px;
 
-    line-height: 1.8;
+    line-height:
+        1.8;
+}
+
+
+/* =====================================================
+   白ゲーム画面
+===================================================== */
+
+body.light-game #gameArea {
+
+    background:
+        #f7f9fc;
+
+    color:
+        #172334;
+
+    border:
+        1px solid #c8d2df;
+}
+
+body.light-game #sqrtQuestion,
+body.light-game #turnDisplay,
+body.light-game #message {
+
+    color:
+        #172334;
+}
+
+body.light-game #timer {
+
+    color:
+        #315a7c;
+}
+
+body.light-game .digit-box {
+
+    background:
+        #fff;
+
+    color:
+        #172334;
+
+    border-color:
+        #9aaabd;
+}
+
+body.light-game #squareDisplay {
+
+    background:
+        #edf2f7;
+}
+
+body.light-game #warning {
+
+    background:
+        #fff7df;
+
+    color:
+        #795c14;
+}
+
+body.light-game .player-card {
+
+    background:
+        #fff;
+
+    color:
+        #172334;
+
+    border-color:
+        #b5c2d0;
 }
 
 
@@ -1129,93 +1277,87 @@ input[type="range"] {
     .container {
 
         width:
-            calc(100% - 10px);
-
-        padding:
-            12px;
-
-        margin:
-            0 auto;
-    }
-
-    #homeScreen {
+            100%;
 
         min-height:
-            calc(100svh - 24px);
+            100vh;
 
-        padding:
-            10px
-            0
-            25px;
-    }
-
-    .logo-main {
-        font-size: 55px;
-    }
-
-    .game-description {
-        font-size: 15px;
-    }
-
-    .mode-card {
-        flex-basis: 86%;
-    }
-
-    #gameArea {
-        padding:
-            7px
-            7px
-            12px;
-    }
-
-    #sqrtQuestion {
-        font-size: 24px;
-    }
-
-    #turnDisplay {
-        font-size: 17px;
-    }
-
-    #timer {
-        font-size: 18px;
-        margin: 4px;
-    }
-
-    #currentNumber {
         margin:
-            9px
+            0;
+
+        padding:
+            15px;
+
+        border-radius:
             0;
     }
 
+    .logo-main {
+        font-size:
+            58px;
+    }
+
+    #modeScreen,
+    #playerScreen,
+    #settingsScreen {
+
+        padding-top:
+            45px;
+    }
+
+    .mode-card {
+
+        flex-basis:
+            84%;
+    }
+
+    #sqrtQuestion {
+
+        font-size:
+            25px;
+
+        margin-top:
+            4px;
+    }
+
+    #currentNumber {
+
+        justify-content:
+            flex-start;
+
+        padding-left:
+            8px;
+    }
+
     .decimal-label {
-        font-size: 27px;
+
+        font-size:
+            30px;
     }
 
     .digit-box {
 
-        width: 42px;
+        width:
+            44px;
 
-        min-width: 42px;
+        min-width:
+            44px;
 
-        height: 47px;
+        height:
+            50px;
 
-        font-size: 26px;
-
-        line-height: 45px;
+        font-size:
+            28px;
     }
 
     #squareDisplay {
-        font-size: 19px;
-        min-height: 68px;
-    }
 
-    #gameArea > button {
-        margin-top: 5px;
+        font-size:
+            20px;
     }
 }
 
 </style>
-
 </head>
 
 
@@ -1268,8 +1410,9 @@ input[type="range"] {
         </div>
 
         <button
-            id="loaderOK"
-            onclick="finishInitialLoading()">
+            id="loadingOK"
+            class="hidden"
+            onclick="finishLoading()">
             OK
         </button>
 
@@ -1338,7 +1481,6 @@ input[type="range"] {
     </h2>
 
     <div class="mode-scroller">
-
 
         <div
             class="mode-card selected"
@@ -1433,7 +1575,7 @@ input[type="range"] {
 
 
 <!-- =====================================================
-     人数選択
+     人数
 ===================================================== -->
 
 <div id="playerScreen"
@@ -1442,6 +1584,7 @@ input[type="range"] {
     <h2 class="section-title">
         PLAYER
     </h2>
+
 
     <div class="options-box">
 
@@ -1472,28 +1615,28 @@ input[type="range"] {
         </div>
 
 
-        <!-- 無限小数スコア設定 -->
+        <!-- 無限小数専用 -->
 
         <div
-            id="infiniteScoreOptions"
+            id="infinitePlayerOption"
             class="option-row hidden">
 
             <strong>
                 スコアシステム
             </strong>
 
-            <div class="toggle-group">
+            <br><br>
+
+            <div class="toggle-buttons">
 
                 <button
                     id="scoreOnButton"
-                    class="toggle-button active"
                     onclick="setInfiniteScore(true)">
                     ON
                 </button>
 
                 <button
                     id="scoreOffButton"
-                    class="toggle-button"
                     onclick="setInfiniteScore(false)">
                     OFF
                 </button>
@@ -1539,8 +1682,9 @@ input[type="range"] {
 
         <div id="squareDisplay"></div>
 
-        <div id="warning"
-             class="hidden">
+        <div
+            id="warning"
+            class="hidden">
         </div>
 
         <div
@@ -1561,11 +1705,9 @@ input[type="range"] {
 
 
     <h2 class="center">
-
         <span id="scoreTitle">
             ポイント
         </span>
-
     </h2>
 
     <div id="playerTable"></div>
@@ -1640,6 +1782,33 @@ input[type="range"] {
         <div class="setting-item">
 
             <h3>
+                🎮 ゲーム画面
+            </h3>
+
+            <div class="center">
+
+                <select
+                    id="gameThemeSelect"
+                    onchange="changeGameTheme(this.value)">
+
+                    <option value="light">
+                        白
+                    </option>
+
+                    <option value="dark">
+                        黒
+                    </option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="setting-item">
+
+            <h3>
                 ℹ CREDIT
             </h3>
 
@@ -1670,9 +1839,21 @@ input[type="range"] {
 
                 The background music is generated
                 using the Web Audio API.
-                It contains no vocals and uses
-                procedurally generated electronic
-                synthesizer sounds.
+                It is a vocal-free,
+                procedurally generated electronic track.
+                No external audio file is required.
+
+                <br><br>
+
+                <strong>
+                    Sound Effects
+                </strong>
+
+                <br>
+
+                Sound effects are generated
+                in real time using the Web Audio API.
+                No external audio files are required.
 
             </div>
 
@@ -1738,6 +1919,10 @@ if (Number.isNaN(volume)) {
     volume = 35;
 }
 
+let gameTheme =
+    localStorage.getItem("rootx_theme")
+    || "light";
+
 
 /* =====================================================
    ゲーム変数
@@ -1773,12 +1958,16 @@ let timePenalty = 0;
 
 
 /* =====================================================
-   Audio
+   BGM
 ===================================================== */
 
 let audioContext = null;
 
 let masterGain = null;
+
+let bgmGain = null;
+
+let sfxGain = null;
 
 let bgmTimer = null;
 
@@ -1786,11 +1975,6 @@ let bgmStarted = false;
 
 let melodyIndex = 0;
 
-
-/* =====================================================
-   BGM
-   Cyber / electronic / major
-===================================================== */
 
 const melody = [
 
@@ -1817,25 +2001,55 @@ const melody = [
 ];
 
 
+/* =====================================================
+   Audio初期化
+===================================================== */
+
 function initAudio() {
 
     if (!audioContext) {
 
         audioContext =
             new (
-                window.AudioContext ||
+                window.AudioContext
+                ||
                 window.webkitAudioContext
             )();
 
         masterGain =
             audioContext.createGain();
 
+        bgmGain =
+            audioContext.createGain();
+
+        sfxGain =
+            audioContext.createGain();
+
+
         masterGain.gain.value =
-            volume / 100 * 0.20;
+            1;
+
+
+        bgmGain.gain.value =
+            volume / 100 * .18;
+
+
+        sfxGain.gain.value =
+            volume / 100 * .45;
+
+
+        bgmGain.connect(
+            masterGain
+        );
+
+        sfxGain.connect(
+            masterGain
+        );
 
         masterGain.connect(
             audioContext.destination
         );
+
     }
 
 
@@ -1860,7 +2074,7 @@ function initAudio() {
 
 
 /* =====================================================
-   BGM note
+   BGM
 ===================================================== */
 
 function playBGMNote() {
@@ -1868,7 +2082,7 @@ function playBGMNote() {
     if (
         !bgmStarted ||
         !audioContext ||
-        !masterGain
+        !bgmGain
     ) {
 
         return;
@@ -1883,41 +2097,38 @@ function playBGMNote() {
         audioContext.createGain();
 
 
-    /*
-       Cyber synth
-    */
-
-    osc.type = "sawtooth";
+    osc.type =
+        "sawtooth";
 
     osc.frequency.value =
         melody[melodyIndex];
 
 
     gain.gain.setValueAtTime(
-        0.0001,
+        .0001,
         audioContext.currentTime
     );
 
     gain.gain.exponentialRampToValueAtTime(
-        0.22,
-        audioContext.currentTime + 0.015
+        .35,
+        audioContext.currentTime + .025
     );
 
     gain.gain.exponentialRampToValueAtTime(
-        0.001,
-        audioContext.currentTime + 0.25
+        .001,
+        audioContext.currentTime + .28
     );
 
 
     osc.connect(gain);
 
-    gain.connect(masterGain);
+    gain.connect(bgmGain);
 
 
     osc.start();
 
     osc.stop(
-        audioContext.currentTime + 0.27
+        audioContext.currentTime + .30
     );
 
 
@@ -1932,7 +2143,7 @@ function playBGMNote() {
     bgmTimer =
         setTimeout(
             playBGMNote,
-            220
+            230
         );
 
 }
@@ -1944,13 +2155,7 @@ function playBGMNote() {
 
 function playExplosionSound() {
 
-    if (!audioContext) {
-        initAudio();
-    }
-
-    if (!audioContext || !masterGain) {
-        return;
-    }
+    initAudio();
 
 
     const now =
@@ -1958,18 +2163,16 @@ function playExplosionSound() {
 
 
     /*
-       Noise
+        ホワイトノイズ
     */
-
-    const bufferSize =
-        audioContext.sampleRate * 0.45;
 
     const buffer =
         audioContext.createBuffer(
             1,
-            bufferSize,
+            audioContext.sampleRate * .7,
             audioContext.sampleRate
         );
+
 
     const data =
         buffer.getChannelData(0);
@@ -1977,19 +2180,12 @@ function playExplosionSound() {
 
     for (
         let i = 0;
-        i < bufferSize;
+        i < data.length;
         i++
     ) {
 
         data[i] =
-            (
-                Math.random() * 2 - 1
-            )
-            *
-            Math.pow(
-                1 - i / bufferSize,
-                2
-            );
+            Math.random() * 2 - 1;
 
     }
 
@@ -2001,59 +2197,64 @@ function playExplosionSound() {
         buffer;
 
 
+    const noiseFilter =
+        audioContext.createBiquadFilter();
+
+    noiseFilter.type =
+        "lowpass";
+
+    noiseFilter.frequency.setValueAtTime(
+        900,
+        now
+    );
+
+    noiseFilter.frequency.exponentialRampToValueAtTime(
+        80,
+        now + .55
+    );
+
+
     const noiseGain =
         audioContext.createGain();
 
-
     noiseGain.gain.setValueAtTime(
-        0.0001,
+        .001,
         now
     );
 
     noiseGain.gain.exponentialRampToValueAtTime(
-        0.75,
-        now + 0.015
+        .8,
+        now + .015
     );
 
     noiseGain.gain.exponentialRampToValueAtTime(
-        0.001,
-        now + 0.42
+        .001,
+        now + .65
     );
 
 
-    const filter =
-        audioContext.createBiquadFilter();
-
-    filter.type =
-        "lowpass";
-
-    filter.frequency.setValueAtTime(
-        1800,
-        now
+    noise.connect(
+        noiseFilter
     );
 
-    filter.frequency.exponentialRampToValueAtTime(
-        120,
-        now + 0.4
+    noiseFilter.connect(
+        noiseGain
     );
 
-
-    noise.connect(filter);
-
-    filter.connect(noiseGain);
-
-    noiseGain.connect(masterGain);
+    noiseGain.connect(
+        sfxGain
+    );
 
 
     noise.start(now);
 
     noise.stop(
-        now + 0.45
+        now + .7
     );
 
 
     /*
-       Low impact
+        低い爆発衝撃音
     */
 
     const osc =
@@ -2067,40 +2268,45 @@ function playExplosionSound() {
         "sine";
 
     osc.frequency.setValueAtTime(
-        150,
+        100,
         now
     );
 
     osc.frequency.exponentialRampToValueAtTime(
         35,
-        now + 0.35
+        now + .35
     );
 
 
     oscGain.gain.setValueAtTime(
-        0.0001,
+        .001,
         now
     );
 
     oscGain.gain.exponentialRampToValueAtTime(
-        0.5,
-        now + 0.01
+        .65,
+        now + .015
     );
 
     oscGain.gain.exponentialRampToValueAtTime(
-        0.001,
-        now + 0.35
+        .001,
+        now + .4
     );
 
 
-    osc.connect(oscGain);
+    osc.connect(
+        oscGain
+    );
 
-    oscGain.connect(masterGain);
+    oscGain.connect(
+        sfxGain
+    );
+
 
     osc.start(now);
 
     osc.stop(
-        now + 0.4
+        now + .45
     );
 
 }
@@ -2122,17 +2328,49 @@ function changeVolume(value) {
 
 
     document
-    .getElementById("volumeText")
+    .getElementById(
+        "volumeText"
+    )
     .textContent =
         volume + "%";
 
 
-    if (masterGain) {
+    if (bgmGain) {
 
-        masterGain.gain.value =
-            volume / 100 * 0.20;
+        bgmGain.gain.value =
+            volume / 100 * .18;
 
     }
+
+    if (sfxGain) {
+
+        sfxGain.gain.value =
+            volume / 100 * .45;
+
+    }
+
+}
+
+
+/* =====================================================
+   テーマ
+===================================================== */
+
+function changeGameTheme(theme) {
+
+    gameTheme =
+        theme;
+
+    localStorage.setItem(
+        "rootx_theme",
+        theme
+    );
+
+
+    document.body.classList.toggle(
+        "light-game",
+        theme === "light"
+    );
 
 }
 
@@ -2151,23 +2389,6 @@ function changeLanguage(lang) {
         lang
     );
 
-    applyLanguage();
-
-}
-
-
-function applyLanguage() {
-
-    const select =
-        document.getElementById(
-            "languageSelect"
-        );
-
-    if (select) {
-        select.value =
-            currentLanguage;
-    }
-
 }
 
 
@@ -2178,19 +2399,135 @@ function applyLanguage() {
 const loaderEquations = [
 
     "√(x) → calculating...",
-
     "x² < n < (x+10⁻¹)²",
-
     "precision = 10⁻⁷",
-
     "checking decimal sequence...",
-
     "system ready"
 
 ];
 
 
-function showLoading(callback) {
+function initialLoading() {
+
+    const screen =
+        document.getElementById(
+            "loadingScreen"
+        );
+
+
+    const equation =
+        document.getElementById(
+            "loaderEquation"
+        );
+
+
+    const text =
+        document.getElementById(
+            "loaderText"
+        );
+
+
+    const ok =
+        document.getElementById(
+            "loadingOK"
+        );
+
+
+    screen.classList.remove(
+        "hidden"
+    );
+
+
+    ok.classList.add(
+        "hidden"
+    );
+
+
+    let index = 0;
+
+
+    const timer =
+        setInterval(
+            function() {
+
+                index++;
+
+                if (
+                    index <
+                    loaderEquations.length
+                ) {
+
+                    equation.textContent =
+                        loaderEquations[index];
+
+                }
+
+                else {
+
+                    clearInterval(timer);
+
+                }
+
+            },
+            300
+        );
+
+
+    setTimeout(
+        function() {
+
+            text.textContent =
+                "ROOT-X ONLINE";
+
+        },
+        1100
+    );
+
+
+    setTimeout(
+        function() {
+
+            ok.classList.remove(
+                "hidden"
+            );
+
+        },
+        1500
+    );
+
+}
+
+
+function finishLoading() {
+
+    initAudio();
+
+    document
+    .getElementById(
+        "loadingScreen"
+    )
+    .classList
+    .add("hidden");
+
+    goHome();
+
+}
+
+
+/* =====================================================
+   ゲーム開始ロード
+===================================================== */
+
+function startLoading() {
+
+    initAudio();
+
+    showGameLoading();
+
+}
+
+
+function showGameLoading() {
 
     const screen =
         document.getElementById(
@@ -2209,7 +2546,7 @@ function showLoading(callback) {
 
     const ok =
         document.getElementById(
-            "loaderOK"
+            "loadingOK"
         );
 
 
@@ -2217,42 +2554,17 @@ function showLoading(callback) {
         "hidden"
     );
 
-    ok.classList.remove(
-        "visible"
+    ok.classList.add(
+        "hidden"
     );
 
 
-    let index = 0;
-
     equation.textContent =
-        loaderEquations[0];
+        "√(x) → initializing game...";
 
 
-    const equationTimer =
-        setInterval(
-            function() {
-
-                index++;
-
-                if (
-                    index >=
-                    loaderEquations.length
-                ) {
-
-                    clearInterval(
-                        equationTimer
-                    );
-
-                    return;
-
-                }
-
-                equation.textContent =
-                    loaderEquations[index];
-
-            },
-            260
-        );
+    text.textContent =
+        "LOADING GAME";
 
 
     setTimeout(
@@ -2261,49 +2573,29 @@ function showLoading(callback) {
             text.textContent =
                 "ROOT-X ONLINE";
 
-            ok.classList.add(
-                "visible"
-            );
-
         },
-        1500
+        1000
     );
 
 
-    /*
-       OKを押したときに実際に
-       callbackを実行する
-    */
-
-    ok.onclick =
+    setTimeout(
         function() {
-
-            initAudio();
 
             screen.classList.add(
                 "hidden"
             );
 
-            ok.classList.remove(
-                "visible"
-            );
+            startGame();
 
-            window.scrollTo(
-                0,
-                0
-            );
-
-            if (callback) {
-                callback();
-            }
-
-        };
+        },
+        1500
+    );
 
 }
 
 
 /* =====================================================
-   初回ロード
+   初期化
 ===================================================== */
 
 window.addEventListener(
@@ -2325,42 +2617,44 @@ window.addEventListener(
             volume + "%";
 
 
-        /*
-           初回ロードも1.5秒
-        */
+        document
+        .getElementById(
+            "gameThemeSelect"
+        )
+        .value =
+            gameTheme;
 
-        showLoading(
-            function() {
 
-                goHome();
-
-            }
+        changeGameTheme(
+            gameTheme
         );
+
+
+        initialLoading();
 
     }
 );
 
 
 /* =====================================================
-   Home
+   ホーム
 ===================================================== */
 
-function goHome() {
+function hideAllScreens() {
 
-    stopGameTimer();
+    const ids = [
 
-    gameStarted =
-        false;
-
-
-    [
+        "homeScreen",
         "modeScreen",
         "playerScreen",
-        "settingsScreen",
         "gameScreen",
+        "settingsScreen",
         "endScreen"
-    ]
-    .forEach(
+
+    ];
+
+
+    ids.forEach(
         id => {
 
             document
@@ -2371,9 +2665,24 @@ function goHome() {
         }
     );
 
+}
+
+
+function goHome() {
+
+    stopGameTimer();
+
+    gameStarted =
+        false;
+
+
+    hideAllScreens();
+
 
     document
-    .getElementById("homeScreen")
+    .getElementById(
+        "homeScreen"
+    )
     .classList
     .remove("hidden");
 
@@ -2387,20 +2696,20 @@ function goHome() {
 
 
 /* =====================================================
-   Play
+   モード
 ===================================================== */
 
 function openModeScreen() {
 
     initAudio();
 
-    document
-    .getElementById("homeScreen")
-    .classList
-    .add("hidden");
+    hideAllScreens();
+
 
     document
-    .getElementById("modeScreen")
+    .getElementById(
+        "modeScreen"
+    )
     .classList
     .remove("hidden");
 
@@ -2414,20 +2723,20 @@ function openModeScreen() {
 
 
 /* =====================================================
-   Settings
+   設定
 ===================================================== */
 
 function openSettings() {
 
     initAudio();
 
-    document
-    .getElementById("homeScreen")
-    .classList
-    .add("hidden");
+    hideAllScreens();
+
 
     document
-    .getElementById("settingsScreen")
+    .getElementById(
+        "settingsScreen"
+    )
     .classList
     .remove("hidden");
 
@@ -2441,7 +2750,7 @@ function openSettings() {
 
 
 /* =====================================================
-   Mode
+   モード選択
 ===================================================== */
 
 function selectMode(mode) {
@@ -2451,70 +2760,37 @@ function selectMode(mode) {
 
 
     document
-    .querySelectorAll(".mode-card")
+    .querySelectorAll(
+        ".mode-card"
+    )
     .forEach(
         card => {
 
-            card.classList.remove(
-                "selected"
-            );
-
-            if (
+            card.classList.toggle(
+                "selected",
                 card.dataset.mode === mode
-            ) {
-
-                card.classList.add(
-                    "selected"
-                );
-
-            }
+            );
 
         }
     );
-
-
-    const scoreOptions =
-        document.getElementById(
-            "infiniteScoreOptions"
-        );
-
-
-    /*
-       人数画面に移動してから
-       表示するため、ここでは何もしない
-    */
 
 }
 
 
 /* =====================================================
-   Player screen
+   人数
 ===================================================== */
 
 function openPlayerScreen() {
-
-    document
-    .getElementById("modeScreen")
-    .classList
-    .add("hidden");
-
-    document
-    .getElementById("playerScreen")
-    .classList
-    .remove("hidden");
-
-
-    const scoreOptions =
-        document.getElementById(
-            "infiniteScoreOptions"
-        );
-
 
     if (
         gameMode === "infinite"
     ) {
 
-        scoreOptions
+        document
+        .getElementById(
+            "infinitePlayerOption"
+        )
         .classList
         .remove("hidden");
 
@@ -2522,14 +2798,25 @@ function openPlayerScreen() {
 
     else {
 
-        scoreOptions
+        document
+        .getElementById(
+            "infinitePlayerOption"
+        )
         .classList
         .add("hidden");
 
     }
 
 
-    updateScoreToggle();
+    hideAllScreens();
+
+
+    document
+    .getElementById(
+        "playerScreen"
+    )
+    .classList
+    .remove("hidden");
 
 
     window.scrollTo(
@@ -2541,7 +2828,7 @@ function openPlayerScreen() {
 
 
 /* =====================================================
-   Infinite score toggle
+   無限スコア
 ===================================================== */
 
 function setInfiniteScore(enabled) {
@@ -2549,59 +2836,34 @@ function setInfiniteScore(enabled) {
     infiniteScoreEnabled =
         enabled;
 
-    updateScoreToggle();
 
-}
-
-
-function updateScoreToggle() {
-
-    const on =
-        document.getElementById(
-            "scoreOnButton"
-        );
-
-    const off =
-        document.getElementById(
-            "scoreOffButton"
-        );
-
-
-    if (!on || !off) {
-        return;
-    }
-
-
-    on.classList.toggle(
+    document
+    .getElementById(
+        "scoreOnButton"
+    )
+    .classList.toggle(
         "active",
-        infiniteScoreEnabled
+        enabled
     );
 
-    off.classList.toggle(
+
+    document
+    .getElementById(
+        "scoreOffButton"
+    )
+    .classList.toggle(
         "active",
-        !infiniteScoreEnabled
+        !enabled
     );
 
 }
+
+
+setInfiniteScore(true);
 
 
 /* =====================================================
-   Game loading
-===================================================== */
-
-function startLoading() {
-
-    initAudio();
-
-    showLoading(
-        startGame
-    );
-
-}
-
-
-/* =====================================================
-   Start game
+   ゲーム開始
 ===================================================== */
 
 function startGame() {
@@ -2707,20 +2969,21 @@ function startGame() {
         0;
 
 
-    document
-    .getElementById("playerScreen")
-    .classList
-    .add("hidden");
+    hideAllScreens();
 
 
     document
-    .getElementById("gameScreen")
+    .getElementById(
+        "gameScreen"
+    )
     .classList
     .remove("hidden");
 
 
     document
-    .getElementById("sqrtQuestion")
+    .getElementById(
+        "sqrtQuestion"
+    )
     .textContent =
         `√${x} = ？`;
 
@@ -2736,12 +2999,6 @@ function startGame() {
 
 
     startGameTimer();
-
-
-    window.scrollTo(
-        0,
-        0
-    );
 
 }
 
@@ -2768,8 +3025,7 @@ class Player {
 
     name() {
 
-        return "プレイヤー"
-            +
+        return "プレイヤー" +
             this.number;
 
     }
@@ -2809,7 +3065,7 @@ class Digit {
 
 
 /* =====================================================
-   Current player
+   現在プレイヤー
 ===================================================== */
 
 function currentPlayer() {
@@ -2822,7 +3078,7 @@ function currentPlayer() {
 
 
 /* =====================================================
-   Update
+   更新
 ===================================================== */
 
 function updateAll() {
@@ -2841,7 +3097,7 @@ function updateAll() {
 
 
 /* =====================================================
-   Turn
+   ターン
 ===================================================== */
 
 function updateTurn() {
@@ -2850,10 +3106,8 @@ function updateTurn() {
 
 
     while (
-        currentPlayer()
-        &&
-        currentPlayer().eliminated
-        &&
+        currentPlayer() &&
+        currentPlayer().eliminated &&
         safety < 20
     ) {
 
@@ -2869,13 +3123,19 @@ function updateTurn() {
     }
 
 
-    if (!currentPlayer()) {
+    if (
+        !currentPlayer()
+    ) {
+
         return;
+
     }
 
 
     document
-    .getElementById("turnDisplay")
+    .getElementById(
+        "turnDisplay"
+    )
     .textContent =
         currentPlayer().name()
         +
@@ -2885,7 +3145,7 @@ function updateTurn() {
 
 
 /* =====================================================
-   Number input
+   数字
 ===================================================== */
 
 function updateNumber() {
@@ -2896,7 +3156,8 @@ function updateNumber() {
         );
 
 
-    area.innerHTML = "";
+    area.innerHTML =
+        "";
 
 
     const integer =
@@ -2980,6 +3241,7 @@ function updateNumber() {
         input.className =
             "digit-box";
 
+
         input.dataset.position =
             digit.position;
 
@@ -3009,6 +3271,8 @@ function updateNumber() {
                         1
                     );
 
+                scheduleCalculation();
+
             }
         );
 
@@ -3023,7 +3287,147 @@ function updateNumber() {
 
 
 /* =====================================================
-   Committed number
+   入力された値を仮計算
+===================================================== */
+
+let calculationTimer = null;
+
+
+function scheduleCalculation() {
+
+    clearTimeout(
+        calculationTimer
+    );
+
+
+    const area =
+        document.getElementById(
+            "squareDisplay"
+        );
+
+
+    area.classList.add(
+        "calculating"
+    );
+
+
+    calculationTimer =
+        setTimeout(
+            function() {
+
+                updateSquareFromInput();
+
+                area.classList.remove(
+                    "calculating"
+                );
+
+            },
+            80
+        );
+
+}
+
+
+/* =====================================================
+   入力中の二乗
+===================================================== */
+
+function updateSquareFromInput() {
+
+    const inputs =
+        document.querySelectorAll(
+            "#currentNumber .digit-box"
+        );
+
+
+    let number =
+        integerPart;
+
+
+    let valid =
+        true;
+
+
+    inputs.forEach(
+        input => {
+
+            if (
+                !valid
+            ) {
+
+                return;
+
+            }
+
+
+            if (
+                input.value === ""
+            ) {
+
+                valid =
+                    false;
+
+                return;
+
+            }
+
+
+            const position =
+                Number(
+                    input.dataset.position
+                );
+
+
+            number +=
+                Number(input.value)
+                *
+                Math.pow(
+                    10,
+                    -position
+                );
+
+        }
+    );
+
+
+    if (
+        !valid
+    ) {
+
+        updateSquare();
+
+        return;
+
+    }
+
+
+    const square =
+        number * number;
+
+
+    const area =
+        document.getElementById(
+            "squareDisplay"
+        );
+
+
+    area.className =
+        square > x
+        ? "over"
+        : "safe";
+
+
+    area.innerHTML =
+        `
+        <div>現在の値：${formatNumber(number)}</div>
+        <div>二乗：${formatNumber(square)}</div>
+        `;
+
+}
+
+
+/* =====================================================
+   確定済み数値
 ===================================================== */
 
 function getCurrentNumber() {
@@ -3067,7 +3471,7 @@ function getCurrentNumber() {
 
 
 /* =====================================================
-   Format
+   表示
 ===================================================== */
 
 function formatNumber(number) {
@@ -3096,19 +3500,10 @@ function formatNumber(number) {
 
 
 /* =====================================================
-   Square
-   ※ 確定済みの値のみ使用
+   二乗
 ===================================================== */
 
 function updateSquare() {
-
-    const number =
-        getCurrentNumber();
-
-
-    const square =
-        number * number;
-
 
     const area =
         document.getElementById(
@@ -3116,9 +3511,12 @@ function updateSquare() {
         );
 
 
-    area.classList.remove(
-        "calculating"
-    );
+    const number =
+        getCurrentNumber();
+
+
+    const square =
+        number * number;
 
 
     area.className =
@@ -3129,51 +3527,15 @@ function updateSquare() {
 
     area.innerHTML =
         `
-        <div>現在の値:${formatNumber(number)}</div>
-        <div>二乗:${formatNumber(square)}</div>
+        <div>現在の値：${formatNumber(number)}</div>
+        <div>二乗：${formatNumber(square)}</div>
         `;
 
 }
 
 
 /* =====================================================
-   演算ロード
-===================================================== */
-
-function calculationDelay(callback) {
-
-    const area =
-        document.getElementById(
-            "squareDisplay"
-        );
-
-
-    area.className =
-        "calculating";
-
-
-    area.innerHTML =
-        `
-        <div>演算中...</div>
-        `;
-
-
-    setTimeout(
-        function() {
-
-            if (callback) {
-                callback();
-            }
-
-        },
-        80
-    );
-
-}
-
-
-/* =====================================================
-   Warning
+   警告
 ===================================================== */
 
 function updateWarning() {
@@ -3184,7 +3546,8 @@ function updateWarning() {
         );
 
 
-    const warnings = [];
+    let found =
+        false;
 
 
     digits.forEach(
@@ -3196,9 +3559,8 @@ function updateWarning() {
                 digit.counter === 1
             ) {
 
-                warnings.push(
-                    digit.position
-                );
+                found =
+                    true;
 
             }
 
@@ -3206,9 +3568,7 @@ function updateWarning() {
     );
 
 
-    if (
-        warnings.length > 0
-    ) {
+    if (found) {
 
         area.classList.remove(
             "hidden"
@@ -3232,7 +3592,7 @@ function updateWarning() {
 
 
 /* =====================================================
-   Score visibility
+   スコア表示
 ===================================================== */
 
 function updateScoreVisibility() {
@@ -3244,11 +3604,9 @@ function updateScoreVisibility() {
 
 
     if (
-        gameMode === "time"
-        ||
+        gameMode === "time" ||
         (
-            gameMode === "infinite"
-            &&
+            gameMode === "infinite" &&
             !infiniteScoreEnabled
         )
     ) {
@@ -3269,7 +3627,7 @@ function updateScoreVisibility() {
 
 
 /* =====================================================
-   Players
+   プレイヤー
 ===================================================== */
 
 function updatePlayers() {
@@ -3280,7 +3638,8 @@ function updatePlayers() {
         );
 
 
-    area.innerHTML = "";
+    area.innerHTML =
+        "";
 
 
     players.forEach(
@@ -3301,7 +3660,7 @@ function updatePlayers() {
             ) {
 
                 card.style.opacity =
-                    "0.35";
+                    ".35";
 
                 card.style.textDecoration =
                     "line-through";
@@ -3316,18 +3675,18 @@ function updatePlayers() {
                 </div>
 
                 ${
-                    gameMode === "time"
-                    ||
+                    gameMode === "time" ||
                     (
-                        gameMode === "infinite"
-                        &&
+                        gameMode === "infinite" &&
                         !infiniteScoreEnabled
                     )
                     ? ""
                     :
-                    `<div class="player-score">
+                    `
+                    <div class="player-score">
                         ${player.score} pt
-                    </div>`
+                    </div>
+                    `
                 }
                 `;
 
@@ -3343,7 +3702,7 @@ function updatePlayers() {
 
 
 /* =====================================================
-   Inputs
+   入力取得
 ===================================================== */
 
 function getInputValues() {
@@ -3386,27 +3745,18 @@ function getInputValues() {
 
 
 /* =====================================================
-   Confirm
+   ターン確定
 ===================================================== */
 
 function confirmTurn() {
 
-    if (!gameStarted) {
+    if (
+        !gameStarted
+    ) {
+
         return;
+
     }
-
-
-    /*
-       一ターンで消す
-    */
-
-    document
-    .getElementById("message")
-    .textContent = "";
-
-    document
-    .getElementById("bonusLog")
-    .textContent = "";
 
 
     const inputs =
@@ -3510,11 +3860,9 @@ function confirmTurn() {
         !highestChanged.digit.filled;
 
 
-    /*
-       新規桁
-    */
-
-    if (isNewDigit) {
+    if (
+        isNewDigit
+    ) {
 
         if (
             highestPosition !==
@@ -3531,112 +3879,8 @@ function confirmTurn() {
 
         }
 
-
-        for (
-            const change of changed
-        ) {
-
-            if (
-                change.digit.position >
-                highestPosition
-            ) {
-
-                showMessage(
-                    "新しい桁は1ターンにつき1つだけ追加できます。"
-                );
-
-                updateAll();
-
-                return;
-
-            }
-
-        }
-
     }
 
-
-    /*
-       訂正
-    */
-
-    else {
-
-        for (
-            const change of changed
-        ) {
-
-            if (
-                change.digit.position <
-                highestPosition
-            ) {
-
-                showMessage(
-                    "訂正した桁より上位の桁は変更できません。"
-                );
-
-                updateAll();
-
-                return;
-
-            }
-
-
-            if (
-                change.digit.position >
-                lastFilledPosition + 1
-            ) {
-
-                showMessage(
-                    "一度に追加できる新しい桁は1つだけです。"
-                );
-
-                updateAll();
-
-                return;
-
-            }
-
-        }
-
-    }
-
-
-    /*
-       空白
-    */
-
-    for (
-        const change of changed
-    ) {
-
-        if (
-            change.newValue === null
-        ) {
-
-            if (
-                change.digit.position !==
-                lastFilledPosition
-            ) {
-
-                showMessage(
-                    "空白にできるのは最後の桁だけです。"
-                );
-
-                updateAll();
-
-                return;
-
-            }
-
-        }
-
-    }
-
-
-    /*
-       状態保存
-    */
 
     const oldStates =
         changed.map(
@@ -3658,16 +3902,11 @@ function confirmTurn() {
                     change.digit.owner,
 
                 noCorrectionNeeded:
-                    change.digit
-                    .noCorrectionNeeded
+                    change.digit.noCorrectionNeeded
 
             })
         );
 
-
-    /*
-       仮変更
-    */
 
     changed.forEach(
         change => {
@@ -3678,132 +3917,68 @@ function confirmTurn() {
             change.digit.filled =
                 change.newValue !== null;
 
-            if (
-                change.newValue === null
-            ) {
-
-                change.digit.owner =
-                    null;
-
-            }
-
         }
     );
-
-
-    const oldNumber =
-        getNumberFromStates(
-            oldStates
-        );
 
 
     const newNumber =
         getCurrentNumber();
 
 
-    /*
-       訂正は大きく
-    */
+    const square =
+        newNumber * newNumber;
+
+
+    /* =================================================
+       オーバー
+    ================================================= */
 
     if (
-        !isNewDigit &&
-        newNumber <= oldNumber
+        square > x
     ) {
 
         restoreStates(
             oldStates
         );
 
-        showMessage(
-            "訂正後の値は、訂正前の値より大きくしてください。"
-        );
-
-        updateAll();
-
-        return;
-
-    }
-
-
-    /*
-       オーバー
-    */
-
-    const square =
-        newNumber * newNumber;
-
-
-    if (
-        square > x
-    ) {
 
         /*
-           タイムトライアル
+            まず爆発音。
+            alertより前に実行する。
         */
 
         if (
             gameMode === "time"
         ) {
 
-            restoreStates(
-                oldStates
-            );
-
-
             timePenalty +=
                 15;
-
 
             playExplosionSound();
 
             showOverMessage();
 
-
-            updateAll();
-
-
-            setTimeout(
-                function() {
-
-                    showMessage("");
-
-                },
-                900
+            showMessage(
+                "オーバー！"
             );
 
+            updateAll();
 
             return;
 
         }
 
 
-        /*
-           通常失格
-        */
-
-        restoreStates(
-            oldStates
-        );
-
-
-        const eliminatedPlayer =
-            currentPlayer();
-
-
-        eliminatedPlayer.eliminated =
-            true;
-
-
         playExplosionSound();
 
 
-        showMessage(
-            `${eliminatedPlayer.name()}は失格です。`
-        );
+        currentPlayer()
+            .eliminated =
+            true;
 
 
         alert(
-            `${eliminatedPlayer.name()}は失格です。\n\n`
+            `${currentPlayer().name()}は失格です。\n\n`
             +
             `宣言値：${formatNumber(newNumber)}\n`
             +
@@ -3826,25 +4001,10 @@ function confirmTurn() {
 
         updateAll();
 
-
-        setTimeout(
-            function() {
-
-                showMessage("");
-
-            },
-            900
-        );
-
-
         return;
 
     }
 
-
-    /*
-       成功
-    */
 
     const player =
         currentPlayer();
@@ -3863,16 +4023,10 @@ function confirmTurn() {
     }
 
 
-    /*
-       スコア
-    */
-
     if (
-        gameMode !== "time"
-        &&
+        gameMode !== "time" &&
         (
-            gameMode !== "infinite"
-            ||
+            gameMode !== "infinite" ||
             infiniteScoreEnabled
         )
     ) {
@@ -3883,19 +4037,9 @@ function confirmTurn() {
     }
 
 
-    if (
-        highestChanged.newValue !== null
-    ) {
+    highestChanged.digit.owner =
+        player;
 
-        highestChanged.digit.owner =
-            player;
-
-    }
-
-
-    /*
-       新規桁
-    */
 
     if (
         isNewDigit
@@ -3904,17 +4048,11 @@ function confirmTurn() {
         highestChanged.digit.counter =
             5;
 
-        highestChanged
-            .digit
-            .noCorrectionNeeded =
+        highestChanged.digit.noCorrectionNeeded =
             false;
 
     }
 
-
-    /*
-       訂正
-    */
 
     if (
         !isNewDigit
@@ -3930,45 +4068,22 @@ function confirmTurn() {
         highestChanged.digit.counter =
             5;
 
-        highestChanged
-            .digit
-            .noCorrectionNeeded =
+        highestChanged.digit.noCorrectionNeeded =
             false;
 
 
-        /*
-           +5ボーナス
-        */
-
         if (
-            gameMode !== "time"
-            &&
+            gameMode !== "time" &&
             (
-                gameMode !== "infinite"
-                ||
+                gameMode !== "infinite" ||
                 infiniteScoreEnabled
-            )
-            &&
-            newValue !== null
-            &&
-            oldValue !== null
-            &&
+            ) &&
+            newValue !== null &&
+            oldValue !== null &&
             newValue - oldValue >= 5
         ) {
 
             player.score += 2;
-
-
-            /*
-               一ターンだけ表示
-            */
-
-            document
-            .getElementById(
-                "bonusLog"
-            )
-            .textContent =
-                `大幅修正ボーナス +2`;
 
         }
 
@@ -3980,51 +4095,15 @@ function confirmTurn() {
     }
 
 
-    /*
-       空白
-    */
-
-    changed.forEach(
-        change => {
-
-            if (
-                change.digit !==
-                highestChanged.digit
-                &&
-                change.newValue === null
-            ) {
-
-                change.digit.filled =
-                    false;
-
-                change.digit.value =
-                    null;
-
-                change.digit.counter =
-                    5;
-
-                change.digit.owner =
-                    null;
-
-                change.digit.noCorrectionNeeded =
-                    false;
-
-            }
-
-        }
-    );
-
-
     updateCorrectionStates();
 
 
-    /*
+    /* =================================================
        50点
-    */
+    ================================================= */
 
     if (
-        gameMode === "classic"
-        &&
+        gameMode === "classic" &&
         player.score >= 50
     ) {
 
@@ -4038,13 +4117,12 @@ function confirmTurn() {
     }
 
 
-    /*
-       タイムトライアル7桁
-    */
+    /* =================================================
+       タイムトライアル
+    ================================================= */
 
     if (
-        gameMode === "time"
-        &&
+        gameMode === "time" &&
         digits[6].filled
     ) {
 
@@ -4072,13 +4150,12 @@ function confirmTurn() {
     }
 
 
-    /*
-       Classic 10桁
-    */
+    /* =================================================
+       10桁
+    ================================================= */
 
     if (
-        gameMode === "classic"
-        &&
+        gameMode === "classic" &&
         digits[9].filled
     ) {
 
@@ -4092,9 +4169,9 @@ function confirmTurn() {
     }
 
 
-    /*
+    /* =================================================
        カウント
-    */
+    ================================================= */
 
     advanceCounters(
         highestChanged.digit
@@ -4112,50 +4189,33 @@ function confirmTurn() {
 
     nextTurn();
 
-
-    /*
-       ここで演算表示を80ms
-    */
-
-    calculationDelay(
-        function() {
-
-            updateAll();
-
-            /*
-               通常成功時のメッセージは
-               出さない
-            */
-
-            showMessage("");
-
-        }
-    );
+    updateAll();
 
 
     /*
-       0.9秒後に
-       ボーナス表示を消す
+        ターン終了時に
+        一時メッセージを消す。
     */
 
-    setTimeout(
-        function() {
+    document
+    .getElementById(
+        "message"
+    )
+    .textContent =
+        "";
 
-            document
-            .getElementById(
-                "bonusLog"
-            )
-            .textContent = "";
-
-        },
-        900
-    );
+    document
+    .getElementById(
+        "bonusLog"
+    )
+    .textContent =
+        "";
 
 }
 
 
 /* =====================================================
-   State number
+   状態
 ===================================================== */
 
 function getNumberFromStates(
@@ -4247,7 +4307,7 @@ function getNumberFromStates(
 
 
 /* =====================================================
-   Restore
+   復元
 ===================================================== */
 
 function restoreStates(
@@ -4269,8 +4329,7 @@ function restoreStates(
             state.digit.owner =
                 state.owner;
 
-            state.digit
-                .noCorrectionNeeded =
+            state.digit.noCorrectionNeeded =
                 state.noCorrectionNeeded;
 
         }
@@ -4280,7 +4339,7 @@ function restoreStates(
 
 
 /* =====================================================
-   Counter +2
+   カウント+2
 ===================================================== */
 
 function boostAllCounters(
@@ -4318,19 +4377,13 @@ function boostAllCounters(
 
 
 /* =====================================================
-   Correction state
+   訂正状態
 ===================================================== */
 
 function updateCorrectionStates() {
 
     digits.forEach(
-        digit => {
-
-            checkNoCorrectionNeeded(
-                digit
-            );
-
-        }
+        checkNoCorrectionNeeded
     );
 
 }
@@ -4340,7 +4393,9 @@ function checkNoCorrectionNeeded(
     digit
 ) {
 
-    if (!digit.filled) {
+    if (
+        !digit.filled
+    ) {
 
         digit.noCorrectionNeeded =
             false;
@@ -4373,18 +4428,22 @@ function checkNoCorrectionNeeded(
         );
 
 
-    const increased =
-        number + amount;
-
-
     digit.noCorrectionNeeded =
-        increased * increased > x;
+        (
+            number + amount
+        )
+        *
+        (
+            number + amount
+        )
+        >
+        x;
 
 }
 
 
 /* =====================================================
-   Counter
+   カウント
 ===================================================== */
 
 function advanceCounters(
@@ -4420,7 +4479,7 @@ function advanceCounters(
 
 
 /* =====================================================
-   Counter zero
+   カウント0
 ===================================================== */
 
 function checkCounterZero() {
@@ -4453,12 +4512,13 @@ function checkCounterZero() {
 
 
 /* =====================================================
-   Next turn
+   次ターン
 ===================================================== */
 
 function nextTurn() {
 
-    let safety = 0;
+    let safety =
+        0;
 
 
     do {
@@ -4483,7 +4543,7 @@ function nextTurn() {
 
 
 /* =====================================================
-   Elimination
+   失格
 ===================================================== */
 
 function checkElimination() {
@@ -4494,33 +4554,6 @@ function checkElimination() {
                 !player.eliminated
         );
 
-
-    /*
-       1人プレイ
-       →失格した時点でGAME OVER
-    */
-
-    if (
-        players.length === 1 &&
-        alive.length === 0
-    ) {
-
-        endGame(
-            "over",
-            "プレイヤーが失格しました。"
-        );
-
-        return true;
-
-    }
-
-
-    /*
-       複数人
-       →一人だけ残っていても
-         「勝者」ではなくGAME OVER
-         という従来指定を維持
-    */
 
     if (
         players.length > 1 &&
@@ -4557,12 +4590,10 @@ function checkElimination() {
 
 
 /* =====================================================
-   Message
+   メッセージ
 ===================================================== */
 
-function showMessage(
-    text
-) {
+function showMessage(text) {
 
     document
     .getElementById(
@@ -4575,7 +4606,7 @@ function showMessage(
 
 
 /* =====================================================
-   Over message
+   オーバー表示
 ===================================================== */
 
 function showOverMessage() {
@@ -4605,14 +4636,14 @@ function showOverMessage() {
                 );
 
             },
-            900
+            1800
         );
 
 }
 
 
 /* =====================================================
-   Timer
+   タイマー
 ===================================================== */
 
 function startGameTimer() {
@@ -4638,8 +4669,12 @@ function startGameTimer() {
 
 function updateTimer() {
 
-    if (!gameStarted) {
+    if (
+        !gameStarted
+    ) {
+
         return;
+
     }
 
 
@@ -4656,7 +4691,8 @@ function updateTimer() {
     const displayed =
         gameMode === "time"
         ?
-        elapsedSeconds + timePenalty
+        elapsedSeconds +
+        timePenalty
         :
         elapsedSeconds;
 
@@ -4673,7 +4709,9 @@ function updateTimer() {
 
 function stopGameTimer() {
 
-    if (timerInterval) {
+    if (
+        timerInterval
+    ) {
 
         clearInterval(
             timerInterval
@@ -4688,7 +4726,7 @@ function stopGameTimer() {
 
 
 /* =====================================================
-   End game
+   終了
 ===================================================== */
 
 function endGame(
@@ -4707,13 +4745,11 @@ function endGame(
         getCurrentNumber();
 
 
-    const endTitle =
-        document.getElementById(
-            "endTitle"
-        );
-
-
-    endTitle.textContent =
+    document
+    .getElementById(
+        "endTitle"
+    )
+    .textContent =
         type === "clear"
         ?
         "GAME CLEAR"
@@ -4721,12 +4757,9 @@ function endGame(
         "GAME OVER";
 
 
-    let html = "";
+    let html =
+        "";
 
-
-    /*
-       TIME TRIAL
-    */
 
     if (
         gameMode === "time"
@@ -4758,56 +4791,31 @@ function endGame(
 
     }
 
-    /*
-       その他
-    */
-
     else {
 
-        /*
-           失格者を勝者として
-           選ばない
-        */
+        const ranking =
+            [...players]
+            .sort(
+                (a,b) =>
+                    b.score -
+                    a.score
+            );
 
-        const alive =
-            players.filter(
+
+        let winner =
+            ranking.find(
                 player =>
                     !player.eliminated
             );
 
 
-        let winner = null;
-
-
-        if (
-            type === "clear" &&
-            alive.length > 0
-        ) {
-
-            winner =
-                [...alive]
-                .sort(
-                    (a,b) =>
-                        b.score - a.score
-                )[0];
-
-        }
-
-
         html +=
             `
-            <h2>
-                ${
-                    winner
-                    ? "🏆 勝者："
-                    : ""
-                }
-                ${
-                    winner
-                    ? winner.name()
-                    : ""
-                }
-            </h2>
+            ${
+                type === "clear"
+                ? `<h2>🏆 勝者：${winner ? winner.name() : ""}</h2>`
+                : ""
+            }
             `;
 
 
@@ -4827,15 +4835,12 @@ function endGame(
             `;
 
 
-        /*
-           無限小数
-        */
-
         if (
             gameMode === "infinite"
         ) {
 
-            let reached = 0;
+            let reached =
+                0;
 
 
             for (
@@ -4852,7 +4857,6 @@ function endGame(
                         i + 1;
 
                 }
-
                 else {
 
                     break;
@@ -4875,26 +4879,13 @@ function endGame(
         }
 
 
-        /*
-           スコア
-        */
-
         if (
-            gameMode !== "infinite"
-            ||
+            gameMode !== "infinite" ||
             infiniteScoreEnabled
         ) {
 
             html +=
                 `<h2>最終ポイント</h2>`;
-
-
-            const ranking =
-                [...players]
-                .sort(
-                    (a,b) =>
-                        b.score - a.score
-                );
 
 
             ranking.forEach(
@@ -4922,12 +4913,7 @@ function endGame(
     }
 
 
-    document
-    .getElementById(
-        "gameScreen"
-    )
-    .classList
-    .add("hidden");
+    hideAllScreens();
 
 
     document
@@ -4956,5 +4942,4 @@ function endGame(
 </script>
 
 </body>
-
 </html>
