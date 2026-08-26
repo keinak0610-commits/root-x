@@ -10,16 +10,35 @@
   box-sizing:border-box;
 }
 
+html,
 body{
   margin:0;
+  min-height:100%;
+}
+
+body{
   min-height:100vh;
   font-family:-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
-  background:radial-gradient(circle at 50% 0%,#243b55,#141e30 45%,#080c13);
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      #294a68 0%,
+      #18283b 32%,
+      #0b111b 70%,
+      #06090e 100%
+    );
   color:#f5f7fa;
+  transition:background .3s,color .3s;
 }
 
 body.light{
-  background:#fff;
+  background:
+    radial-gradient(
+      circle at 50% -10%,
+      #ffffff 0%,
+      #f4f7fa 55%,
+      #e8edf2 100%
+    );
   color:#111;
 }
 
@@ -39,16 +58,19 @@ body.light{
 .panel{
   width:100%;
   padding:25px;
-  background:#0a111cee;
+  background:#08111ddf;
   border:1px solid #96bee64d;
-  border-radius:18px;
-  box-shadow:0 15px 50px #0008;
+  border-radius:20px;
+  box-shadow:
+    0 20px 70px #0009,
+    inset 0 1px 0 #ffffff0b;
+  backdrop-filter:blur(8px);
 }
 
 .light .panel{
-  background:#fff;
-  border-color:#ccc;
-  box-shadow:0 10px 35px #0001;
+  background:#fffffff2;
+  border-color:#ccd4dc;
+  box-shadow:0 15px 45px #0002;
 }
 
 button,
@@ -62,14 +84,29 @@ button{
   margin:6px;
   border:1px solid #607d9b;
   border-radius:10px;
-  background:linear-gradient(135deg,#243b55,#141e30);
+  background:
+    linear-gradient(
+      135deg,
+      #243b55,
+      #101b2a
+    );
   color:#fff;
   font-size:17px;
   cursor:pointer;
+  transition:
+    transform .12s,
+    filter .12s,
+    border-color .12s,
+    box-shadow .12s;
 }
 
 button:hover{
   filter:brightness(1.15);
+  transform:translateY(-1px);
+}
+
+button:active{
+  transform:translateY(0);
 }
 
 button.active{
@@ -91,12 +128,18 @@ button.active{
   text-align:center;
   font:700 70px Georgia,serif;
   margin:10px;
+  text-shadow:0 4px 25px #5ba8df44;
 }
 
 .line{
   width:180px;
   height:1px;
-  background:#8fc7ef;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    #8fc7ef,
+    transparent
+  );
   margin:12px auto;
 }
 
@@ -122,7 +165,9 @@ button.active{
   font-size:19px;
 }
 
-/* GAME MODE */
+/* =========================
+   GAME MODE
+========================= */
 
 .cards{
   display:flex;
@@ -130,6 +175,7 @@ button.active{
   overflow-x:auto;
   padding:10px 5px 20px;
   scroll-snap-type:x mandatory;
+  scrollbar-width:thin;
 }
 
 .card{
@@ -139,10 +185,33 @@ button.active{
   padding:24px;
   border:1px solid #54728e;
   border-radius:18px;
-  background:linear-gradient(145deg,#243b55f2,#0a121dfb);
+  background:
+    linear-gradient(
+      145deg,
+      #243b55f2,
+      #09121efb
+    );
   scroll-snap-align:center;
   cursor:pointer;
-  transition:.15s;
+  transition:
+    transform .15s,
+    border-color .15s,
+    box-shadow .15s;
+  position:relative;
+  overflow:hidden;
+}
+
+.card::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      120deg,
+      #ffffff08,
+      transparent 35%
+    );
+  pointer-events:none;
 }
 
 .card:hover{
@@ -151,7 +220,9 @@ button.active{
 
 .card.selected{
   border:2px solid #a7d8ff;
-  box-shadow:0 0 25px #78beff40;
+  box-shadow:
+    0 0 25px #78beff40,
+    inset 0 0 20px #78beff08;
 }
 
 .light .card{
@@ -169,7 +240,16 @@ button.active{
   color:#444;
 }
 
-/* OPTIONS */
+.mode-number{
+  font-family:monospace;
+  font-size:13px;
+  letter-spacing:2px;
+  opacity:.7;
+}
+
+/* =========================
+   OPTIONS
+========================= */
 
 .options{
   max-width:600px;
@@ -204,7 +284,9 @@ select{
   color:#111;
 }
 
-/* PLAYER NAMES */
+/* =========================
+   PLAYER NAMES
+========================= */
 
 .player-list{
   display:flex;
@@ -243,15 +325,19 @@ select{
   color:#111;
 }
 
-/* GAME */
+/* =========================
+   GAME
+========================= */
 
 .game{
   text-align:center;
-  padding:18px;
+  padding:22px 18px;
   border:1px solid #526d86;
   border-radius:15px;
   background:#ffffff09;
   position:relative;
+  min-width:0;
+  overflow:hidden;
 }
 
 .light .game{
@@ -260,6 +346,8 @@ select{
 
 .question{
   font:700 28px monospace;
+  padding-top:12px;
+  overflow-wrap:anywhere;
 }
 
 .turn{
@@ -272,6 +360,7 @@ select{
   font:20px monospace;
   color:#a9d7fa;
   margin:8px;
+  min-height:25px;
 }
 
 .light .timer{
@@ -283,25 +372,39 @@ select{
   align-items:center;
   justify-content:center;
   overflow-x:auto;
-  min-height:65px;
+  overflow-y:hidden;
+  width:100%;
+  min-height:70px;
   margin:18px 0;
+  padding:5px 4px;
+  scrollbar-width:thin;
+  white-space:nowrap;
 }
 
 .integer{
+  flex:0 0 auto;
   font:700 34px monospace;
 }
 
 .digit{
-  width:48px;
-  min-width:48px;
+  flex:0 0 46px;
+  width:46px;
+  min-width:46px;
   height:54px;
   margin:3px;
+  padding:0;
   text-align:center;
   font:30px monospace;
   color:#fff;
   background:#101a27;
   border:2px solid #607d9b;
   border-radius:7px;
+  outline:none;
+}
+
+.digit:focus{
+  border-color:#a7d8ff;
+  box-shadow:0 0 12px #78beff40;
 }
 
 .light .digit{
@@ -316,6 +419,7 @@ select{
   background:#ffffff0f;
   border-radius:10px;
   font:700 22px/1.7 monospace;
+  overflow-wrap:anywhere;
 }
 
 .safe{
@@ -353,7 +457,7 @@ select{
 }
 
 .player{
-  width:120px;
+  width:140px;
   min-height:75px;
   display:flex;
   flex-direction:column;
@@ -362,6 +466,9 @@ select{
   border:1px solid #607d9b;
   border-radius:10px;
   background:#ffffff0a;
+  padding:8px;
+  text-align:center;
+  overflow-wrap:anywhere;
 }
 
 .light .player{
@@ -374,20 +481,30 @@ select{
   margin-top:5px;
 }
 
-/* PAUSE */
+/* =========================
+   PAUSE BUTTON
+========================= */
 
 .pause-button{
   position:absolute;
   top:8px;
   right:8px;
-  width:45px;
-  height:45px;
+  width:56px;
+  height:56px;
   padding:0;
   margin:0;
   border-radius:50%;
-  font-size:21px;
+  font-size:25px;
+  line-height:1;
   z-index:10;
+  display:flex;
+  align-items:center;
+  justify-content:center;
 }
+
+/* =========================
+   PAUSE OVERLAY
+========================= */
 
 .pause-overlay{
   position:fixed;
@@ -396,8 +513,9 @@ select{
   display:flex;
   align-items:center;
   justify-content:center;
+  padding:15px;
   background:#000b;
-  backdrop-filter:blur(5px);
+  backdrop-filter:blur(7px);
 }
 
 .pause-box{
@@ -426,23 +544,46 @@ select{
   border-radius:10px;
 }
 
-/* OVER */
+.pause-home-button{
+  width:calc(100% - 12px);
+  background:
+    linear-gradient(
+      135deg,
+      #8f2525,
+      #571515
+    )!important;
+  border-color:#e46a6a!important;
+  color:#fff!important;
+  font-weight:bold;
+  box-shadow:0 5px 20px #ff333322;
+}
+
+.pause-home-button:hover{
+  filter:brightness(1.18);
+}
+
+/* =========================
+   OVER / TOAST
+========================= */
 
 #overToast{
   position:fixed;
   left:50%;
-  bottom:25px;
-  transform:translateX(-50%) translateY(20px);
+  bottom:22px;
+  transform:translateX(-50%) translateY(15px);
   z-index:7000;
   opacity:0;
   pointer-events:none;
-  padding:11px 18px;
-  border-radius:12px;
-  background:#7b1f1fdd;
-  border:1px solid #ff7777;
+  padding:8px 14px;
+  border-radius:9px;
+  background:#691f1fcc;
+  border:1px solid #e46b6b;
   color:#fff;
-  box-shadow:0 8px 30px #0007;
-  transition:.2s;
+  box-shadow:0 5px 20px #0005;
+  transition:
+    opacity .2s,
+    transform .2s;
+  font-size:14px;
   font-weight:bold;
 }
 
@@ -451,11 +592,9 @@ select{
   transform:translateX(-50%) translateY(0);
 }
 
-#overToast.small{
-  font-size:15px;
-}
-
-/* LOADING */
+/* =========================
+   LOADING
+========================= */
 
 #loading{
   position:fixed;
@@ -464,29 +603,96 @@ select{
   display:flex;
   align-items:center;
   justify-content:center;
-  background:#080c13;
+  background:
+    radial-gradient(
+      circle at 50% 35%,
+      #1d344c 0%,
+      #0c1521 42%,
+      #05080d 100%
+    );
   color:#fff;
+  overflow:hidden;
+}
+
+#loading::before{
+  content:"";
+  position:absolute;
+  width:520px;
+  height:520px;
+  border:1px solid #8fc7ef18;
+  border-radius:50%;
+  box-shadow:
+    0 0 0 40px #8fc7ef06,
+    0 0 0 80px #8fc7ef03;
 }
 
 .loader{
+  position:relative;
   text-align:center;
   width:min(600px,90%);
+  padding:35px;
 }
 
 .loader .r{
-  font:80px Georgia;
+  font:700 88px Georgia,serif;
+  letter-spacing:2px;
+  text-shadow:
+    0 0 25px #8fc7ef55,
+    0 8px 40px #0008;
+}
+
+.loader-line{
+  width:100px;
+  height:1px;
+  margin:5px auto 18px;
+  background:linear-gradient(
+    90deg,
+    transparent,
+    #9fc5e8,
+    transparent
+  );
+}
+
+.loader-sub{
+  font-size:11px;
+  letter-spacing:4px;
+  color:#91abc2;
+  margin-bottom:18px;
+}
+
+#loadText{
+  font-family:monospace;
+  font-size:13px;
+  letter-spacing:2px;
+  color:#d6e7f5;
+  min-height:20px;
 }
 
 .bar{
-  height:4px;
+  height:2px;
+  width:min(420px,100%);
+  margin:18px auto;
   background:#182332;
+  overflow:hidden;
 }
 
 .bar i{
   display:block;
+  width:0;
   height:100%;
-  background:#9fc5e8;
+  background:linear-gradient(
+    90deg,
+    #628fb8,
+    #d6edff
+  );
   animation:load 1.5s forwards;
+}
+
+.loading-symbol{
+  font-family:monospace;
+  font-size:12px;
+  color:#66829b;
+  letter-spacing:2px;
 }
 
 @keyframes load{
@@ -495,17 +701,25 @@ select{
   }
 }
 
+/* =========================
+   FLASH
+========================= */
+
 .flash{
   animation:flash .45s;
 }
 
 @keyframes flash{
   30%{
-    box-shadow:0 0 40px #f33;
+    box-shadow:
+      0 0 40px #f33,
+      inset 0 0 25px #f335;
   }
 }
 
-/* SETTINGS */
+/* =========================
+   SETTINGS
+========================= */
 
 .setting{
   padding:20px;
@@ -536,7 +750,9 @@ input[type=range]{
   width:100%;
 }
 
-/* MOBILE */
+/* =========================
+   MOBILE
+========================= */
 
 @media(max-width:600px){
 
@@ -565,8 +781,9 @@ input[type=range]{
   }
 
   .digit{
-    width:44px;
-    min-width:44px;
+    flex-basis:43px;
+    width:43px;
+    min-width:43px;
     height:50px;
     font-size:28px;
   }
@@ -578,43 +795,89 @@ input[type=range]{
   .player-row span{
     min-width:75px;
   }
+
+  .pause-button{
+    width:58px;
+    height:58px;
+    font-size:26px;
+  }
+
+  .game{
+    padding-left:10px;
+    padding-right:10px;
+  }
 }
 </style>
 </head>
 
 <body>
 
-<!-- LOADING -->
+<!-- =========================
+     LOADING
+========================= -->
 
 <div id="loading">
+
   <div class="loader">
+
     <div class="r">√x</div>
-    <p id="loadText">INITIALIZING ROOT-X</p>
+
+    <div class="loader-line"></div>
+
+    <div class="loader-sub">
+      MATHEMATICAL PREDICTION SYSTEM
+    </div>
+
+    <p id="loadText">
+      INITIALIZING ROOT-X
+    </p>
+
     <div class="bar">
       <i></i>
     </div>
-    <button id="loadBtn" class="hidden">OK</button>
+
+    <div class="loading-symbol">
+      01 · 02 · 03 · 05 · 07 · 11
+    </div>
+
+    <button id="loadBtn" class="hidden">
+      OK
+    </button>
+
   </div>
+
 </div>
 
-<!-- OVER TOAST -->
+<!-- =========================
+     OVER TOAST
+========================= -->
 
 <div id="overToast">
   💥 オーバー！
 </div>
 
-<!-- PAUSE -->
+<!-- =========================
+     PAUSE
+========================= -->
 
 <div id="pauseOverlay" class="pause-overlay hidden">
 
   <div class="pause-box">
 
-    <h2>⏸ 一時停止</h2>
+    <h2 id="pauseTitle">
+      ⏸ 一時停止
+    </h2>
 
-    <p>ゲームは一時停止しています。</p>
+    <p id="pauseDescription">
+      ゲームは一時停止しています。
+    </p>
 
     <div class="pause-setting">
-      <b>🔊 音量</b>
+
+      <b id="pauseVolumeTitle">
+        🔊 音量
+      </b>
+
       <input
         id="pauseVol"
         type="range"
@@ -622,35 +885,67 @@ input[type=range]{
         max="100"
         value="35"
       >
-      <div id="pauseVolText" class="center">35%</div>
+
+      <div
+        id="pauseVolText"
+        class="center"
+      >
+        35%
+      </div>
+
     </div>
 
     <div class="pause-setting">
-      <b>🎮 ゲーム画面</b>
+
+      <b id="pauseScreenTitle">
+        🎮 ゲーム画面
+      </b>
 
       <div class="center">
-        <button onclick="theme('dark')">黒</button>
-        <button onclick="theme('light')">白</button>
+
+        <button onclick="theme('dark')">
+          黒
+        </button>
+
+        <button onclick="theme('light')">
+          白
+        </button>
+
       </div>
+
     </div>
 
     <div class="pause-setting">
-      <b>🌐 言語</b>
+
+      <b id="pauseLanguageTitle">
+        🌐 言語
+      </b>
 
       <div class="center">
-        <button onclick="setLanguage('ja')">日本語</button>
-        <button onclick="setLanguage('en')">English</button>
+
+        <button onclick="setLanguage('ja')">
+          日本語
+        </button>
+
+        <button onclick="setLanguage('en')">
+          English
+        </button>
+
       </div>
+
     </div>
 
     <button onclick="resumeGame()">
-      ▶ ゲームに戻る
+      ▶ <span data-i18n="resume">ゲームに戻る</span>
     </button>
 
     <br>
 
-    <button onclick="pauseHome()">
-      ⌂ ホームへ戻る
+    <button
+      class="pause-home-button"
+      onclick="pauseHome()"
+    >
+      ⌂ <span data-i18n="homeReturn">ホームへ戻る</span>
     </button>
 
   </div>
@@ -659,7 +954,9 @@ input[type=range]{
 
 <div class="wrap">
 
-<!-- HOME -->
+<!-- =========================
+     HOME
+========================= -->
 
 <section id="home" class="panel">
 
@@ -668,7 +965,10 @@ input[type=range]{
     <div class="line"></div>
   </div>
 
-  <div class="desc">
+  <div
+    class="desc"
+    id="homeDesc"
+  >
     √xの値を一桁ずつ予想するゲームです。<br>
     予想した値の分だけ、ポイントが入ります。
   </div>
@@ -676,18 +976,20 @@ input[type=range]{
   <div class="menu">
 
     <button onclick="modes()">
-      ▶ プレイ
+      ▶ <span data-i18n="play">プレイ</span>
     </button>
 
     <button onclick="settings()">
-      ⚙ 設定
+      ⚙ <span data-i18n="settings">設定</span>
     </button>
 
   </div>
 
 </section>
 
-<!-- MODE -->
+<!-- =========================
+     MODE
+========================= -->
 
 <section id="modes" class="panel hidden">
 
@@ -695,11 +997,16 @@ input[type=range]{
     GAME MODE
   </h2>
 
-  <p class="center">
+  <p
+    class="center"
+    id="modeInstruction"
+  >
     モードを選択してください
   </p>
 
   <div class="cards">
+
+    <!-- CLASSIC -->
 
     <div
       class="card selected"
@@ -707,15 +1014,21 @@ input[type=range]{
       onclick="selectModeAndContinue('classic')"
     >
 
-      <b>MODE 01</b>
+      <span class="mode-number">
+        MODE 01
+      </span>
 
-      <h2>🏆 50点先取モード</h2>
+      <h2 id="modeClassicTitle">
+        🏆 50点先取モード
+      </h2>
 
-      <p>
-        値を予測し、50点を目指すゲーム
+      <p id="modeClassicDesc">
+        50点を先に取れ
       </p>
 
     </div>
+
+    <!-- INFINITE -->
 
     <div
       class="card"
@@ -723,15 +1036,21 @@ input[type=range]{
       onclick="selectModeAndContinue('infinite')"
     >
 
-      <b>MODE 02</b>
+      <span class="mode-number">
+        MODE 02
+      </span>
 
-      <h2>∞ 無限小数モード</h2>
+      <h2 id="modeInfiniteTitle">
+        ∞ 無限小数モード
+      </h2>
 
-      <p>
-        終わりのない小数を無限に予測するゲーム
+      <p id="modeInfiniteDesc">
+        終わりのない小数を予測しろ
       </p>
 
     </div>
+
+    <!-- ONE CHANCE -->
 
     <div
       class="card"
@@ -739,15 +1058,21 @@ input[type=range]{
       onclick="selectModeAndContinue('onechance')"
     >
 
-      <b>MODE 03</b>
+      <span class="mode-number">
+        MODE 03
+      </span>
 
-      <h2>🎯 ワンチャンス</h2>
+      <h2 id="modeOneTitle">
+        🎯 ワンチャンス
+      </h2>
 
-      <p>
-        ワンチャンスで値を当てるゲーム
+      <p id="modeOneDesc">
+        この値の予測は、ワンチャンス。
       </p>
 
     </div>
+
+    <!-- TIME TRIAL -->
 
     <div
       class="card"
@@ -755,15 +1080,21 @@ input[type=range]{
       onclick="selectModeAndContinue('time')"
     >
 
-      <b>MODE 04</b>
+      <span class="mode-number">
+        MODE 04
+      </span>
 
-      <h2>⏱ タイムトライアル</h2>
+      <h2 id="modeTimeTitle">
+        ⏱ タイムトライアル
+      </h2>
 
-      <p>
-        スピードと精度を保って予測するゲーム
+      <p id="modeTimeDesc">
+        より早く、より正確に
       </p>
 
     </div>
+
+    <!-- TIME LIMIT -->
 
     <div
       class="card"
@@ -771,12 +1102,16 @@ input[type=range]{
       onclick="selectModeAndContinue('limit')"
     >
 
-      <b>MODE 05</b>
+      <span class="mode-number">
+        MODE 05
+      </span>
 
-      <h2>⏳ 時間制限</h2>
+      <h2 id="modeLimitTitle">
+        ⏳ 時間制限
+      </h2>
 
-      <p>
-        決められた時間の中で、多くの桁を予測するゲーム
+      <p id="modeLimitDesc">
+        決められた時間の中で、何桁まで予測できるか。
       </p>
 
     </div>
@@ -786,18 +1121,23 @@ input[type=range]{
   <div class="center">
 
     <button onclick="home()">
-      戻る
+      ← <span data-i18n="back">戻る</span>
     </button>
 
   </div>
 
 </section>
 
-<!-- PLAYER / OPTIONS -->
+<!-- =========================
+     PLAYER / OPTIONS
+========================= -->
 
 <section id="playerScreen" class="panel hidden">
 
-  <h2 class="center">
+  <h2
+    class="center"
+    id="setupTitle"
+  >
     GAME SETUP
   </h2>
 
@@ -806,18 +1146,20 @@ input[type=range]{
   <div class="center">
 
     <button onclick="startLoading()">
-      ▶ GAME START
+      ▶ <span data-i18n="gameStart">GAME START</span>
     </button>
 
     <button onclick="modes()">
-      戻る
+      ← <span data-i18n="back">戻る</span>
     </button>
 
   </div>
 
 </section>
 
-<!-- GAME -->
+<!-- =========================
+     GAME
+========================= -->
 
 <section id="gameScreen" class="panel hidden">
 
@@ -849,7 +1191,9 @@ input[type=range]{
     ></div>
 
     <button onclick="confirmTurn()">
-      この桁を確定
+      <span id="confirmText">
+        この桁を確定
+      </span>
     </button>
 
     <div id="msg"></div>
@@ -870,7 +1214,9 @@ input[type=range]{
 
 </section>
 
-<!-- SETTINGS -->
+<!-- =========================
+     SETTINGS
+========================= -->
 
 <section id="settings" class="panel hidden">
 
@@ -880,7 +1226,7 @@ input[type=range]{
 
   <div class="setting">
 
-    <h3>
+    <h3 id="volumeTitle">
       🔊 音量 / Volume
     </h3>
 
@@ -903,7 +1249,7 @@ input[type=range]{
 
   <div class="setting">
 
-    <h3>
+    <h3 id="screenTitle">
       🎮 ゲーム画面
     </h3>
 
@@ -952,6 +1298,7 @@ input[type=range]{
     <button
       style="width:100%"
       onclick="credits()"
+      id="creditButton"
     >
       CREDIT ＋ 開く
     </button>
@@ -963,13 +1310,13 @@ input[type=range]{
 
       Kei Nakajima<br>
       GitHub<br>
-      using chat GPT for code and translation (OpenAI)<br><br>
+      using ChatGPT for code and translation (OpenAI)<br><br>
 
-      BGM is generated in real time using the Web Audio API.<br>
+      BGMはWeb Audio APIでリアルタイム生成しています。<br>
 
       <br>
 
-      Last update: 2026-08-26 11:31:04
+      最終アップデート：2026-08-26 11:31:04
 
     </div>
 
@@ -978,14 +1325,16 @@ input[type=range]{
   <div class="center">
 
     <button onclick="home()">
-      戻る
+      ← <span data-i18n="back">戻る</span>
     </button>
 
   </div>
 
 </section>
 
-<!-- END -->
+<!-- =========================
+     END
+========================= -->
 
 <section id="end" class="panel hidden">
 
@@ -1002,7 +1351,7 @@ input[type=range]{
   <div class="center">
 
     <button onclick="home()">
-      ホームへ戻る
+      ⌂ <span data-i18n="homeReturn">ホームへ戻る</span>
     </button>
 
   </div>
@@ -1013,101 +1362,624 @@ input[type=range]{
 
 <script>
 
-/* GLOBAL STATE */
+/* =========================================================
+   GLOBAL STATE
+========================================================= */
 
-let modeNow='classic';
-let infiniteScore=true;
-let timeLimit=60;
-let x=0;
-let root=0;
-let intPart=0;
-let players=[];
-let playerNames=[];
-let playerCount=1;
-let turn=0;
-let digits=[];
-let started=false;
-let paused=false;
-let startAt=0;
-let interval=null;
-let elapsed=0;
-let penalty=0;
-let timeLimitPenalty=0;
-let ctx=null;
-let bgm=null;
-let sfx=null;
-let bgmOn=false;
-let mi=0;
-let language='ja';
-let vol=Number(localStorage.rootx_volume??35);
+let modeNow = 'classic';
+
+let infiniteScore = true;
+
+let timeLimit = 60;
+
+let x = 0;
+
+let root = 0;
+
+let intPart = 0;
+
+let players = [];
+
+let playerNames = [];
+
+let playerCount = 1;
+
+let turn = 0;
+
+let digits = [];
+
+let started = false;
+
+let paused = false;
+
+let startAt = 0;
+
+let pauseStartedAt = 0;
+
+let pausedTotal = 0;
+
+let interval = null;
+
+let elapsed = 0;
+
+let penalty = 0;
+
+let timeLimitPenalty = 0;
+
+let ctx = null;
+
+let bgm = null;
+
+let sfx = null;
+
+let bgmOn = false;
+
+let mi = 0;
+
+let language = 'ja';
+
+let vol = Number(
+  localStorage.rootx_volume ?? 35
+);
 
 
-/* AUDIO */
+/* =========================================================
+   TRANSLATIONS
+========================================================= */
 
-const melody=[
-  523.25,659.25,783.99,1046.5,
-  880,783.99,659.25,783.99,
-  587.33,698.46,880,1174.66,
-  1046.5,880,783.99,659.25
-];
+const T = {
 
-const bass=[
-  130.81,130.81,146.83,146.83,
-  164.81,164.81,146.83,130.81
-];
+  ja:{
 
-const $=id=>document.getElementById(id);
+    play:'プレイ',
+    settings:'設定',
+    back:'戻る',
+    gameStart:'GAME START',
+    resume:'ゲームに戻る',
+    homeReturn:'ホームへ戻る',
 
-const hide=el=>el.classList.add('hidden');
+    modeInstruction:
+      'モードを選択してください',
 
-const show=el=>el.classList.remove('hidden');
+    classicTitle:
+      '🏆 50点先取モード',
 
+    classicDesc:
+      '50点を先に取れ',
+
+    infiniteTitle:
+      '∞ 無限小数モード',
+
+    infiniteDesc:
+      '終わりのない小数を予測しろ',
+
+    oneTitle:
+      '🎯 ワンチャンス',
+
+    oneDesc:
+      'この値の予測は、ワンチャンス。',
+
+    timeTitle:
+      '⏱ タイムトライアル',
+
+    timeDesc:
+      'より早く、より正確に',
+
+    limitTitle:
+      '⏳ 時間制限',
+
+    limitDesc:
+      '決められた時間の中で、何桁まで予測できるか。',
+
+    homeDesc:
+      '√xの値を一桁ずつ予想するゲームです。<br>予想した値の分だけ、ポイントが入ります。',
+
+    pause:
+      '⏸ 一時停止',
+
+    paused:
+      'ゲームは一時停止しています。',
+
+    volume:
+      '🔊 音量',
+
+    screen:
+      '🎮 ゲーム画面',
+
+    language:
+      '🌐 言語',
+
+    dark:
+      '黒',
+
+    light:
+      '白',
+
+    confirm:
+      'この桁を確定',
+
+    point:
+      'ポイント',
+
+    players:
+      'PLAYERS',
+
+    onePlayer:
+      'このモードは一人用です。',
+
+    timeTrialDescription:
+      '小数第七位までを「早く、正確に」予想してください。',
+
+    timeLimitTitle:
+      '⏳ 制限時間',
+
+    timeLimitDescription:
+      '決められた時間の中で、何桁まで予測できるか。',
+
+    timeLimitPenalty:
+      'オーバーすると制限時間が15秒短縮されます。',
+
+    playerCount:
+      'プレイヤー人数',
+
+    scoreSystem:
+      'スコアシステム',
+
+    on:
+      'ON',
+
+    off:
+      'OFF',
+
+    oneChanceDescription:
+      'この値の予測は、ワンチャンス。',
+
+    oneChanceInstruction:
+      '小数第5位まで一気に予想してください。',
+
+    firstDigit:
+      '小数第1位を予測してください。',
+
+    modeClassicLabel:
+      '🏆 50点先取モード',
+
+    modeInfiniteLabel:
+      '∞ 無限小数モード',
+
+    modeOneLabel:
+      '🎯 ワンチャンス',
+
+    modeTimeLabel:
+      '⏱ タイムトライアル',
+
+    modeLimitLabel:
+      '⏳ 時間制限',
+
+    currentValue:
+      '現在の値',
+
+    square:
+      '二乗',
+
+    warning:
+      '次のターンまでに修正しなければいけない位があります。',
+
+    changeDigit:
+      '数字を1つ以上変更してください。',
+
+    addOneDigit:
+      '桁は1つずつ追加してください。',
+
+    addOnlyOne:
+      '一度に追加できる新しい桁は1つだけです。',
+
+    over:
+      'オーバー！',
+
+    overPenalty:
+      'オーバー！ ペナルティ +15秒',
+
+    overLimit:
+      'オーバー！ 制限時間が15秒短縮されました。',
+
+    allFive:
+      '小数第5位まで、すべて入力してください。',
+
+    timeFinished:
+      '制限時間が終了しました。',
+
+    seventhClear:
+      '小数第7位まで正確に予測しました。',
+
+    tenthClear:
+      '小数10桁目に到達しました。',
+
+    fiftyClear:
+      '50点を先取しました。',
+
+    score:
+      'pt',
+
+    nextPrediction:
+      '次は',
+
+    prediction:
+      '予測値',
+
+    difference:
+      '差',
+
+    winner:
+      '🏆 勝者',
+
+    gameClear:
+      'GAME CLEAR',
+
+    gameOver:
+      'GAME OVER',
+
+    eliminatedAll:
+      '全員が失格になりました。',
+
+    loading1:
+      'INITIALIZING GAME',
+
+    loading2:
+      'ROOT-X ONLINE',
+
+    loadingReady:
+      'ROOT-X READY',
+
+    start:
+      'START'
+  },
+
+  en:{
+
+    play:'Play',
+    settings:'Settings',
+    back:'Back',
+    gameStart:'GAME START',
+    resume:'Return to Game',
+    homeReturn:'Return to Home',
+
+    modeInstruction:
+      'Select a game mode',
+
+    classicTitle:
+      '🏆 First to 50',
+
+    classicDesc:
+      'Be the first to reach 50 points',
+
+    infiniteTitle:
+      '∞ Infinite Decimal',
+
+    infiniteDesc:
+      'Predict the endless decimal',
+
+    oneTitle:
+      '🎯 One Chance',
+
+    oneDesc:
+      'You get only one chance to predict this value.',
+
+    timeTitle:
+      '⏱ Time Trial',
+
+    timeDesc:
+      'Faster. More accurately.',
+
+    limitTitle:
+      '⏳ Time Limit',
+
+    limitDesc:
+      'How many digits can you predict within the time limit?',
+
+    homeDesc:
+      'Predict the value of √x one digit at a time.<br>Earn points based on your predictions.',
+
+    pause:
+      '⏸ Paused',
+
+    paused:
+      'The game is currently paused.',
+
+    volume:
+      '🔊 Volume',
+
+    screen:
+      '🎮 Game Screen',
+
+    language:
+      '🌐 Language',
+
+    dark:
+      'Dark',
+
+    light:
+      'Light',
+
+    confirm:
+      'Confirm Digit',
+
+    point:
+      'Points',
+
+    players:
+      'PLAYERS',
+
+    onePlayer:
+      'This mode is for one player.',
+
+    timeTrialDescription:
+      'Predict up to the 7th decimal place — faster and more accurately.',
+
+    timeLimitTitle:
+      '⏳ Time Limit',
+
+    timeLimitDescription:
+      'How many digits can you predict within the time limit?',
+
+    timeLimitPenalty:
+      'Going over reduces the time limit by 15 seconds.',
+
+    playerCount:
+      'Number of Players',
+
+    scoreSystem:
+      'Score System',
+
+    on:
+      'ON',
+
+    off:
+      'OFF',
+
+    oneChanceDescription:
+      'You get only one chance to predict this value.',
+
+    oneChanceInstruction:
+      'Predict all five decimal digits at once.',
+
+    firstDigit:
+      'Predict the first decimal digit.',
+
+    modeClassicLabel:
+      '🏆 First to 50',
+
+    modeInfiniteLabel:
+      '∞ Infinite Decimal',
+
+    modeOneLabel:
+      '🎯 One Chance',
+
+    modeTimeLabel:
+      '⏱ Time Trial',
+
+    modeLimitLabel:
+      '⏳ Time Limit',
+
+    currentValue:
+      'Current Value',
+
+    square:
+      'Square',
+
+    warning:
+      'A digit must be corrected before the next turn.',
+
+    changeDigit:
+      'Change at least one digit.',
+
+    addOneDigit:
+      'Digits must be added one at a time.',
+
+    addOnlyOne:
+      'Only one new digit can be added at a time.',
+
+    over:
+      'OVER!',
+
+    overPenalty:
+      'OVER! +15 seconds',
+
+    overLimit:
+      'OVER! Time limit reduced by 15 seconds.',
+
+    allFive:
+      'Enter all five decimal digits.',
+
+    timeFinished:
+      'The time limit has ended.',
+
+    seventhClear:
+      'You correctly predicted all seven decimal places.',
+
+    tenthClear:
+      'You reached the 10th decimal place.',
+
+    fiftyClear:
+      'You reached 50 points first.',
+
+    score:
+      'pt',
+
+    nextPrediction:
+      'Next:',
+
+    prediction:
+      'Prediction',
+
+    difference:
+      'Difference',
+
+    winner:
+      '🏆 Winner',
+
+    gameClear:
+      'GAME CLEAR',
+
+    gameOver:
+      'GAME OVER',
+
+    eliminatedAll:
+      'All players have been eliminated.',
+
+    loading1:
+      'INITIALIZING GAME',
+
+    loading2:
+      'ROOT-X ONLINE',
+
+    loadingReady:
+      'ROOT-X READY',
+
+    start:
+      'START'
+  }
+
+};
+
+
+/* =========================================================
+   HELPERS
+========================================================= */
+
+const $ = id =>
+  document.getElementById(id);
+
+const hide = el =>
+  el.classList.add('hidden');
+
+const show = el =>
+  el.classList.remove('hidden');
+
+function tr(key){
+
+  return T[language][key]
+    ?? T.ja[key]
+    ?? key;
+}
+
+
+/* =========================================================
+   AUDIO INIT
+========================================================= */
 
 function audio(){
 
   if(!ctx){
 
-    ctx=new(
-      window.AudioContext||
-      window.webkitAudioContext
-    )();
+    ctx =
+      new(
+        window.AudioContext ||
+        window.webkitAudioContext
+      )();
 
-    bgm=ctx.createGain();
-    sfx=ctx.createGain();
+    bgm =
+      ctx.createGain();
 
-    bgm.connect(ctx.destination);
-    sfx.connect(ctx.destination);
+    sfx =
+      ctx.createGain();
+
+    bgm.connect(
+      ctx.destination
+    );
+
+    sfx.connect(
+      ctx.destination
+    );
   }
 
-  bgm.gain.value=vol/100*.18;
-  sfx.gain.value=vol/100*.9;
+  bgm.gain.value =
+    vol / 100 * .18;
 
-  if(ctx.state==='suspended')
+  sfx.gain.value =
+    vol / 100 * .9;
+
+  if(ctx.state === 'suspended'){
     ctx.resume();
+  }
 
   if(!bgmOn){
-    bgmOn=true;
+
+    bgmOn = true;
+
     playBgm();
   }
 }
 
 
+/* =========================================================
+   BGM
+========================================================= */
+
+const melody = [
+  523.25,
+  659.25,
+  783.99,
+  1046.5,
+  880,
+  783.99,
+  659.25,
+  783.99,
+  587.33,
+  698.46,
+  880,
+  1174.66,
+  1046.5,
+  880,
+  783.99,
+  659.25
+];
+
+const bass = [
+  130.81,
+  130.81,
+  146.83,
+  146.83,
+  164.81,
+  164.81,
+  146.83,
+  130.81
+];
+
 function playBgm(){
 
-  if(!ctx||!bgmOn)
+  if(!ctx || !bgmOn){
     return;
+  }
 
-  let n=ctx.currentTime;
+  let n =
+    ctx.currentTime;
 
-  let o=ctx.createOscillator();
-  let g=ctx.createGain();
+  let o =
+    ctx.createOscillator();
 
-  o.type='sawtooth';
-  o.frequency.value=melody[mi];
+  let g =
+    ctx.createGain();
 
-  g.gain.setValueAtTime(0,n);
-  g.gain.linearRampToValueAtTime(.12,n+.02);
-  g.gain.exponentialRampToValueAtTime(.001,n+.28);
+  o.type =
+    'sawtooth';
+
+  o.frequency.value =
+    melody[mi];
+
+  g.gain.setValueAtTime(
+    0,
+    n
+  );
+
+  g.gain.linearRampToValueAtTime(
+    .12,
+    n+.02
+  );
+
+  g.gain.exponentialRampToValueAtTime(
+    .001,
+    n+.28
+  );
 
   o.connect(g);
   g.connect(bgm);
@@ -1115,17 +1987,36 @@ function playBgm(){
   o.start(n);
   o.stop(n+.3);
 
-  let b=ctx.createOscillator();
-  let q=ctx.createGain();
 
-  b.type='square';
+  let b =
+    ctx.createOscillator();
 
-  b.frequency.value=
-    bass[Math.floor(mi/2)%bass.length];
+  let q =
+    ctx.createGain();
 
-  q.gain.setValueAtTime(0,n);
-  q.gain.linearRampToValueAtTime(.06,n+.02);
-  q.gain.exponentialRampToValueAtTime(.001,n+.22);
+  b.type =
+    'square';
+
+  b.frequency.value =
+    bass[
+      Math.floor(mi/2)
+      % bass.length
+    ];
+
+  q.gain.setValueAtTime(
+    0,
+    n
+  );
+
+  q.gain.linearRampToValueAtTime(
+    .06,
+    n+.02
+  );
+
+  q.gain.exponentialRampToValueAtTime(
+    .001,
+    n+.22
+  );
 
   b.connect(q);
   q.connect(bgm);
@@ -1133,62 +2024,94 @@ function playBgm(){
   b.start(n);
   b.stop(n+.24);
 
-  mi=(mi+1)%melody.length;
+  mi =
+    (mi+1)
+    % melody.length;
 
-  setTimeout(playBgm,230);
+  setTimeout(
+    playBgm,
+    230
+  );
 }
 
 
-/* LONG EXPLOSION */
+/* =========================================================
+   LONG EXPLOSION
+   「ボーン！！」系
+========================================================= */
 
 function explosion(){
 
   audio();
 
-  if(!ctx)
+  if(!ctx){
     return;
+  }
 
-  let n=ctx.currentTime;
-  let dur=2.8;
+  const n =
+    ctx.currentTime;
 
-  let buffer=ctx.createBuffer(
-    1,
-    ctx.sampleRate*dur,
-    ctx.sampleRate
-  );
+  const dur =
+    2.8;
 
-  let data=buffer.getChannelData(0);
+  const buffer =
+    ctx.createBuffer(
+      1,
+      ctx.sampleRate * dur,
+      ctx.sampleRate
+    );
 
-  for(let i=0;i<data.length;i++){
+  const data =
+    buffer.getChannelData(0);
 
-    data[i]=
-      (Math.random()*2-1)*
+  for(
+    let i=0;
+    i<data.length;
+    i++
+  ){
+
+    data[i] =
+      (Math.random()*2-1)
+      *
       Math.pow(
         1-i/data.length,
         1.25
       );
   }
 
-  let noise=ctx.createBufferSource();
-  let filter=ctx.createBiquadFilter();
-  let gain=ctx.createGain();
+  const noise =
+    ctx.createBufferSource();
 
-  noise.buffer=buffer;
+  const filter =
+    ctx.createBiquadFilter();
 
-  filter.type='lowpass';
+  const gain =
+    ctx.createGain();
+
+  noise.buffer =
+    buffer;
+
+  filter.type =
+    'lowpass';
 
   filter.frequency.setValueAtTime(
-    2600,n
+    2600,
+    n
   );
 
   filter.frequency.exponentialRampToValueAtTime(
-    45,n+2.5
+    45,
+    n+2.5
   );
 
-  gain.gain.setValueAtTime(2.7,n);
+  gain.gain.setValueAtTime(
+    2.7,
+    n
+  );
 
   gain.gain.exponentialRampToValueAtTime(
-    .001,n+2.6
+    .001,
+    n+2.6
   );
 
   noise.connect(filter);
@@ -1198,21 +2121,36 @@ function explosion(){
   noise.start(n);
   noise.stop(n+dur);
 
-  let o=ctx.createOscillator();
-  let q=ctx.createGain();
 
-  o.type='sine';
+  /* 主低音 */
 
-  o.frequency.setValueAtTime(110,n);
+  const o =
+    ctx.createOscillator();
 
-  o.frequency.exponentialRampToValueAtTime(
-    24,n+2
+  const q =
+    ctx.createGain();
+
+  o.type =
+    'sine';
+
+  o.frequency.setValueAtTime(
+    110,
+    n
   );
 
-  q.gain.setValueAtTime(2.8,n);
+  o.frequency.exponentialRampToValueAtTime(
+    24,
+    n+2.0
+  );
+
+  q.gain.setValueAtTime(
+    2.8,
+    n
+  );
 
   q.gain.exponentialRampToValueAtTime(
-    .001,n+2.2
+    .001,
+    n+2.2
   );
 
   o.connect(q);
@@ -1221,21 +2159,36 @@ function explosion(){
   o.start(n);
   o.stop(n+2.3);
 
-  let z=ctx.createOscillator();
-  let r=ctx.createGain();
 
-  z.type='triangle';
+  /* 超低音 */
 
-  z.frequency.setValueAtTime(55,n);
+  const z =
+    ctx.createOscillator();
 
-  z.frequency.exponentialRampToValueAtTime(
-    18,n+.95
+  const r =
+    ctx.createGain();
+
+  z.type =
+    'triangle';
+
+  z.frequency.setValueAtTime(
+    55,
+    n
   );
 
-  r.gain.setValueAtTime(1.7,n);
+  z.frequency.exponentialRampToValueAtTime(
+    18,
+    n+.95
+  );
+
+  r.gain.setValueAtTime(
+    1.7,
+    n
+  );
 
   r.gain.exponentialRampToValueAtTime(
-    .001,n+1.15
+    .001,
+    n+1.15
   );
 
   z.connect(r);
@@ -1246,61 +2199,201 @@ function explosion(){
 }
 
 
-/* VOLUME */
+/* =========================================================
+   VOLUME
+========================================================= */
 
 function setVol(v){
 
-  vol=+v;
+  vol =
+    +v;
 
-  localStorage.rootx_volume=vol;
+  localStorage.rootx_volume =
+    vol;
 
-  $('volText').textContent=vol+'%';
-  $('pauseVol').value=vol;
-  $('pauseVolText').textContent=vol+'%';
+  $('volText').textContent =
+    vol+'%';
+
+  $('pauseVol').value =
+    vol;
+
+  $('pauseVolText').textContent =
+    vol+'%';
 
   if(ctx){
 
-    bgm.gain.value=vol/100*.18;
-    sfx.gain.value=vol/100*.9;
+    bgm.gain.value =
+      vol/100*.18;
+
+    sfx.gain.value =
+      vol/100*.9;
   }
 }
 
 
-/* THEME */
+/* =========================================================
+   THEME
+========================================================= */
 
 function theme(t){
 
   document.body.classList.toggle(
     'light',
-    t==='light'
+    t === 'light'
   );
 
-  localStorage.rootx_theme=t;
+  localStorage.rootx_theme =
+    t;
 
-  $('darkBtn').classList.toggle(
-    'active',
-    t==='dark'
-  );
+  $('darkBtn')
+    .classList.toggle(
+      'active',
+      t === 'dark'
+    );
 
-  $('lightBtn').classList.toggle(
-    'active',
-    t==='light'
-  );
+  $('lightBtn')
+    .classList.toggle(
+      'active',
+      t === 'light'
+    );
 }
 
 
-/* LANGUAGE */
+/* =========================================================
+   LANGUAGE
+========================================================= */
 
 function setLanguage(lang){
 
-  language=lang;
-
-  $('modeLabel').dataset.language=
+  language =
     lang;
+
+  applyLanguage();
+
+  if(
+    !hidden($('playerScreen'))
+  ){
+    renderSetup();
+  }
+
+  if(
+    !hidden($('gameScreen'))
+    &&
+    started
+  ){
+    update();
+  }
 }
 
 
-/* SCREEN */
+function hidden(el){
+
+  return el.classList.contains(
+    'hidden'
+  );
+}
+
+
+function applyLanguage(){
+
+  document.documentElement.lang =
+    language;
+
+  document
+    .querySelectorAll(
+      '[data-i18n]'
+    )
+    .forEach(
+      el => {
+
+        const key =
+          el.dataset.i18n;
+
+        el.textContent =
+          tr(key);
+
+      }
+    );
+
+
+  $('modeInstruction').textContent =
+    tr('modeInstruction');
+
+  $('modeClassicTitle').textContent =
+    tr('classicTitle');
+
+  $('modeClassicDesc').textContent =
+    tr('classicDesc');
+
+  $('modeInfiniteTitle').textContent =
+    tr('infiniteTitle');
+
+  $('modeInfiniteDesc').textContent =
+    tr('infiniteDesc');
+
+  $('modeOneTitle').textContent =
+    tr('oneTitle');
+
+  $('modeOneDesc').textContent =
+    tr('oneDesc');
+
+  $('modeTimeTitle').textContent =
+    tr('timeTitle');
+
+  $('modeTimeDesc').textContent =
+    tr('timeDesc');
+
+  $('modeLimitTitle').textContent =
+    tr('limitTitle');
+
+  $('modeLimitDesc').textContent =
+    tr('limitDesc');
+
+  $('homeDesc').innerHTML =
+    tr('homeDesc');
+
+  $('pauseTitle').textContent =
+    tr('pause');
+
+  $('pauseDescription').textContent =
+    tr('paused');
+
+  $('pauseVolumeTitle').textContent =
+    tr('volume');
+
+  $('pauseScreenTitle').textContent =
+    tr('screen');
+
+  $('pauseLanguageTitle').textContent =
+    tr('language');
+
+  $('confirmText').textContent =
+    tr('confirm');
+
+  $('volumeTitle').textContent =
+    tr('volume');
+
+  $('screenTitle').textContent =
+    tr('screen');
+
+  $('darkBtn').textContent =
+    tr('dark');
+
+  $('lightBtn').textContent =
+    tr('light');
+
+  $('creditButton').textContent =
+    language === 'ja'
+    ?
+    'CREDIT ＋ 開く'
+    :
+    'CREDIT ＋ Open';
+}
+
+
+/* =========================================================
+   SCREEN
+========================================================= */
 
 function all(){
 
@@ -1311,7 +2404,10 @@ function all(){
     'gameScreen',
     'settings',
     'end'
-  ].forEach(id=>hide($(id)));
+  ].forEach(
+    id =>
+      hide($(id))
+  );
 }
 
 
@@ -1319,15 +2415,28 @@ function home(){
 
   stopTimer();
 
-  started=false;
-  paused=false;
+  started =
+    false;
 
-  hide($('pauseOverlay'));
+  paused =
+    false;
+
+  hide(
+    $('pauseOverlay')
+  );
 
   all();
-  show($('home'));
 
-  scrollTo(0,0);
+  show(
+    $('home')
+  );
+
+  scrollTo(
+    0,
+    0
+  );
+
+  applyLanguage();
 }
 
 
@@ -1336,7 +2445,12 @@ function modes(){
   audio();
 
   all();
-  show($('modes'));
+
+  show(
+    $('modes')
+  );
+
+  applyLanguage();
 }
 
 
@@ -1345,98 +2459,143 @@ function settings(){
   audio();
 
   all();
-  show($('settings'));
+
+  show(
+    $('settings')
+  );
+
+  applyLanguage();
 }
 
 
-/* MODE */
+/* =========================================================
+   MODE SELECTION
+========================================================= */
 
 function selectModeAndContinue(m){
 
-  modeNow=m;
+  modeNow =
+    m;
 
   document
     .querySelectorAll('.card')
-    .forEach(card=>{
-      card.classList.toggle(
-        'selected',
-        card.dataset.mode===m
-      );
-    });
+    .forEach(
+      card => {
+
+        card.classList.toggle(
+          'selected',
+          card.dataset.mode === m
+        );
+
+      }
+    );
 
   renderSetup();
 
   all();
-  show($('playerScreen'));
+
+  show(
+    $('playerScreen')
+  );
+
+  scrollTo(
+    0,
+    0
+  );
 }
 
 
-/* SETUP */
+/* =========================================================
+   SETUP
+========================================================= */
 
 function renderSetup(){
 
-  const area=$('setupOptions');
+  const area =
+    $('setupOptions');
 
 
-  if(modeNow==='time'){
+  /* =========================
+     TIME TRIAL
+  ========================= */
 
-    area.innerHTML=`
+  if(
+    modeNow === 'time'
+  ){
+
+    area.innerHTML = `
 
       <div class="options">
 
         <div class="option-title">
-          ⏱ タイムトライアル
+          ${tr('timeTitle')}
         </div>
 
         <p>
-          このモードは1人用です。
+          ${tr('onePlayer')}
         </p>
 
         <p>
-          スピードと精度を保って予測するゲーム
+          ${tr('timeTrialDescription')}
         </p>
 
       </div>
+
     `;
 
     return;
   }
 
 
-  if(modeNow==='limit'){
+  /* =========================
+     TIME LIMIT
+  ========================= */
 
-    area.innerHTML=`
+  if(
+    modeNow === 'limit'
+  ){
+
+    area.innerHTML = `
 
       <div class="options">
 
         <div class="option-title">
-          ⏳ 制限時間
+          ${tr('timeLimitTitle')}
         </div>
 
         <p>
-          このモードは1人用です。
+          ${tr('onePlayer')}
         </p>
 
         <div class="option-row">
 
           <label>
-            制限時間　
+
+            ${language === 'ja'
+              ? '制限時間'
+              : 'Time Limit'
+            }
+
+           　
 
             <select id="limitSelect">
 
               <option value="60">
-                1分
+                1${language === 'ja'?'分':' min'}
               </option>
 
               <option
                 value="120"
-                selected
+                ${timeLimit===120?'selected':''}
               >
-                2分
+                2${language === 'ja'?'分':' min'}
               </option>
 
-              <option value="180">
-                3分
+              <option
+                value="180"
+                ${timeLimit===180?'selected':''}
+              >
+                3${language === 'ja'?'分':' min'}
               </option>
 
             </select>
@@ -1446,38 +2605,46 @@ function renderSetup(){
         </div>
 
         <p>
-          決められた時間の中で、多くの桁を予測するゲーム
+          ${tr('timeLimitDescription')}
         </p>
 
         <p>
-          オーバーすると
-          制限時間が15秒短縮されます。
+          ${tr('timeLimitPenalty')}
         </p>
 
       </div>
+
     `;
 
     return;
   }
 
 
-  if(modeNow==='onechance'){
+  /* =========================
+     ONE CHANCE
+  ========================= */
 
-    area.innerHTML=`
+  if(
+    modeNow === 'onechance'
+  ){
+
+    area.innerHTML = `
 
       <div class="options">
 
         <div class="option-title">
-          🎯 ワンチャンス
+          ${tr('oneTitle')}
         </div>
 
         <p>
-          ワンチャンスで値を当てるゲーム
+          ${tr('oneChanceDescription')}
         </p>
 
         <div class="option-row">
 
-          <b>プレイヤー人数</b>
+          <b>
+            ${tr('playerCount')}
+          </b>
 
           <br><br>
 
@@ -1495,6 +2662,7 @@ function renderSetup(){
         ></div>
 
       </div>
+
     `;
 
     setupCountEvents();
@@ -1503,13 +2671,19 @@ function renderSetup(){
   }
 
 
-  area.innerHTML=`
+  /* =========================
+     CLASSIC / INFINITE
+  ========================= */
+
+  area.innerHTML = `
 
     <div class="options">
 
       <div class="option-row">
 
-        <b>プレイヤー人数</b>
+        <b>
+          ${tr('playerCount')}
+        </b>
 
         <br><br>
 
@@ -1522,12 +2696,14 @@ function renderSetup(){
       </div>
 
       ${
-        modeNow==='infinite'
+        modeNow === 'infinite'
         ?
         `
         <div class="option-row">
 
-          <b>スコアシステム</b>
+          <b>
+            ${tr('scoreSystem')}
+          </b>
 
           <br><br>
 
@@ -1535,14 +2711,14 @@ function renderSetup(){
             id="scoreOn"
             onclick="infScore(true)"
           >
-            ON
+            ${tr('on')}
           </button>
 
           <button
             id="scoreOff"
             onclick="infScore(false)"
           >
-            OFF
+            ${tr('off')}
           </button>
 
         </div>
@@ -1557,22 +2733,31 @@ function renderSetup(){
       ></div>
 
     </div>
+
   `;
 
   setupCountEvents();
 
-  if(modeNow==='infinite')
+  if(
+    modeNow === 'infinite'
+  ){
     infButtons();
+  }
 }
 
 
 function playerCountOptions(){
 
-  let html='';
+  let html =
+    '';
 
-  for(let i=1;i<=8;i++){
+  for(
+    let i=1;
+    i<=8;
+    i++
+  ){
 
-    html+=`
+    html += `
       <option
         value="${i}"
         ${i===playerCount?'selected':''}
@@ -1586,55 +2771,89 @@ function playerCountOptions(){
 }
 
 
-/* PLAYER COUNT */
+/* =========================================================
+   PLAYER COUNT + NAME
+========================================================= */
 
 function setupCountEvents(){
 
-  const select=$('count');
+  const select =
+    $('count');
 
-  if(!select)
+  if(!select){
     return;
+  }
 
-  select.value=playerCount;
+  select.value =
+    playerCount;
 
   renderNames();
 
-  select.onchange=()=>{
+  select.onchange =
+    () => {
 
-    playerCount=+select.value;
+      playerCount =
+        +select.value;
 
-    renderNames();
-  };
+      renderNames();
+
+    };
 }
 
 
 function renderNames(){
 
-  const list=$('nameList');
+  const list =
+    $('nameList');
 
-  if(!list)
+  if(!list){
     return;
+  }
 
-  let html='';
+  let html =
+    '';
 
-  for(let i=0;i<playerCount;i++){
+  for(
+    let i=0;
+    i<playerCount;
+    i++
+  ){
 
     if(
-      playerNames[i]===undefined||
-      playerNames[i]===''
+      playerNames[i] === undefined
+      ||
+      playerNames[i] === ''
     ){
 
-      playerNames[i]=
-        'プレイヤー'+
-        String.fromCharCode(65+i);
+      playerNames[i] =
+        language === 'ja'
+        ?
+        'プレイヤー'
+        +
+        String.fromCharCode(
+          65+i
+        )
+        :
+        'Player '
+        +
+        String.fromCharCode(
+          65+i
+        );
     }
 
-    html+=`
+    html += `
 
       <div class="player-row">
 
         <span>
-          プレイヤー${String.fromCharCode(65+i)}
+          ${
+            language === 'ja'
+            ?
+            'プレイヤー'
+            :
+            'Player '
+          }
+          ${String.fromCharCode(65+i)}
         </span>
 
         <input
@@ -1645,41 +2864,69 @@ function renderNames(){
         >
 
       </div>
+
     `;
   }
 
-  list.innerHTML=html;
+  list.innerHTML =
+    html;
 
   list
-    .querySelectorAll('.player-name-input')
-    .forEach(input=>{
+    .querySelectorAll(
+      '.player-name-input'
+    )
+    .forEach(
+      input => {
 
-      input.oninput=()=>{
+        input.oninput =
+          () => {
 
-        playerNames[
-          +input.dataset.player
-        ]=input.value;
-      };
-    });
+            playerNames[
+              +input.dataset.player
+            ] =
+              input.value;
+
+          };
+
+      }
+    );
 }
 
 
 function escapeHtml(str){
 
   return String(str)
-    .replace(/&/g,'&amp;')
-    .replace(/</g,'&lt;')
-    .replace(/>/g,'&gt;')
-    .replace(/"/g,'&quot;')
-    .replace(/'/g,'&#039;');
+    .replace(
+      /&/g,
+      '&amp;'
+    )
+    .replace(
+      /</g,
+      '&lt;'
+    )
+    .replace(
+      />/g,
+      '&gt;'
+    )
+    .replace(
+      /"/g,
+      '&quot;'
+    )
+    .replace(
+      /'/g,
+      '&#039;'
+    );
 }
 
 
-/* INFINITE SCORE */
+/* =========================================================
+   INFINITE SCORE
+========================================================= */
 
 function infScore(v){
 
-  infiniteScore=v;
+  infiniteScore =
+    v;
 
   infButtons();
 }
@@ -1687,89 +2934,152 @@ function infScore(v){
 
 function infButtons(){
 
-  if(!$('scoreOn'))
+  if(!$('scoreOn')){
     return;
+  }
 
-  $('scoreOn').classList.toggle(
-    'active',
-    infiniteScore
-  );
+  $('scoreOn')
+    .classList.toggle(
+      'active',
+      infiniteScore
+    );
 
-  $('scoreOff').classList.toggle(
-    'active',
-    !infiniteScore
-  );
+  $('scoreOff')
+    .classList.toggle(
+      'active',
+      !infiniteScore
+    );
 }
 
 
-/* LOADING */
+/* =========================================================
+   LOADING
+========================================================= */
 
 function startLoading(){
 
   audio();
 
-  if(modeNow==='limit'){
+  if(
+    modeNow === 'limit'
+  ){
 
-    const select=$('limitSelect');
+    const select =
+      $('limitSelect');
 
-    if(select)
-      timeLimit=+select.value;
+    if(select){
+
+      timeLimit =
+        +select.value;
+    }
   }
 
+
   document
-    .querySelectorAll('.player-name-input')
-    .forEach(input=>{
+    .querySelectorAll(
+      '.player-name-input'
+    )
+    .forEach(
+      input => {
 
-      playerNames[
-        +input.dataset.player
-      ]=
-        input.value.trim()||
-        'プレイヤー'+
-        String.fromCharCode(
-          65+ +input.dataset.player
-        );
-    });
+        const index =
+          +input.dataset.player;
 
-  $('loadText').textContent=
-    'INITIALIZING GAME';
+        const fallback =
+          language === 'ja'
+          ?
+          'プレイヤー'
+          +
+          String.fromCharCode(
+            65+index
+          )
+          :
+          'Player '
+          +
+          String.fromCharCode(
+            65+index
+          );
 
-  hide($('loadBtn'));
-  show($('loading'));
+        playerNames[index] =
+          input.value.trim()
+          ||
+          fallback;
 
-  setTimeout(()=>{
+      }
+    );
 
-    $('loadText').textContent=
-      'ROOT-X ONLINE';
 
-    $('loadBtn').textContent='START';
+  $('loadText').textContent =
+    tr('loading1');
 
-    show($('loadBtn'));
+  hide(
+    $('loadBtn')
+  );
 
-    $('loadBtn').onclick=()=>{
+  show(
+    $('loading')
+  );
 
-      $('loading').classList.add('hidden');
 
-      startGame();
-    };
+  setTimeout(
+    () => {
 
-  },1500);
+      $('loadText').textContent =
+        tr('loading2');
+
+      $('loadBtn').textContent =
+        tr('start');
+
+      show(
+        $('loadBtn')
+      );
+
+      $('loadBtn').onclick =
+        () => {
+
+          hide(
+            $('loading')
+          );
+
+          startGame();
+
+        };
+
+    },
+    1500
+  );
 }
 
 
-/* PLAYER */
+/* =========================================================
+   PLAYER / DIGIT CLASS
+========================================================= */
 
 class P{
 
-  constructor(n,name){
+  constructor(
+    n,
+    name
+  ){
 
-    this.n=n;
-    this.playerName=name;
-    this.score=0;
-    this.elim=false;
-    this.prediction=null;
+    this.n =
+      n;
+
+    this.playerName =
+      name;
+
+    this.score =
+      0;
+
+    this.elim =
+      false;
+
+    this.prediction =
+      null;
   }
 
   name(){
+
     return this.playerName;
   }
 }
@@ -1779,123 +3089,237 @@ class D{
 
   constructor(p){
 
-    this.p=p;
-    this.v=null;
-    this.f=false;
-    this.c=5;
-    this.owner=null;
-    this.no=false;
+    this.p =
+      p;
+
+    this.v =
+      null;
+
+    this.f =
+      false;
+
+    this.c =
+      5;
+
+    this.owner =
+      null;
+
+    this.no =
+      false;
   }
 }
 
 
-/* START GAME */
+/* =========================================================
+   START GAME
+========================================================= */
 
 function startGame(){
 
-  let candidates=[];
+  let candidates =
+    [];
 
-  for(let i=1;i<=1000;i++){
+  for(
+    let i=1;
+    i<=1000;
+    i++
+  ){
 
-    if(!Number.isInteger(Math.sqrt(i)))
+    if(
+      !Number.isInteger(
+        Math.sqrt(i)
+      )
+    ){
+
       candidates.push(i);
+
+    }
   }
 
-  x=
+  x =
     candidates[
       Math.floor(
-        Math.random()*candidates.length
+        Math.random()
+        *
+        candidates.length
       )
     ];
 
-  root=Math.sqrt(x);
-  intPart=Math.floor(root);
+  root =
+    Math.sqrt(x);
+
+  intPart =
+    Math.floor(root);
+
 
   let count;
 
   if(
-    modeNow==='time'||
-    modeNow==='limit'
-  )
-    count=1;
-  else
-    count=playerCount;
+    modeNow === 'time'
+    ||
+    modeNow === 'limit'
+  ){
 
-  players=
-    Array.from(
-      {length:count},
-      (_,i)=>{
-
-        let name=
-          playerNames[i]||
-          'プレイヤー'+
-          String.fromCharCode(65+i);
-
-        return new P(i+1,name);
-      }
-    );
-
-  turn=0;
-
-  digits=
-    Array.from(
-      {length:10},
-      (_,i)=>new D(i+1)
-    );
-
-  elapsed=0;
-  penalty=0;
-  timeLimitPenalty=0;
-
-  started=true;
-  paused=false;
-
-  all();
-  show($('gameScreen'));
-
-  const labels={
-
-    classic:'🏆 50点先取モード',
-    infinite:'∞ 無限小数モード',
-    onechance:'🎯 ワンチャンス',
-    time:'⏱ タイムトライアル',
-    limit:'⏳ 時間制限'
-  };
-
-  $('modeLabel').textContent=
-    labels[modeNow];
-
-  $('question').textContent=
-    `√${x} = ？`;
-
-  if(modeNow==='onechance'){
-
-    $('turn').textContent=
-      players[0].name()+' のターン';
-
-    $('timer').textContent='';
-
-    $('msg').textContent=
-      '小数第5位まで一気に予想してください。';
-
-  }
-  else if(modeNow==='time'){
-
-    $('msg').textContent=
-      '小数第1位を予測してください。';
-
-  }
-  else if(modeNow==='limit'){
-
-    $('msg').textContent=
-      '小数第1位を予測してください。';
+    count =
+      1;
 
   }
   else{
 
-    $('msg').textContent=
-      '小数第1位を予測してください。';
+    count =
+      playerCount;
+
   }
+
+
+  players =
+    Array.from(
+      {length:count},
+      (_,i) => {
+
+        let name =
+          playerNames[i]
+          ||
+          (
+            language === 'ja'
+            ?
+            'プレイヤー'
+            +
+            String.fromCharCode(
+              65+i
+            )
+            :
+            'Player '
+            +
+            String.fromCharCode(
+              65+i
+            )
+          );
+
+        return new P(
+          i+1,
+          name
+        );
+
+      }
+    );
+
+
+  turn =
+    0;
+
+  digits =
+    Array.from(
+      {length:10},
+      (_,i) =>
+        new D(i+1)
+    );
+
+
+  elapsed =
+    0;
+
+  penalty =
+    0;
+
+  timeLimitPenalty =
+    0;
+
+  started =
+    true;
+
+  paused =
+    false;
+
+  pausedTotal =
+    0;
+
+  pauseStartedAt =
+    0;
+
+
+  all();
+
+  show(
+    $('gameScreen')
+  );
+
+
+  const labels = {
+
+    classic:
+      tr('modeClassicLabel'),
+
+    infinite:
+      tr('modeInfiniteLabel'),
+
+    onechance:
+      tr('modeOneLabel'),
+
+    time:
+      tr('modeTimeLabel'),
+
+    limit:
+      tr('modeLimitLabel')
+
+  };
+
+
+  $('modeLabel').textContent =
+    labels[modeNow];
+
+  $('question').textContent =
+    `√${x} = ？`;
+
+
+  if(
+    modeNow === 'onechance'
+  ){
+
+    $('turn').textContent =
+      players[0].name()
+      +
+      (
+        language === 'ja'
+        ?
+        ' のターン'
+        :
+        "'s turn"
+      );
+
+    $('timer').textContent =
+      '';
+
+    $('msg').textContent =
+      tr('oneChanceInstruction');
+
+  }
+
+  else if(
+    modeNow === 'time'
+  ){
+
+    $('msg').textContent =
+      tr('firstDigit');
+
+  }
+
+  else if(
+    modeNow === 'limit'
+  ){
+
+    $('msg').textContent =
+      tr('firstDigit');
+
+  }
+
+  else{
+
+    $('msg').textContent =
+      tr('firstDigit');
+
+  }
+
 
   update();
 
@@ -1903,40 +3327,58 @@ function startGame(){
 }
 
 
-/* CURRENT */
+/* =========================================================
+   CURRENT PLAYER
+========================================================= */
 
 function current(){
+
   return players[turn];
 }
 
 
-/* NUMBER */
+/* =========================================================
+   NUMBER
+========================================================= */
 
 function number(){
 
-  let n=intPart;
+  let n =
+    intPart;
 
-  for(let i=0;i<10;i++){
+  for(
+    let i=0;
+    i<10;
+    i++
+  ){
 
     if(
-      digits[i].f&&
-      digits[i].v!==null
+      digits[i].f
+      &&
+      digits[i].v !== null
     ){
 
-      n+=
-        digits[i].v*
+      n +=
+        digits[i].v
+        *
         10**-(i+1);
 
     }
-    else
+
+    else{
+
       break;
+
+    }
   }
 
   return n;
 }
 
 
-/* FORMAT */
+/* =========================================================
+   FORMAT
+========================================================= */
 
 function fmt(n){
 
@@ -1953,378 +3395,624 @@ function fmt(n){
 }
 
 
-/* RENDER */
+/* =========================================================
+   RENDER
+========================================================= */
 
 function update(){
 
-  if(!current())
+  if(
+    !current()
+  ){
     return;
-
-  while(current().elim){
-
-    turn=
-      (turn+1)%
-      players.length;
   }
 
-  $('turn').textContent=
-    current().name()+
-    ' のターン';
 
-  let area=$('number');
+  while(
+    current().elim
+  ){
 
-  area.innerHTML=
-    '<span class="integer">'+
-    intPart+
+    turn =
+      (turn+1)
+      %
+      players.length;
+
+  }
+
+
+  $('turn').textContent =
+    current().name()
+    +
+    (
+      language === 'ja'
+      ?
+      ' のターン'
+      :
+      "'s turn"
+    );
+
+
+  let area =
+    $('number');
+
+  area.innerHTML =
+    '<span class="integer">'
+    +
+    intPart
+    +
     '.</span>';
 
-  let last=0;
 
-  for(let i=0;i<10;i++){
+  let last =
+    0;
 
-    if(digits[i].f)
-      last=i+1;
-    else
+  for(
+    let i=0;
+    i<10;
+    i++
+  ){
+
+    if(
+      digits[i].f
+    ){
+
+      last =
+        i+1;
+
+    }
+
+    else{
+
       break;
+
+    }
   }
 
-  let displayCount=
-    Math.min(last+1,10);
 
-  if(modeNow==='onechance')
-    displayCount=5;
+  let displayCount =
+    Math.min(
+      last+1,
+      10
+    );
 
-  for(let i=0;i<displayCount;i++){
 
-    let d=digits[i];
+  if(
+    modeNow === 'onechance'
+  ){
 
-    let inp=document.createElement('input');
+    displayCount =
+      5;
 
-    inp.className='digit';
-    inp.dataset.p=d.p;
-    inp.maxLength=1;
-    inp.inputMode='numeric';
-
-    inp.value=
-      d.f?d.v:'';
-
-    inp.oninput=()=>{
-
-      inp.value=
-        inp.value
-          .replace(/[^0-9]/g,'')
-          .slice(0,1);
-    };
-
-    area.appendChild(inp);
   }
 
-  let n=number();
-  let sq=n*n;
 
-  $('square').className=
-    'square '+
-    (sq>x?'over':'safe');
+  for(
+    let i=0;
+    i<displayCount;
+    i++
+  ){
 
-  $('square').innerHTML=`
+    let d =
+      digits[i];
 
-    <div>
-      現在の値：${fmt(n)}
-    </div>
+    let inp =
+      document.createElement(
+        'input'
+      );
 
-    <div>
-      二乗：${fmt(sq)}
-    </div>
+    inp.className =
+      'digit';
 
-  `;
+    inp.dataset.p =
+      d.p;
 
-  let warn=
+    inp.maxLength =
+      1;
+
+    inp.inputMode =
+      'numeric';
+
+    inp.autocomplete =
+      'off';
+
+    inp.value =
+      d.f
+      ?
+      d.v
+      :
+      '';
+
+    inp.oninput =
+      () => {
+
+        inp.value =
+          inp.value
+            .replace(
+              /[^0-9]/g,
+              ''
+            )
+            .slice(
+              0,
+              1
+            );
+
+      };
+
+    area.appendChild(
+      inp
+    );
+  }
+
+
+  let n =
+    number();
+
+  let sq =
+    n*n;
+
+
+  $('square').className =
+    'square '
+    +
+    (
+      sq>x
+      ?
+      'over'
+      :
+      'safe'
+    );
+
+
+  $('square').innerHTML =
+    `
+      <div>
+        ${tr('currentValue')}：${fmt(n)}
+      </div>
+
+      <div>
+        ${tr('square')}：${fmt(sq)}
+      </div>
+    `;
+
+
+  let warn =
     digits.some(
-      d=>
-        d.f&&
-        !d.no&&
+      d =>
+        d.f
+        &&
+        !d.no
+        &&
         d.c===1
     );
 
-  $('warning').classList.toggle(
-    'hidden',
-    !warn
-  );
+
+  $('warning')
+    .classList.toggle(
+      'hidden',
+      !warn
+    );
+
 
   if(warn){
 
-    $('warning').textContent=
-      '次のターンまでに修正しなければいけない位があります。';
+    $('warning').textContent =
+      tr('warning');
+
   }
 
+
   if(
-    modeNow==='time'||
-    modeNow==='limit'||
-    modeNow==='onechance'||
+    modeNow === 'time'
+    ||
+    modeNow === 'limit'
+    ||
+    modeNow === 'onechance'
+    ||
     (
-      modeNow==='infinite'&&
+      modeNow === 'infinite'
+      &&
       !infiniteScore
     )
   ){
 
-    $('scoreTitle').textContent=
-      'PLAYERS';
+    $('scoreTitle').textContent =
+      tr('players');
 
   }
+
   else{
 
-    $('scoreTitle').textContent=
-      'ポイント';
+    $('scoreTitle').textContent =
+      tr('point');
+
   }
 
-  let pa=$('players');
 
-  pa.innerHTML='';
+  let pa =
+    $('players');
 
-  players.forEach(p=>{
+  pa.innerHTML =
+    '';
 
-    let e=document.createElement('div');
 
-    e.className='player';
+  players.forEach(
+    p => {
 
-    e.style.opacity=
-      p.elim?'.35':'1';
+      let e =
+        document.createElement(
+          'div'
+        );
 
-    if(
-      modeNow!=='time'&&
-      modeNow!=='limit'&&
-      modeNow!=='onechance'&&
-      (
-        modeNow!=='infinite'||
-        infiniteScore
-      )
-    ){
+      e.className =
+        'player';
 
-      e.innerHTML=`
+      e.style.opacity =
+        p.elim
+        ?
+        '.35'
+        :
+        '1';
 
-        <div>
-          ${escapeHtml(p.name())}
-        </div>
 
-        <div class="score">
-          ${p.score} pt
-        </div>
+      if(
+        modeNow !== 'time'
+        &&
+        modeNow !== 'limit'
+        &&
+        modeNow !== 'onechance'
+        &&
+        (
+          modeNow !== 'infinite'
+          ||
+          infiniteScore
+        )
+      ){
 
-      `;
+        e.innerHTML =
+          `
+          <div>
+            ${escapeHtml(p.name())}
+          </div>
+
+          <div class="score">
+            ${p.score} ${tr('score')}
+          </div>
+          `;
+
+      }
+
+      else{
+
+        e.innerHTML =
+          `
+          <div>
+            ${escapeHtml(p.name())}
+          </div>
+          `;
+
+      }
+
+
+      pa.appendChild(e);
 
     }
-    else{
-
-      e.innerHTML=`
-
-        <div>
-          ${escapeHtml(p.name())}
-        </div>
-
-      `;
-    }
-
-    pa.appendChild(e);
-  });
+  );
 }
 
 
-/* INPUTS */
+/* =========================================================
+   INPUTS
+========================================================= */
 
 function inputs(){
 
   return [
-    ...document.querySelectorAll('.digit')
-  ].map(i=>({
-
-    p:+i.dataset.p,
-
-    v:
-      i.value===''?
-      null:
-      +i.value
-
-  }));
+    ...document
+      .querySelectorAll(
+        '.digit'
+      )
+  ]
+  .map(
+    i => ({
+      p:+i.dataset.p,
+      v:
+        i.value === ''
+        ?
+        null
+        :
+        +i.value
+    })
+  );
 }
 
 
-/* CONFIRM */
+/* =========================================================
+   CONFIRM
+========================================================= */
 
 function confirmTurn(){
 
-  if(!started||paused)
+  if(
+    !started
+    ||
+    paused
+  ){
     return;
+  }
 
-  if(modeNow==='onechance'){
+
+  if(
+    modeNow === 'onechance'
+  ){
 
     confirmOneChance();
 
     return;
   }
 
-  let vals=inputs();
 
-  let last=
-    digits.filter(d=>d.f).length;
+  let vals =
+    inputs();
 
-  let chg=[];
 
-  vals.forEach(a=>{
+  let last =
+    digits.filter(
+      d => d.f
+    ).length;
 
-    let d=digits[a.p-1];
 
-    if(a.v!==d.v){
+  let chg =
+    [];
 
-      chg.push({
-        d,
-        n:a.v,
-        o:d.v
-      });
+
+  vals.forEach(
+    a => {
+
+      let d =
+        digits[a.p-1];
+
+      if(
+        a.v !== d.v
+      ){
+
+        chg.push({
+          d,
+          n:a.v,
+          o:d.v
+        });
+
+      }
+
     }
-  });
+  );
 
-  if(!chg.length){
 
-    $('msg').textContent=
-      '数字を1つ以上変更してください。';
+  if(
+    !chg.length
+  ){
+
+    $('msg').textContent =
+      tr('changeDigit');
 
     return;
   }
 
+
   chg.sort(
-    (a,b)=>a.d.p-b.d.p
+    (a,b) =>
+      a.d.p-b.d.p
   );
 
-  let h=chg[0];
 
-  let newDigit=!h.d.f;
+  let h =
+    chg[0];
+
+  let newDigit =
+    !h.d.f;
+
 
   if(
-    newDigit&&
-    h.d.p!==last+1
+    newDigit
+    &&
+    h.d.p !== last+1
   ){
 
-    $('msg').textContent=
-      '桁は1つずつ追加してください。';
+    $('msg').textContent =
+      tr('addOneDigit');
 
     update();
 
     return;
   }
+
 
   if(
     chg.some(
-      c=>c.d.p>last+1
+      c =>
+        c.d.p >
+        last+1
     )
   ){
 
-    $('msg').textContent=
-      '一度に追加できる新しい桁は1つだけです。';
+    $('msg').textContent =
+      tr('addOnlyOne');
 
     update();
 
     return;
   }
 
-  let old=
-    chg.map(c=>({
 
-      d:c.d,
-      v:c.d.v,
-      f:c.d.f,
-      c:c.d.c,
-      o:c.d.owner,
-      no:c.d.no
+  let old =
+    chg.map(
+      c => ({
+        d:c.d,
+        v:c.d.v,
+        f:c.d.f,
+        c:c.d.c,
+        o:c.d.owner,
+        no:c.d.no
+      })
+    );
 
-    }));
 
-  chg.forEach(c=>{
+  chg.forEach(
+    c => {
 
-    c.d.v=c.n;
-    c.d.f=c.n!==null;
+      c.d.v =
+        c.n;
 
-  });
+      c.d.f =
+        c.n !== null;
 
-  /* OVER */
+    }
+  );
 
-  if(number()**2>x){
 
-    old.forEach(s=>{
+  /* =========================
+     OVER
+  ========================= */
 
-      s.d.v=s.v;
-      s.d.f=s.f;
-      s.d.c=s.c;
-      s.d.owner=s.o;
-      s.d.no=s.no;
+  if(
+    number()**2 > x
+  ){
 
-    });
+    old.forEach(
+      s => {
+
+        s.d.v =
+          s.v;
+
+        s.d.f =
+          s.f;
+
+        s.d.c =
+          s.c;
+
+        s.d.owner =
+          s.o;
+
+        s.d.no =
+          s.no;
+
+      }
+    );
+
 
     explosion();
 
-    $('game').classList.remove('flash');
 
-    void $('game').offsetWidth;
-
-    $('game').classList.add('flash');
-
-    if(modeNow==='time'){
-
-      penalty+=15;
-
-      showOverToast(
-        'オーバー！ +15秒'
+    $('game')
+      .classList.remove(
+        'flash'
       );
 
-      $('msg').textContent=
-        'オーバー！ ペナルティ +15秒';
+    void $('game')
+      .offsetWidth;
+
+    $('game')
+      .classList.add(
+        'flash'
+      );
+
+
+    /* TIME TRIAL */
+
+    if(
+      modeNow === 'time'
+    ){
+
+      penalty +=
+        15;
+
+      showOverToast(
+        tr('overPenalty')
+      );
+
+      $('msg').textContent =
+        tr('overPenalty');
 
       update();
 
       return;
     }
 
-    if(modeNow==='limit'){
 
-      timeLimitPenalty+=15;
+    /* TIME LIMIT */
+
+    if(
+      modeNow === 'limit'
+    ){
+
+      timeLimitPenalty +=
+        15;
+
 
       showOverToast(
-        'オーバー！ 制限時間 -15秒'
+        tr('overLimit')
       );
 
-      digits.forEach(d=>{
 
-        d.v=null;
-        d.f=false;
-        d.c=5;
-        d.owner=null;
-        d.no=false;
+      digits.forEach(
+        d => {
 
-      });
+          d.v =
+            null;
 
-      $('msg').textContent=
-        'オーバー！ 制限時間が15秒短縮されました。';
+          d.f =
+            false;
+
+          d.c =
+            5;
+
+          d.owner =
+            null;
+
+          d.no =
+            false;
+
+        }
+      );
+
+
+      $('msg').textContent =
+        tr('overLimit');
 
       update();
 
+
       if(
-        remainingLimitTime()<=0
+        remainingLimitTime() <= 0
       ){
 
         end(
           'over',
-          '制限時間が終了しました。'
+          tr('timeFinished')
         );
+
       }
 
       return;
     }
 
-    current().elim=true;
 
-    showOverToast('オーバー！');
+    /* NORMAL */
 
-    if(checkEnd())
+    current().elim =
+      true;
+
+    showOverToast(
+      tr('over')
+    );
+
+
+    if(
+      checkEnd()
+    ){
+
       return;
+    }
+
 
     next();
 
@@ -2333,93 +4021,156 @@ function confirmTurn(){
     return;
   }
 
-  let p=current();
 
-  let points=h.n??0;
+  /* =========================
+     NORMAL SCORE
+  ========================= */
+
+  let p =
+    current();
+
+  let points =
+    h.n ?? 0;
+
 
   if(
-    modeNow!=='time'&&
-    modeNow!=='limit'&&
-    modeNow!=='onechance'&&
+    modeNow !== 'time'
+    &&
+    modeNow !== 'limit'
+    &&
+    modeNow !== 'onechance'
+    &&
     (
-      modeNow!=='infinite'||
+      modeNow !== 'infinite'
+      ||
       infiniteScore
     )
   ){
 
-    p.score+=points;
+    p.score +=
+      points;
+
   }
 
-  h.d.owner=p;
-  h.d.c=5;
-  h.d.no=false;
+
+  h.d.owner =
+    p;
+
+  h.d.c =
+    5;
+
+  h.d.no =
+    false;
+
 
   if(
-    !newDigit&&
-    h.n!==null&&
-    h.o!==null&&
-    h.n-h.o>=5&&
-    modeNow!=='time'&&
-    modeNow!=='limit'&&
-    modeNow!=='onechance'&&
+    !newDigit
+    &&
+    h.n !== null
+    &&
+    h.o !== null
+    &&
+    h.n-h.o >= 5
+    &&
+    modeNow !== 'time'
+    &&
+    modeNow !== 'limit'
+    &&
+    modeNow !== 'onechance'
+    &&
     (
-      modeNow!=='infinite'||
+      modeNow !== 'infinite'
+      ||
       infiniteScore
     )
   ){
 
-    p.score+=2;
+    p.score +=
+      2;
+
   }
+
 
   recalc();
+
   update();
 
+
+  /* CLASSIC WIN */
+
   if(
-    modeNow==='classic'&&
-    p.score>=50
+    modeNow === 'classic'
+    &&
+    p.score >= 50
   ){
 
     end(
       'clear',
-      p.name()+
-      'が50点を先取しました。'
+      p.name()
+      +
+      (
+        language === 'ja'
+        ?
+        'が50点を先取しました。'
+        :
+        ' reached 50 points first.'
+      )
     );
 
     return;
   }
 
+
+  /* TIME TRIAL */
+
   if(
-    modeNow==='time'&&
-    digits[6].f&&
-    number().toFixed(7)===
+    modeNow === 'time'
+    &&
+    digits[6].f
+    &&
+    number().toFixed(7)
+    ===
     root.toFixed(7)
   ){
 
     end(
       'clear',
-      '小数第7位まで正確に予測しました。'
+      tr('seventhClear')
     );
 
     return;
   }
 
+
+  /* CLASSIC 10 DIGITS */
+
   if(
-    modeNow==='classic'&&
+    modeNow === 'classic'
+    &&
     digits[9].f
   ){
 
     end(
       'clear',
-      '小数10桁目に到達しました。'
+      tr('tenthClear')
     );
 
     return;
   }
 
-  advance(h.d);
 
-  if(counterEnd())
+  advance(
+    h.d
+  );
+
+
+  if(
+    counterEnd()
+  ){
+
     return;
+  }
+
 
   next();
 
@@ -2427,307 +4178,444 @@ function confirmTurn(){
 }
 
 
-/* ONE CHANCE */
+/* =========================================================
+   ONE CHANCE
+========================================================= */
 
 function confirmOneChance(){
 
-  let vals=inputs();
+  let vals =
+    inputs();
+
 
   if(
-    vals.length<5||
-    vals.some(a=>a.v===null)
+    vals.length < 5
+    ||
+    vals.some(
+      a =>
+        a.v === null
+    )
   ){
 
-    $('msg').textContent=
-      '小数第5位まで、すべて入力してください。';
+    $('msg').textContent =
+      tr('allFive');
 
     return;
   }
 
-  let prediction=intPart;
 
-  for(let i=0;i<5;i++){
+  let prediction =
+    intPart;
 
-    prediction+=
-      vals[i].v*
+
+  for(
+    let i=0;
+    i<5;
+    i++
+  ){
+
+    prediction +=
+      vals[i].v
+      *
       10**-(i+1);
+
   }
 
-  let diff=Math.abs(root-prediction);
 
-  let score=Math.round(
-    100-diff*100
-  );
+  let diff =
+    Math.abs(
+      root-prediction
+    );
 
-  score=Math.max(0,score);
 
-  current().prediction=prediction;
-  current().score=score;
+  let score =
+    Math.round(
+      100-diff*100
+    );
+
+
+  score =
+    Math.max(
+      0,
+      score
+    );
+
+
+  current().prediction =
+    prediction;
+
+  current().score =
+    score;
+
 
   if(
-    turn+1<
+    turn+1 <
     players.length
   ){
 
-    $('msg').textContent=
-      `${current().name()}：${score}pt`;
+    $('msg').textContent =
+      `${current().name()}：${score}${tr('score')}`;
 
     turn++;
 
     update();
 
-    $('msg').textContent+=
-      `\n次は${current().name()}の予想です。`;
+    $('msg').textContent +=
+      `\n${
+        language === 'ja'
+        ?
+        '次は'
+        :
+        'Next: '
+      }${current().name()}${
+        language === 'ja'
+        ?
+        'の予想です。'
+        :
+        "'s prediction."
+      }`;
 
     return;
   }
+
 
   endOneChance();
 }
 
 
-/* ONE CHANCE END */
+/* =========================================================
+   ONE CHANCE END
+========================================================= */
 
 function endOneChance(){
 
-  let ranking=
-    [...players].sort(
-      (a,b)=>b.score-a.score
-    );
+  let ranking =
+    [...players]
+      .sort(
+        (a,b) =>
+          b.score-a.score
+      );
 
-  let winner=ranking[0];
 
-  let html=`
+  let winner =
+    ranking[0];
 
-    <h2>
-      🏆 勝者：
-      ${escapeHtml(winner.name())}
-    </h2>
 
-    <p>
-      √${x} =
-      ${root.toFixed(12)}
-    </p>
-
-  `;
-
-  ranking.forEach((p,i)=>{
-
-    let diff=
-      Math.abs(root-p.prediction);
-
-    html+=`
+  let html =
+    `
+      <h2>
+        ${tr('winner')}：
+        ${escapeHtml(winner.name())}
+      </h2>
 
       <p>
-
-        ${i+1}位　
-        ${escapeHtml(p.name())}　
-        ${p.score}pt
-
-        <br>
-
-        予測値：
-        ${p.prediction.toFixed(5)}
-
-        <br>
-
-        差：
-        ${diff.toFixed(5)}
-
+        √${x} =
+        ${root.toFixed(12)}
       </p>
-
     `;
-  });
 
-  started=false;
+
+  ranking.forEach(
+    (p,i) => {
+
+      let diff =
+        Math.abs(
+          root-p.prediction
+        );
+
+      html +=
+        `
+        <p>
+          ${i+1}${language==='ja'?'位':'th'}　
+          ${escapeHtml(p.name())}　
+          ${p.score}${tr('score')}
+          <br>
+          ${tr('prediction')}：
+          ${p.prediction.toFixed(5)}
+          <br>
+          ${tr('difference')}：
+          ${diff.toFixed(5)}
+        </p>
+        `;
+
+    }
+  );
+
+
+  started =
+    false;
 
   stopTimer();
 
   all();
 
-  show($('end'));
+  show(
+    $('end')
+  );
 
-  $('endTitle').textContent=
-    'GAME CLEAR';
+  $('endTitle').textContent =
+    tr('gameClear');
 
-  $('result').innerHTML=html;
+  $('result').innerHTML =
+    html;
 }
 
 
-/* RECALCULATE */
+/* =========================================================
+   RECALCULATE
+========================================================= */
 
 function recalc(){
 
-  digits.forEach(d=>{
+  digits.forEach(
+    d => {
 
-    if(!d.f){
+      if(
+        !d.f
+      ){
 
-      d.no=false;
+        d.no =
+          false;
 
-      return;
+        return;
+      }
+
+
+      if(
+        d.v === 9
+      ){
+
+        d.no =
+          true;
+
+        return;
+      }
+
+
+      let n =
+        number();
+
+      let a =
+        10**-d.p;
+
+
+      d.no =
+        (n+a)**2 > x;
+
     }
-
-    if(d.v===9){
-
-      d.no=true;
-
-      return;
-    }
-
-    let n=number();
-
-    let a=10**-d.p;
-
-    d.no=(n+a)**2>x;
-
-  });
+  );
 }
 
 
-/* COUNTERS */
+/* =========================================================
+   COUNTERS
+========================================================= */
 
 function advance(reset){
 
-  digits.forEach(d=>{
+  digits.forEach(
+    d => {
 
-    if(
-      d.f&&
-      d!==reset&&
-      !d.no
-    ){
+      if(
+        d.f
+        &&
+        d !== reset
+        &&
+        !d.no
+      ){
 
-      d.c=Math.max(
-        0,
-        d.c-1
-      );
+        d.c =
+          Math.max(
+            0,
+            d.c-1
+          );
+
+      }
+
     }
-  });
+  );
 }
 
 
 function counterEnd(){
 
   if(
-    modeNow==='time'||
-    modeNow==='limit'||
-    modeNow==='onechance'
+    modeNow === 'time'
+    ||
+    modeNow === 'limit'
+    ||
+    modeNow === 'onechance'
   ){
 
     return false;
+
   }
 
-  let d=digits.find(
-    d=>
-      d.f&&
-      !d.no&&
-      d.c<=0
-  );
+
+  let d =
+    digits.find(
+      d =>
+        d.f
+        &&
+        !d.no
+        &&
+        d.c<=0
+    );
+
 
   if(d){
 
     end(
       'over',
+      language === 'ja'
+      ?
       `小数第${d.p}位の値が5ターンの間修正されませんでした。`
+      :
+      `The ${d.p}th decimal digit was not corrected for five turns.`
     );
 
     return true;
   }
 
+
   return false;
 }
 
 
-/* NEXT */
+/* =========================================================
+   NEXT PLAYER
+========================================================= */
 
 function next(){
 
-  let safety=0;
+  let safety =
+    0;
 
   do{
 
-    turn=
-      (turn+1)%
+    turn =
+      (turn+1)
+      %
       players.length;
 
     safety++;
 
-  }while(
-    current().elim&&
+  }
+  while(
+    current().elim
+    &&
     safety<20
   );
 }
 
 
-/* CHECK END */
+/* =========================================================
+   CHECK ELIMINATION
+========================================================= */
 
 function checkEnd(){
 
-  let alive=
+  let alive =
     players.filter(
-      p=>!p.elim
+      p =>
+        !p.elim
     );
 
+
   if(
-    players.length>1&&
-    alive.length===1
+    players.length > 1
+    &&
+    alive.length === 1
   ){
 
     end(
       'over',
-      alive[0].name()+
+      language === 'ja'
+      ?
+      alive[0].name()
+      +
       '以外が全員失格になりました。'
+      :
+      'All players except '
+      +
+      alive[0].name()
+      +
+      ' have been eliminated.'
     );
 
     return true;
   }
 
-  if(alive.length===0){
+
+  if(
+    alive.length === 0
+  ){
 
     end(
       'over',
-      '全員が失格になりました。'
+      tr('eliminatedAll')
     );
 
     return true;
   }
+
 
   return false;
 }
 
 
-/* OVER TOAST */
+/* =========================================================
+   OVER TOAST
+========================================================= */
 
 function showOverToast(text){
 
-  const toast=$('overToast');
+  const toast =
+    $('overToast');
 
-  toast.textContent='💥 '+text;
+  toast.textContent =
+    '💥 ' + text;
 
-  toast.classList.add('show');
+  toast.classList.add(
+    'show'
+  );
 
   clearTimeout(
     showOverToast.timer
   );
 
-  showOverToast.timer=
+  showOverToast.timer =
     setTimeout(
-      ()=>{
-        toast.classList.remove('show');
+      () => {
+
+        toast.classList.remove(
+          'show'
+        );
+
       },
       1800
     );
 }
 
 
-/* TIMER */
+/* =========================================================
+   TIMER
+========================================================= */
 
 function startTimer(){
 
   stopTimer();
 
-  startAt=Date.now();
+  startAt =
+    Date.now();
 
-  interval=
+  pausedTotal =
+    0;
+
+  pauseStartedAt =
+    0;
+
+  interval =
     setInterval(
       updateTimer,
       100
@@ -2739,56 +4627,100 @@ function startTimer(){
 
 function updateTimer(){
 
-  if(!started||paused)
+  if(
+    !started
+    ||
+    paused
+  ){
+
     return;
+  }
 
-  elapsed=
-    (Date.now()-startAt)/1000;
 
-  if(modeNow==='time'){
+  elapsed =
+    (
+      Date.now()
+      -
+      startAt
+      -
+      pausedTotal
+    )
+    /1000;
 
-    $('timer').textContent=
+
+  /* TIME TRIAL */
+
+  if(
+    modeNow === 'time'
+  ){
+
+    $('timer').textContent =
       `TIME ${
-        (elapsed+penalty).toFixed(1)
+        (
+          elapsed+penalty
+        ).toFixed(1)
       } s`;
 
     return;
   }
 
-  if(modeNow==='limit'){
 
-    let remaining=
+  /* TIME LIMIT */
+
+  if(
+    modeNow === 'limit'
+  ){
+
+    let remaining =
       remainingLimitTime();
 
-    $('timer').textContent=
+    $('timer').textContent =
+      language === 'ja'
+      ?
       `残り ${
         Math.max(
           0,
           remaining
         ).toFixed(1)
-      } 秒`;
+      } 秒`
+      :
+      `Remaining ${
+        Math.max(
+          0,
+          remaining
+        ).toFixed(1)
+      } s`;
 
-    if(remaining<=0){
+
+    if(
+      remaining <= 0
+    ){
 
       end(
         'over',
-        '制限時間が終了しました。'
+        tr('timeFinished')
       );
+
     }
 
     return;
   }
 
-  $('timer').textContent=
+
+  /* NORMAL */
+
+  $('timer').textContent =
     `TIME ${elapsed.toFixed(1)} s`;
 }
 
 
 function remainingLimitTime(){
 
-  return(
-    timeLimit-
-    timeLimitPenalty-
+  return (
+    timeLimit
+    -
+    timeLimitPenalty
+    -
     elapsed
   );
 }
@@ -2798,34 +4730,83 @@ function stopTimer(){
 
   if(interval){
 
-    clearInterval(interval);
+    clearInterval(
+      interval
+    );
 
-    interval=null;
+    interval =
+      null;
   }
 }
 
 
-/* PAUSE */
+/* =========================================================
+   PAUSE
+========================================================= */
 
 function pauseGame(){
 
-  if(!started||paused)
+  if(
+    !started
+    ||
+    paused
+  ){
+
     return;
+  }
 
-  paused=true;
 
-  $('pauseVol').value=vol;
-  $('pauseVolText').textContent=vol+'%';
+  paused =
+    true;
 
-  show($('pauseOverlay'));
+  pauseStartedAt =
+    Date.now();
+
+
+  $('pauseVol').value =
+    vol;
+
+  $('pauseVolText').textContent =
+    vol+'%';
+
+
+  show(
+    $('pauseOverlay')
+  );
 }
 
 
 function resumeGame(){
 
-  paused=false;
+  if(
+    !paused
+  ){
 
-  hide($('pauseOverlay'));
+    return;
+  }
+
+
+  if(
+    pauseStartedAt
+  ){
+
+    pausedTotal +=
+      Date.now()
+      -
+      pauseStartedAt;
+
+  }
+
+
+  pauseStartedAt =
+    0;
+
+  paused =
+    false;
+
+  hide(
+    $('pauseOverlay')
+  );
 
   audio();
 
@@ -2835,77 +4816,169 @@ function resumeGame(){
 
 function pauseHome(){
 
-  paused=false;
-  started=false;
+  paused =
+    false;
+
+  started =
+    false;
 
   stopTimer();
 
-  hide($('pauseOverlay'));
+  hide(
+    $('pauseOverlay')
+  );
 
   home();
 }
 
 
-/* SETTINGS EVENTS */
+/* =========================================================
+   END
+========================================================= */
 
-$('vol').oninput=
-  e=>setVol(e.target.value);
+function end(type,message){
 
-$('pauseVol').oninput=
-  e=>setVol(e.target.value);
+  if(!started){
+    return;
+  }
+
+  started =
+    false;
+
+  paused =
+    false;
+
+  stopTimer();
+
+  hide(
+    $('pauseOverlay')
+  );
+
+  all();
+
+  show(
+    $('end')
+  );
+
+  $('endTitle').textContent =
+    type === 'clear'
+    ?
+    tr('gameClear')
+    :
+    tr('gameOver');
+
+  $('result').innerHTML =
+    `
+      <p>
+        ${escapeHtml(message)}
+      </p>
+
+      <p>
+        √${x} =
+        ${root.toFixed(12)}
+      </p>
+    `;
+}
 
 
-/* PAGE LOAD */
+/* =========================================================
+   SETTINGS EVENTS
+========================================================= */
+
+$('vol').oninput =
+  e =>
+    setVol(
+      e.target.value
+    );
+
+
+$('pauseVol').oninput =
+  e =>
+    setVol(
+      e.target.value
+    );
+
+
+/* =========================================================
+   PAGE LOAD
+========================================================= */
 
 window.addEventListener(
   'load',
-  ()=>{
+  () => {
 
-    $('vol').value=vol;
-    $('volText').textContent=vol+'%';
+    $('vol').value =
+      vol;
 
-    $('pauseVol').value=vol;
-    $('pauseVolText').textContent=vol+'%';
+    $('volText').textContent =
+      vol+'%';
+
+    $('pauseVol').value =
+      vol;
+
+    $('pauseVolText').textContent =
+      vol+'%';
+
 
     theme(
-      localStorage.rootx_theme||
+      localStorage.rootx_theme
+      ||
       'dark'
     );
 
+
     setTimeout(
-      ()=>{
+      () => {
 
-        $('loadText').textContent=
-          'ROOT-X READY';
+        $('loadText').textContent =
+          tr('loadingReady');
 
-        show($('loadBtn'));
+        $('loadBtn').textContent =
+          tr('start');
 
-        $('loadBtn').onclick=()=>{
+        show(
+          $('loadBtn')
+        );
 
-          $('loading').classList.add(
-            'hidden'
-          );
+        $('loadBtn').onclick =
+          () => {
 
-          audio();
+            hide(
+              $('loading')
+            );
 
-          home();
-        };
+            audio();
+
+            home();
+
+          };
 
       },
       1500
     );
+
   }
 );
 
 
-/* CREDITS */
+/* =========================================================
+   CREDITS
+========================================================= */
 
 function credits(){
 
-  $('credits').classList.toggle(
-    'open'
-  );
+  $('credits')
+    .classList.toggle(
+      'open'
+    );
 }
+
+
+/* =========================================================
+   INITIAL LANGUAGE
+========================================================= */
+
+applyLanguage();
 
 </script>
 
