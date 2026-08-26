@@ -1296,53 +1296,223 @@ function escapeHtml(str){
 
 
 /* =========================================================
-   AUDIO ENGINE
+   AUDIO SYSTEM
+   ROOT-X ELECTRONIC SOUND ENGINE
+========================================================= */
+
+let ctx = null;
+
+let bgm = null;
+let sfx = null;
+
+let master = null;
+let compressor = null;
+
+let bgmOn = false;
+
+let musicTimer = null;
+
+let musicStep = 0;
+
+
+/* =========================================================
+   MUSICAL DATA
+========================================================= */
+
+/*
+  明るく知的な電子音楽。
+  暗い短調感を避けるため、メジャー系の進行を使用。
+*/
+
+const chordProgression = [
+
+  /* C major */
+  [261.63,329.63,392.00],
+
+  /* G major */
+  [196.00,246.94,392.00],
+
+  /* A minor */
+  [220.00,261.63,329.63],
+
+  /* F major */
+  [174.61,220.00,261.63],
+
+  /* C major */
+  [261.63,329.63,392.00],
+
+  /* G major */
+  [196.00,246.94,392.00],
+
+  /* F major */
+  [174.61,220.00,261.63],
+
+  /* G major */
+  [196.00,246.94,392.00]
+
+];
+
+
+/*
+  メロディ。
+  休符は null。
+  単音を連打せず、フレーズとして流れるようにする。
+*/
+
+const melody = [
+
+  523.25,
+  587.33,
+  659.25,
+  783.99,
+
+  659.25,
+  587.33,
+  523.25,
+  null,
+
+  587.33,
+  659.25,
+  783.99,
+  880.00,
+
+  783.99,
+  659.25,
+  587.33,
+  null,
+
+  659.25,
+  698.46,
+  783.99,
+  880.00,
+
+  783.99,
+  698.46,
+  659.25,
+  null,
+
+  587.33,
+  659.25,
+  783.99,
+  659.25,
+
+  587.33,
+  523.25,
+  493.88,
+  null
+
+];
+
+
+/*
+  ベース。
+*/
+
+const bassLine = [
+
+  130.81,
+  130.81,
+  146.83,
+  146.83,
+
+  110.00,
+  110.00,
+  130.81,
+  130.81
+
+];
+
+
+/* =========================================================
+   AUDIO INIT
 ========================================================= */
 
 function audio(){
 
   if(!ctx){
 
-    ctx=
+    ctx =
       new(
         window.AudioContext ||
         window.webkitAudioContext
       )();
 
-    bgm=
+
+    /*
+      マスター
+    */
+
+    master =
       ctx.createGain();
 
-    sfx=
+    compressor =
+      ctx.createDynamicsCompressor();
+
+
+    compressor.threshold.value = -18;
+    compressor.knee.value = 12;
+    compressor.ratio.value = 4;
+    compressor.attack.value = 0.003;
+    compressor.release.value = 0.25;
+
+
+    master.connect(compressor);
+    compressor.connect(ctx.destination);
+
+
+    /*
+      BGM / SFX を分離
+    */
+
+    bgm =
       ctx.createGain();
 
-    bgm.connect(
-      ctx.destination
-    );
+    sfx =
+      ctx.createGain();
 
-    sfx.connect(
-      ctx.destination
-    );
 
-    bgm.gain.value=
-      vol/100*.13;
+    bgm.connect(master);
+    sfx.connect(master);
 
-    sfx.gain.value=
-      vol/100*.85;
   }
 
-  if(
-    ctx.state === 'suspended'
-  ){
+
+  if(ctx.state === 'suspended'){
 
     ctx.resume();
+
   }
+
+
+  /*
+    BGMを大幅に増量。
+    以前の約6倍を狙う。
+  */
+
+  bgm.gain.value =
+    vol / 100 * 0.85;
+
+
+  /*
+    効果音はBGMよりさらに強く。
+  */
+
+  sfx.gain.value =
+    vol / 100 * 1.35;
+
+
+  /*
+    BGM開始
+  */
 
   if(!bgmOn){
 
-    bgmOn=true;
+    bgmOn = true;
 
-    startElectronicBgm();
+    startElectronicBGM();
+
   }
+
 }
 
 
@@ -1350,228 +1520,422 @@ function audio(){
    ELECTRONIC BGM
 ========================================================= */
 
-const synthNotes=[
-  261.63,
-  329.63,
-  392.00,
-  523.25,
-  392.00,
-  329.63,
-  293.66,
-  349.23
-];
-
-const bassNotes=[
-  130.81,
-  164.81,
-  196.00,
-  146.83
-];
-
-
-let beat=0;
-
-
-function startElectronicBgm(){
+function startElectronicBGM(){
 
   if(!ctx || !bgmOn){
+
     return;
-  }
 
-  const step=.25;
-
-  playSynthStep(
-    beat
-  );
-
-  beat++;
-
-  bgmTimer=
-    setTimeout(
-      startElectronicBgm,
-      step*1000
-    );
-}
-
-
-function playSynthStep(i){
-
-  if(!ctx){
-    return;
-  }
-
-  const t=
-    ctx.currentTime;
-
-  const note=
-    synthNotes[
-      i%synthNotes.length
-    ];
-
-  /*
-    明るい電子シンセ
-  */
-
-  if(i%2===0){
-
-    const o=
-      ctx.createOscillator();
-
-    const g=
-      ctx.createGain();
-
-    o.type='square';
-
-    o.frequency.setValueAtTime(
-      note,
-      t
-    );
-
-    g.gain.setValueAtTime(
-      0,
-      t
-    );
-
-    g.gain.linearRampToValueAtTime(
-      .08,
-      t+.015
-    );
-
-    g.gain.exponentialRampToValueAtTime(
-      .001,
-      t+.18
-    );
-
-    o.connect(g);
-    g.connect(bgm);
-
-    o.start(t);
-    o.stop(t+.2);
   }
 
 
   /*
-    ベース
+    1ステップ = 125ms
+    8ステップ = 1小節
   */
 
-  if(i%4===0){
+  const stepTime = 125;
 
-    const b=
-      ctx.createOscillator();
 
-    const g=
-      ctx.createGain();
+  function scheduleStep(){
 
-    b.type='sawtooth';
+    if(!ctx || !bgmOn){
 
-    b.frequency.value=
-      bassNotes[
-        (i/4)
-        %bassNotes.length
+      return;
+
+    }
+
+
+    const now =
+      ctx.currentTime;
+
+
+    const step =
+      musicStep % 32;
+
+
+    const chord =
+      chordProgression[
+        Math.floor(step / 4)
+        %
+        chordProgression.length
       ];
 
-    g.gain.setValueAtTime(
-      .001,
-      t
-    );
 
-    g.gain.exponentialRampToValueAtTime(
-      .07,
-      t+.02
-    );
+    /* =====================================================
+       CHORD
+    ===================================================== */
 
-    g.gain.exponentialRampToValueAtTime(
-      .001,
-      t+.22
-    );
+    /*
+      和音を長めに保持。
+      sawtooth + filterで電子的に。
+    */
 
-    b.connect(g);
-    g.connect(bgm);
+    if(step % 4 === 0){
 
-    b.start(t);
-    b.stop(t+.24);
+      chord.forEach(
+        (freq,index) => {
+
+          const osc =
+            ctx.createOscillator();
+
+          const gain =
+            ctx.createGain();
+
+          const filter =
+            ctx.createBiquadFilter();
+
+
+          osc.type =
+            'sawtooth';
+
+
+          osc.frequency.setValueAtTime(
+            freq,
+            now
+          );
+
+
+          /*
+            少しだけ detune。
+            デジタルシンセ感を出す。
+          */
+
+          osc.detune.value =
+            index === 1
+            ? 5
+            : -3;
+
+
+          filter.type =
+            'lowpass';
+
+          filter.frequency.setValueAtTime(
+            1800,
+            now
+          );
+
+          filter.frequency.linearRampToValueAtTime(
+            3200,
+            now + 0.45
+          );
+
+
+          gain.gain.setValueAtTime(
+            0.0001,
+            now
+          );
+
+          gain.gain.linearRampToValueAtTime(
+            0.045,
+            now + 0.08
+          );
+
+          gain.gain.setValueAtTime(
+            0.04,
+            now + 0.35
+          );
+
+          gain.gain.exponentialRampToValueAtTime(
+            0.0001,
+            now + 0.55
+          );
+
+
+          osc.connect(filter);
+          filter.connect(gain);
+          gain.connect(bgm);
+
+
+          osc.start(now);
+
+          osc.stop(
+            now + 0.6
+          );
+
+        }
+      );
+
+    }
+
+
+    /* =====================================================
+       SMOOTH MELODY
+    ===================================================== */
+
+    const note =
+      melody[step];
+
+
+    if(note !== null){
+
+      const osc =
+        ctx.createOscillator();
+
+      const gain =
+        ctx.createGain();
+
+      const filter =
+        ctx.createBiquadFilter();
+
+
+      /*
+        square + sawtooth系の電子音。
+      */
+
+      osc.type =
+        'square';
+
+
+      osc.frequency.setValueAtTime(
+        note,
+        now
+      );
+
+
+      filter.type =
+        'lowpass';
+
+
+      filter.frequency.setValueAtTime(
+        2400,
+        now
+      );
+
+
+      filter.frequency.linearRampToValueAtTime(
+        4200,
+        now + 0.08
+      );
+
+
+      /*
+        アタックを少し滑らかにする。
+      */
+
+      gain.gain.setValueAtTime(
+        0.0001,
+        now
+      );
+
+      gain.gain.linearRampToValueAtTime(
+        0.075,
+        now + 0.025
+      );
+
+      gain.gain.linearRampToValueAtTime(
+        0.055,
+        now + 0.08
+      );
+
+      gain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        now + 0.115
+      );
+
+
+      osc.connect(filter);
+      filter.connect(gain);
+      gain.connect(bgm);
+
+
+      osc.start(now);
+
+      osc.stop(
+        now + 0.13
+      );
+
+    }
+
+
+    /* =====================================================
+       SUB BASS
+    ===================================================== */
+
+    if(step % 4 === 0){
+
+      const bassOsc =
+        ctx.createOscillator();
+
+      const bassGain =
+        ctx.createGain();
+
+
+      bassOsc.type =
+        'triangle';
+
+
+      bassOsc.frequency.value =
+        bassLine[
+          Math.floor(step / 4)
+          %
+          bassLine.length
+        ];
+
+
+      bassGain.gain.setValueAtTime(
+        0.0001,
+        now
+      );
+
+      bassGain.gain.linearRampToValueAtTime(
+        0.10,
+        now + 0.025
+      );
+
+      bassGain.gain.exponentialRampToValueAtTime(
+        0.0001,
+        now + 0.28
+      );
+
+
+      bassOsc.connect(
+        bassGain
+      );
+
+      bassGain.connect(
+        bgm
+      );
+
+
+      bassOsc.start(now);
+
+      bassOsc.stop(
+        now + 0.3
+      );
+
+    }
+
+
+    /* =====================================================
+       ELECTRONIC DRUM
+    ===================================================== */
+
+    electronicKick(now,step);
+
+    electronicHat(now,step);
+
+    electronicSnare(now,step);
+
+
+    musicStep++;
+
+
+    musicTimer =
+      setTimeout(
+        scheduleStep,
+        stepTime
+      );
+
   }
 
 
-  /*
-    ドラム
-  */
+  scheduleStep();
 
-  if(i%4===0){
-    kick(t);
-  }
-
-  if(i%4===2){
-    snare(t);
-  }
-
-  if(i%2===0){
-    hihat(t);
-  }
 }
 
 
 /* =========================================================
-   DRUMS
+   KICK
 ========================================================= */
 
-function kick(t){
+function electronicKick(
+  time,
+  step
+){
 
-  if(!ctx){
+  /*
+    1拍目・3拍目。
+  */
+
+  if(
+    step % 8 !== 0
+    &&
+    step % 8 !== 4
+  ){
+
     return;
+
   }
 
-  const o=
+
+  const osc =
     ctx.createOscillator();
 
-  const g=
+  const gain =
     ctx.createGain();
 
-  o.type='sine';
 
-  o.frequency.setValueAtTime(
-    150,
-    t
+  osc.type =
+    'sine';
+
+
+  osc.frequency.setValueAtTime(
+    130,
+    time
   );
 
-  o.frequency.exponentialRampToValueAtTime(
-    45,
-    t+.12
+  osc.frequency.exponentialRampToValueAtTime(
+    42,
+    time + 0.12
   );
 
-  g.gain.setValueAtTime(
-    .35,
-    t
+
+  gain.gain.setValueAtTime(
+    0.28,
+    time
   );
 
-  g.gain.exponentialRampToValueAtTime(
-    .001,
-    t+.15
+  gain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    time + 0.15
   );
 
-  o.connect(g);
-  g.connect(bgm);
 
-  o.start(t);
-  o.stop(t+.16);
+  osc.connect(gain);
+  gain.connect(bgm);
+
+
+  osc.start(time);
+
+  osc.stop(
+    time + 0.16
+  );
+
 }
 
 
-function snare(t){
+/* =========================================================
+   ELECTRONIC HI-HAT
+========================================================= */
 
-  if(!ctx){
+function electronicHat(
+  time,
+  step
+){
+
+  /*
+    8分音符。
+  */
+
+  if(step % 2 !== 0){
+
     return;
+
   }
 
-  const buffer=
+
+  const buffer =
     ctx.createBuffer(
       1,
-      ctx.sampleRate*.12,
+      ctx.sampleRate * 0.045,
       ctx.sampleRate
     );
 
-  const data=
+
+  const data =
     buffer.getChannelData(0);
+
 
   for(
     let i=0;
@@ -1579,58 +1943,89 @@ function snare(t){
     i++
   ){
 
-    data[i]=
+    data[i] =
       Math.random()*2-1;
+
   }
 
-  const n=
+
+  const noise =
     ctx.createBufferSource();
 
-  const f=
+  const filter =
     ctx.createBiquadFilter();
 
-  const g=
+  const gain =
     ctx.createGain();
 
-  n.buffer=buffer;
 
-  f.type='highpass';
+  noise.buffer =
+    buffer;
 
-  f.frequency.value=1300;
 
-  g.gain.setValueAtTime(
-    .13,
-    t
+  filter.type =
+    'highpass';
+
+  filter.frequency.value =
+    6500;
+
+
+  gain.gain.setValueAtTime(
+    0.045,
+    time
   );
 
-  g.gain.exponentialRampToValueAtTime(
-    .001,
-    t+.12
+  gain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    time + 0.045
   );
 
-  n.connect(f);
-  f.connect(g);
-  g.connect(bgm);
 
-  n.start(t);
+  noise.connect(filter);
+  filter.connect(gain);
+  gain.connect(bgm);
+
+
+  noise.start(time);
+
 }
 
 
-function hihat(t){
+/* =========================================================
+   ELECTRONIC SNARE
+========================================================= */
 
-  if(!ctx){
+function electronicSnare(
+  time,
+  step
+){
+
+  /*
+    2拍目・4拍目。
+  */
+
+  if(
+    step % 8 !== 2
+    &&
+    step % 8 !== 6
+  ){
+
     return;
+
   }
 
-  const buffer=
+
+  const buffer =
     ctx.createBuffer(
       1,
-      ctx.sampleRate*.035,
+      ctx.sampleRate * 0.11,
       ctx.sampleRate
     );
 
-  const data=
+
+  const data =
     buffer.getChannelData(0);
+
 
   for(
     let i=0;
@@ -1638,168 +2033,206 @@ function hihat(t){
     i++
   ){
 
-    data[i]=
+    data[i] =
       Math.random()*2-1;
+
   }
 
-  const n=
+
+  const noise =
     ctx.createBufferSource();
 
-  const f=
+  const filter =
     ctx.createBiquadFilter();
 
-  const g=
+  const gain =
     ctx.createGain();
 
-  n.buffer=buffer;
 
-  f.type='highpass';
+  noise.buffer =
+    buffer;
 
-  f.frequency.value=5000;
 
-  g.gain.setValueAtTime(
-    .045,
-    t
+  filter.type =
+    'bandpass';
+
+  filter.frequency.value =
+    1800;
+
+
+  gain.gain.setValueAtTime(
+    0.09,
+    time
   );
 
-  g.gain.exponentialRampToValueAtTime(
-    .001,
-    t+.035
+  gain.gain.exponentialRampToValueAtTime(
+    0.0001,
+    time + 0.11
   );
 
-  n.connect(f);
-  f.connect(g);
-  g.connect(bgm);
 
-  n.start(t);
+  noise.connect(filter);
+  filter.connect(gain);
+  gain.connect(bgm);
+
+
+  noise.start(time);
+
 }
 
 
 /* =========================================================
    LONG EXPLOSION
+   「ボーン！！」
 ========================================================= */
 
 function explosion(){
 
   /*
-    必ずAudioContextを取得。
-    BGMとは完全に独立したSFX。
+    必ずAudioContextを起動。
   */
 
   audio();
 
+
   if(!ctx){
+
     return;
+
   }
 
-  if(ctx.state==='suspended'){
-    ctx.resume();
-  }
 
-  const t=
+  const now =
     ctx.currentTime;
 
 
   /*
-    巨大な低音衝撃
+    ========================================================
+    1. 巨大な低音
+    ========================================================
   */
 
-  const bassOsc=
+  const boom =
     ctx.createOscillator();
 
-  const bassGain=
+  const boomGain =
     ctx.createGain();
 
-  bassOsc.type='sine';
 
-  bassOsc.frequency.setValueAtTime(
+  boom.type =
+    'sine';
+
+
+  boom.frequency.setValueAtTime(
     95,
-    t
+    now
   );
 
-  bassOsc.frequency.exponentialRampToValueAtTime(
+  boom.frequency.exponentialRampToValueAtTime(
     20,
-    t+2.7
+    now + 2.8
   );
 
-  bassGain.gain.setValueAtTime(
-    2.8,
-    t
+
+  boomGain.gain.setValueAtTime(
+    1.0,
+    now
   );
 
-  bassGain.gain.exponentialRampToValueAtTime(
-    .001,
-    t+2.8
+  boomGain.gain.exponentialRampToValueAtTime(
+    0.001,
+    now + 2.8
   );
 
-  bassOsc.connect(
-    bassGain
+
+  boom.connect(
+    boomGain
   );
 
-  bassGain.connect(
+  boomGain.connect(
     sfx
   );
 
-  bassOsc.start(t);
-  bassOsc.stop(t+2.9);
+
+  boom.start(now);
+
+  boom.stop(
+    now + 2.9
+  );
 
 
   /*
-    中低域の振動
+    ========================================================
+    2. 第二低音
+    ========================================================
   */
 
-  const mid=
+  const sub =
     ctx.createOscillator();
 
-  const midGain=
+  const subGain =
     ctx.createGain();
 
-  mid.type='triangle';
 
-  mid.frequency.setValueAtTime(
-    180,
-    t
+  sub.type =
+    'triangle';
+
+
+  sub.frequency.setValueAtTime(
+    55,
+    now
   );
 
-  mid.frequency.exponentialRampToValueAtTime(
-    35,
-    t+1.9
+  sub.frequency.exponentialRampToValueAtTime(
+    16,
+    now + 1.8
   );
 
-  midGain.gain.setValueAtTime(
-    1.8,
-    t
+
+  subGain.gain.setValueAtTime(
+    0.8,
+    now
   );
 
-  midGain.gain.exponentialRampToValueAtTime(
-    .001,
-    t+2
+  subGain.gain.exponentialRampToValueAtTime(
+    0.001,
+    now + 2.0
   );
 
-  mid.connect(midGain);
-  midGain.connect(sfx);
 
-  mid.start(t);
-  mid.stop(t+2.1);
+  sub.connect(
+    subGain
+  );
+
+  subGain.connect(
+    sfx
+  );
+
+
+  sub.start(now);
+
+  sub.stop(
+    now + 2.1
+  );
 
 
   /*
-    長いノイズ
+    ========================================================
+    3. 衝撃音
+    ========================================================
   */
 
-  const duration=3.0;
-
-  const buffer=
+  const buffer =
     ctx.createBuffer(
       1,
-      Math.floor(
-        ctx.sampleRate*duration
-      ),
+      ctx.sampleRate * 1.8,
       ctx.sampleRate
     );
 
-  const data=
+
+  const data =
     buffer.getChannelData(0);
+
 
   for(
     let i=0;
@@ -1807,95 +2240,190 @@ function explosion(){
     i++
   ){
 
-    const decay=
+    /*
+      最初は強烈。
+      徐々に消える。
+    */
+
+    const envelope =
       Math.pow(
         1-i/data.length,
-        .85
+        1.6
       );
 
-    data[i]=
-      (Math.random()*2-1)
-      *decay;
+
+    data[i] =
+      (
+        Math.random()*2-1
+      )
+      *
+      envelope;
+
   }
 
-  const noise=
+
+  const noise =
     ctx.createBufferSource();
 
-  const filter=
+  const filter =
     ctx.createBiquadFilter();
 
-  const gain=
+  const noiseGain =
     ctx.createGain();
 
-  noise.buffer=buffer;
 
-  filter.type='lowpass';
+  noise.buffer =
+    buffer;
+
+
+  filter.type =
+    'lowpass';
+
 
   filter.frequency.setValueAtTime(
     3200,
-    t
+    now
   );
 
   filter.frequency.exponentialRampToValueAtTime(
     55,
-    t+2.7
+    now + 1.7
   );
 
-  gain.gain.setValueAtTime(
-    1.8,
-    t
+
+  noiseGain.gain.setValueAtTime(
+    1.1,
+    now
   );
 
-  gain.gain.exponentialRampToValueAtTime(
-    .001,
-    t+2.9
+  noiseGain.gain.exponentialRampToValueAtTime(
+    0.001,
+    now + 1.75
   );
 
-  noise.connect(filter);
-  filter.connect(gain);
-  gain.connect(sfx);
 
-  noise.start(t);
-  noise.stop(t+duration);
+  noise.connect(
+    filter
+  );
+
+  filter.connect(
+    noiseGain
+  );
+
+  noiseGain.connect(
+    sfx
+  );
+
+
+  noise.start(now);
+
+  noise.stop(
+    now + 1.8
+  );
 
 
   /*
-    最初の衝撃音
+    ========================================================
+    4. 超低域の余韻
+    ========================================================
   */
 
-  const click=
+  const rumble =
     ctx.createOscillator();
 
-  const clickGain=
+  const rumbleGain =
     ctx.createGain();
 
-  click.type='square';
 
-  click.frequency.setValueAtTime(
-    180,
-    t
+  rumble.type =
+    'sine';
+
+
+  rumble.frequency.setValueAtTime(
+    32,
+    now
   );
 
-  click.frequency.exponentialRampToValueAtTime(
-    35,
-    t+.35
+  rumble.frequency.exponentialRampToValueAtTime(
+    12,
+    now + 3.2
   );
 
-  clickGain.gain.setValueAtTime(
-    1.3,
-    t
+
+  rumbleGain.gain.setValueAtTime(
+    0.65,
+    now
   );
 
-  clickGain.gain.exponentialRampToValueAtTime(
-    .001,
-    t+.4
+  rumbleGain.gain.exponentialRampToValueAtTime(
+    0.001,
+    now + 3.1
   );
 
-  click.connect(clickGain);
-  clickGain.connect(sfx);
 
-  click.start(t);
-  click.stop(t+.45);
+  rumble.connect(
+    rumbleGain
+  );
+
+  rumbleGain.connect(
+    sfx
+  );
+
+
+  rumble.start(now);
+
+  rumble.stop(
+    now + 3.2
+  );
+
+}
+
+
+/* =========================================================
+   VOLUME
+========================================================= */
+
+function setVol(v){
+
+  vol =
+    +v;
+
+
+  localStorage.rootx_volume =
+    vol;
+
+
+  $('volText').textContent =
+    vol+'%';
+
+
+  $('pauseVol').value =
+    vol;
+
+
+  $('pauseVolText').textContent =
+    vol+'%';
+
+
+  if(ctx){
+
+    /*
+      BGMは以前よりかなり大きく。
+    */
+
+    bgm.gain.value =
+      vol / 100 * 0.85;
+
+
+    /*
+      爆発などの効果音はさらに強く。
+    */
+
+    sfx.gain.value =
+      vol / 100 * 1.35;
+
+  }
+
 }
 
 
